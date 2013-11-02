@@ -1,4 +1,5 @@
 *.exe
+*.asv
 matlab_exts/afemmatlab/
 matlab_exts/unit_conversions/
 matlab_exts/gaffe/
@@ -15,3 +16,5 @@ info/
 IR_problemas/
 Mathematica/
 Problemas_Resueltos/
+borrar/
+bu/
