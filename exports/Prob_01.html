@@ -1,0 +1,810 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1 plus MathML 2.0//EN"
+        "HTMLFiles/xhtml-math11-f.dtd">
+
+<!-- Created by Wolfram Mathematica 6.0 -->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ <title>
+  Prob_01
+ </title>
+</head>
+
+<body>
+
+<h3 class="Section">CSTR , reacci&oacute;n irreversible exot&eacute;rmica, Estabilidad y Multiplicidad de Estados Estacionarios </h3>
+
+<h4 class="Subsection">Reacci&oacute;n</h4>
+
+<li>Estequiometr&iacute;a</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_1.gif' alt='"Prob_01_1.gif"' width='43' height='54' style='vertical-align:middle'/></span></span>
+</p>
+
+
+
+<li>Termodin&aacute;mica</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_2.gif' alt='"Prob_01_2.gif"' width='206' height='44' style='vertical-align:middle'/></span></span>
+</p>
+
+
+
+<li>Cin&eacute;tica</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_3.gif' alt='"Prob_01_3.gif"' width='238' height='73' style='vertical-align:middle'/></span></span>
+</p>
+
+
+
+<h4 class="Subsection">Reactor</h4>
+
+<li>Ecs. de conservaci&oacute;n</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_4.gif' alt='"Prob_01_4.gif"' width='124' height='34' style='vertical-align:middle'/></span></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;...Materia
+</p>
+
+
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_5.gif' alt='"Prob_01_5.gif"' width='154' height='36' style='vertical-align:middle'/></span></span>&nbsp;&nbsp;&nbsp;&nbsp;...Energ&iacute;a T&eacute;rm.
+</p>
+
+
+
+<h4 class="Subsection">Modelo</h4>
+
+<li>Ecuaciones</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_6.gif' alt='"Prob_01_6.gif"' width='252' height='90' style='vertical-align:middle'/></span></span>
+</p>
+
+
+
+<li>Condiciones iniciales</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_7.gif' alt='"Prob_01_7.gif"' width='131' height='15' style='vertical-align:middle'/></span></span>
+</p>
+
+
+
+<li>Valores a especificar</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_8.gif' alt='"Prob_01_8.gif"' width='52' height='111' style='vertical-align:middle'/></span></span>&nbsp;&nbsp;&nbsp;&nbsp;<span><span><img src='HTMLFiles/Prob_01_9.gif' alt='"Prob_01_9.gif"' width='97' height='152' style='vertical-align:middle'/></span></span>
+</p>
+
+
+
+<li>Par&aacute;metro</li>
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_10.gif' alt='"Prob_01_10.gif"' width='33' height='15' style='vertical-align:middle'/></span></span> 
+</p>
+
+
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_11.gif' alt='"Prob_01_11.gif"' width='123' height='15' style='vertical-align:middle'/></span></span> 
+</p>
+
+
+
+<p class="Text">
+ <span><span><img src='HTMLFiles/Prob_01_12.gif' alt='"Prob_01_12.gif"' width='137' height='15' style='vertical-align:middle'/></span></span> 
+</p>
+
+
+
+<h4 class="Subsection">Soluci&oacute;n adiab&aacute;tico</h4>
+
+<p class="CellLabel">
+ In[573]:=
+</p>
+
+
+
+<p class="Input">
+ <img src='HTMLFiles/Prob_01_13.gif' alt='"Prob_01_13.gif"' width='522' height='3457' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[595]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_14.gif' alt='"Prob_01_14.gif"' width='140' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[596]//TableForm=
+</p>
+
+
+
+<table class='Output'>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span><span></span></span></td>
+  <td style='text-align: center;'><span>Valor</span></td>
+  <td style='text-align: center;'><span>Unidades</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0</span></td>
+  <td style='text-align: center;'><span>PorEj[325]</span></td>
+  <td style='text-align: center;'><span>&deg;K, Temperatura de alimentaci&oacute;n al CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA0</span></td>
+  <td style='text-align: center;'><span>3</span></td>
+  <td style='text-align: center;'><span>mol/L ,Concentraci&oacute;n de alimentaci&oacute;n al CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T00</span></td>
+  <td style='text-align: center;'><span>300</span></td>
+  <td style='text-align: center;'><span>&deg;K, Temperatura inicial en el CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA00</span></td>
+  <td style='text-align: center;'><span>0</span></td>
+  <td style='text-align: center;'><span>mol/L ,Concentraci&oacute;n inicial en el CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Vr</span></td>
+  <td style='text-align: center;'><span>1200</span></td>
+  <td style='text-align: center;'><span>L, Volumen del reactor</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Q0</span></td>
+  <td style='text-align: center;'><span>4</span></td>
+  <td style='text-align: center;'><span>L/min, Flujo volum&eacute;trico de alimentaci&oacute;n</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>&theta;</span></td>
+  <td style='text-align: center;'><span>300</span></td>
+  <td style='text-align: center;'><span>min, Tiempo de residencia</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>&Delta;Hr</span></td>
+  <td style='text-align: center;'><span>-891.</span></td>
+  <td style='text-align: center;'><span>kJ/mol, Entalp&iacute;a de reacci&oacute;n</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>&rho;Cp</span></td>
+  <td style='text-align: center;'><span>17.82</span></td>
+  <td style='text-align: center;'><span>kJ/mol, Capacidad calor&iacute;fica con densidad</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>R</span></td>
+  <td style='text-align: center;'><span>8.314</span></td>
+  <td style='text-align: center;'><span>J/(mol &deg;K), Constante universal de los gases</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0ref</span></td>
+  <td style='text-align: center;'><span>298.15</span></td>
+  <td style='text-align: center;'><span>&deg;K, Temperatura de ref. par&aacute;ms. Arrhenius</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>E1</span></td>
+  <td style='text-align: center;'><span>62770.7</span></td>
+  <td style='text-align: center;'><span>J/mol, Energ&iacute;a de activaci&oacute;n Arrhenius</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>A</span></td>
+  <td style='text-align: center;'><span>4.82438*10^^19</span></td>
+  <td style='text-align: center;'><span>1/min, Preexponencial Arrhenius</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>k10</span></td>
+  <td style='text-align: center;'><span>4.85154*10^^8</span></td>
+  <td style='text-align: center;'><span>1/min, Constante de rapidez a T0ref</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Urem</span></td>
+  <td style='text-align: center;'><span>0</span></td>
+  <td style='text-align: center;'><span>&deg;K/min, Calor removido/&rho;Cp</span></td>
+ </tr>
+</table>
+
+<p class="CellLabel">
+ Out[597]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_15.gif' alt='"Prob_01_15.gif"' width='161' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[598]//TableForm=
+</p>
+
+
+
+<table class='Output'>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span><span></span></span></td>
+  <td style='text-align: center;'><span>Ecuaci&oacute;n</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Materia</span></td>
+  <td style='text-align: center;'><span><img src='HTMLFiles/Prob_01_16.gif' alt='"Prob_01_16.gif"' width='342' height='33' style='vertical-align:middle'/></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Energ&iacute;a</span></td>
+  <td style='text-align: center;'><span><img src='HTMLFiles/Prob_01_17.gif' alt='"Prob_01_17.gif"' width='339' height='33' style='vertical-align:middle'/></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA inicial</span></td>
+  <td style='text-align: center;'><span>CA[0]==0</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T inicial</span></td>
+  <td style='text-align: center;'><span>T[0]==300</span></td>
+ </tr>
+</table>
+
+<p class="CellLabel">
+ Out[599]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_18.gif' alt='"Prob_01_18.gif"' width='273' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[600]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_19.gif' alt='Graphics:Urem= 0 &deg;K/min' width='360' height='243' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[601]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_20.gif' alt='"Prob_01_20.gif"' width='280' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[602]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_21.gif' alt='Graphics:Urem= 0 &deg;K/min' width='360' height='250' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[603]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_22.gif' alt='"Prob_01_22.gif"' width='280' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[604]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_23.gif' alt='"Prob_01_23.gif"' width='480' height='245' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[605]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_24.gif' alt='"Prob_01_24.gif"' width='217' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[606]//TableForm=
+</p>
+
+
+
+<table class='Output'>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=210</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.99989</span></td>
+  <td style='text-align: center;'><span>T&rarr;210.005</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;1.24624</span></td>
+  <td style='text-align: center;'><span>T&rarr;297.688</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.0284608</span></td>
+  <td style='text-align: center;'><span>T&rarr;358.577</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=240</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.98988</span></td>
+  <td style='text-align: center;'><span>T&rarr;240.506</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.11951</span></td>
+  <td style='text-align: center;'><span>T&rarr;284.024</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.00532834</span></td>
+  <td style='text-align: center;'><span>T&rarr;389.734</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=247.2</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.97205</span></td>
+  <td style='text-align: center;'><span>T&rarr;248.597</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.34851</span></td>
+  <td style='text-align: center;'><span>T&rarr;279.774</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.00373731</span></td>
+  <td style='text-align: center;'><span>T&rarr;397.013</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=275</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.00107165</span></td>
+  <td style='text-align: center;'><span>T&rarr;424.946</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=300</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.000398917</span></td>
+  <td style='text-align: center;'><span>T&rarr;449.98</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.000398917</span></td>
+  <td style='text-align: center;'><span>T&rarr;449.98</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=325</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.000164897</span></td>
+  <td style='text-align: center;'><span>T&rarr;474.992</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;0.000164897</span></td>
+  <td style='text-align: center;'><span>T&rarr;474.992</span></td>
+ </tr>
+</table>
+
+<p class="CellLabel">
+ Out[607]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_25.gif' alt='"Prob_01_25.gif"' width='259' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[610]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_26.gif' alt='Graphics:Urem= 0 &deg;K/min' width='360' height='251' style='vertical-align:middle'/>
+</p>
+
+<p class="PageBreak">
+ 
+</p>
+
+
+
+<h4 class="Subsection">Soluci&oacute;n no adiab&aacute;tico</h4>
+
+<p class="CellLabel">
+ In[695]:=
+</p>
+
+
+
+<p class="Input">
+ <img src='HTMLFiles/Prob_01_27.gif' alt='"Prob_01_27.gif"' width='522' height='4057' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[717]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_28.gif' alt='"Prob_01_28.gif"' width='140' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[718]//TableForm=
+</p>
+
+
+
+<table class='Output'>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span><span></span></span></td>
+  <td style='text-align: center;'><span>Valor</span></td>
+  <td style='text-align: center;'><span>Unidades</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0</span></td>
+  <td style='text-align: center;'><span>PorEj[325]</span></td>
+  <td style='text-align: center;'><span>&deg;K, Temperatura de alimentaci&oacute;n al CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA0</span></td>
+  <td style='text-align: center;'><span>3</span></td>
+  <td style='text-align: center;'><span>mol/L ,Concentraci&oacute;n de alimentaci&oacute;n al CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T00</span></td>
+  <td style='text-align: center;'><span>300</span></td>
+  <td style='text-align: center;'><span>&deg;K, Temperatura inicial en el CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA00</span></td>
+  <td style='text-align: center;'><span>0</span></td>
+  <td style='text-align: center;'><span>mol/L ,Concentraci&oacute;n inicial en el CSTR</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Vr</span></td>
+  <td style='text-align: center;'><span>1200</span></td>
+  <td style='text-align: center;'><span>L, Volumen del reactor</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Q0</span></td>
+  <td style='text-align: center;'><span>4</span></td>
+  <td style='text-align: center;'><span>L/min, Flujo volum&eacute;trico de alimentaci&oacute;n</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>&theta;</span></td>
+  <td style='text-align: center;'><span>300</span></td>
+  <td style='text-align: center;'><span>min, Tiempo de residencia</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>&Delta;Hr</span></td>
+  <td style='text-align: center;'><span>-891.</span></td>
+  <td style='text-align: center;'><span>kJ/mol, Entalp&iacute;a de reacci&oacute;n</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>&rho;Cp</span></td>
+  <td style='text-align: center;'><span>17.82</span></td>
+  <td style='text-align: center;'><span>kJ/mol, Capacidad calor&iacute;fica con densidad</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>R</span></td>
+  <td style='text-align: center;'><span>8.314</span></td>
+  <td style='text-align: center;'><span>J/(mol &deg;K), Constante universal de los gases</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0ref</span></td>
+  <td style='text-align: center;'><span>298.15</span></td>
+  <td style='text-align: center;'><span>&deg;K, Temperatura de ref. par&aacute;ms. Arrhenius</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>E1</span></td>
+  <td style='text-align: center;'><span>62770.7</span></td>
+  <td style='text-align: center;'><span>J/mol, Energ&iacute;a de activaci&oacute;n Arrhenius</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>A</span></td>
+  <td style='text-align: center;'><span>4.82438*10^^19</span></td>
+  <td style='text-align: center;'><span>1/min, Preexponencial Arrhenius</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>k10</span></td>
+  <td style='text-align: center;'><span>4.85154*10^^8</span></td>
+  <td style='text-align: center;'><span>1/min, Constante de rapidez a T0ref</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Urem</span></td>
+  <td style='text-align: center;'><span>-0.3</span></td>
+  <td style='text-align: center;'><span>&deg;K/min, Calor removido/&rho;Cp</span></td>
+ </tr>
+</table>
+
+<p class="CellLabel">
+ Out[719]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_29.gif' alt='"Prob_01_29.gif"' width='161' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[720]//TableForm=
+</p>
+
+
+
+<table class='Output'>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span><span></span></span></td>
+  <td style='text-align: center;'><span>Ecuaci&oacute;n</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Materia</span></td>
+  <td style='text-align: center;'><span><img src='HTMLFiles/Prob_01_30.gif' alt='"Prob_01_30.gif"' width='342' height='33' style='vertical-align:middle'/></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Energ&iacute;a</span></td>
+  <td style='text-align: center;'><span><img src='HTMLFiles/Prob_01_31.gif' alt='"Prob_01_31.gif"' width='381' height='33' style='vertical-align:middle'/></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA inicial</span></td>
+  <td style='text-align: center;'><span>CA[0]==0</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T inicial</span></td>
+  <td style='text-align: center;'><span>T[0]==300</span></td>
+ </tr>
+</table>
+
+<p class="CellLabel">
+ Out[721]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_32.gif' alt='"Prob_01_32.gif"' width='273' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[722]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_33.gif' alt='Graphics:Urem= -0.3 &deg;K/min' width='360' height='245' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[724]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_34.gif' alt='"Prob_01_34.gif"' width='280' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[725]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_35.gif' alt='Graphics:Urem= -0.3 &deg;K/min' width='360' height='250' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[727]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_36.gif' alt='"Prob_01_36.gif"' width='280' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[728]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_37.gif' alt='"Prob_01_37.gif"' width='480' height='245' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[730]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_38.gif' alt='"Prob_01_38.gif"' width='217' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[731]//TableForm=
+</p>
+
+
+
+<table class='Output'>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=210</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=240</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.99996</span></td>
+  <td style='text-align: center;'><span>T&rarr;210.</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=247.2</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.99996</span></td>
+  <td style='text-align: center;'><span>T&rarr;210.</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=275</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.99992</span></td>
+  <td style='text-align: center;'><span>T&rarr;210.</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=300</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.99989</span></td>
+  <td style='text-align: center;'><span>T&rarr;210.</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;1.24624</span></td>
+  <td style='text-align: center;'><span>T&rarr;297.688</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>T0=325</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;2.99986</span></td>
+  <td style='text-align: center;'><span>T&rarr;210.</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>CA&rarr;1.9699</span></td>
+  <td style='text-align: center;'><span>T&rarr;286.505</span></td>
+ </tr>
+ <tr style='vertical-align:bottom;'>
+  <td style='text-align: center;'><span>Null</span></td>
+  <td style='text-align: center;'><span></span></td>
+ </tr>
+</table>
+
+<p class="CellLabel">
+ Out[732]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_39.gif' alt='"Prob_01_39.gif"' width='259' height='15' style='vertical-align:middle'/>
+</p>
+
+<p class="CellLabel">
+ Out[735]=
+</p>
+
+
+
+<p class="Output">
+ <img src='HTMLFiles/Prob_01_40.gif' alt='Graphics:Urem= -0.3 &deg;K/min' width='360' height='251' style='vertical-align:middle'/>
+</p>
+
+<div style='font-family:Helvetica; font-size:11px; width:100%; border:1px none #999999; border-top-style:solid; padding-top:2px; margin-top:20px;'>
+ <a href='http://www.wolfram.com/products/mathematica/' style='color:#000; text-decoration:none;'>
+  <img src='HTMLFiles/spikeyIcon.jpg' alt='Spikey' width='20' height='21' style='padding-right:2px; border:0px solid white; vertical-align:middle;' />
+  <span style="color:#555555">Created with</span> Wolfram <span style="font-style: italic;">Mathematica</span> 6
+ </a>
+</div>
+
+</body>
+</html>

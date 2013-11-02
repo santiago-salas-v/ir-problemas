@@ -1,0 +1,1884 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PROBLEMASIR</title><meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-10-29"><meta name="DC.source" content="PROBLEMASIR.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> varargout = PROBLEMASIR(varargin)
+</pre><pre class="codeinput"><span class="comment">% Begin initialization code - DO NOT EDIT</span>
+gui_Singleton = 1;
+gui_State = struct(<span class="string">'gui_Name'</span>,       mfilename, <span class="keyword">...</span>
+                   <span class="string">'gui_Singleton'</span>,  gui_Singleton, <span class="keyword">...</span>
+                   <span class="string">'gui_OpeningFcn'</span>, @PROBLEMASIR_OpeningFcn, <span class="keyword">...</span>
+                   <span class="string">'gui_OutputFcn'</span>,  @PROBLEMASIR_OutputFcn, <span class="keyword">...</span>
+                   <span class="string">'gui_LayoutFcn'</span>,  [] , <span class="keyword">...</span>
+                   <span class="string">'gui_Callback'</span>,   []);
+<span class="keyword">if</span> nargin &amp;&amp; ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+<span class="keyword">else</span>
+    gui_mainfcn(gui_State, varargin{:});
+<span class="keyword">end</span>
+<span class="comment">% End initialization code - DO NOT EDIT</span>
+</pre><pre class="codeinput"><span class="keyword">function</span> codigoDeArranque(hObject, eventdata, handles, varargin)
+path(path,genpath(<span class="string">'matlab_exts'</span>));
+handles.Datos=get(handles.uitable1,<span class="string">'Data'</span>);
+set(handles.uitable1,<span class="string">'Data'</span>,handles.Datos);
+set(handles.uitable1,<span class="string">'Rowname'</span>,[]);
+set(handles.uitable1,<span class="string">'Columneditable'</span>,[false true false]);
+
+actualizar(hObject, eventdata, handles, varargin)
+
+<span class="keyword">function</span> actualizar(hObject, eventdata, handles, varargin)
+
+Datos=get(handles.uitable1,<span class="string">'Data'</span>);
+
+<span class="keyword">try</span>
+
+    Datos_struct = obtenerDatos(Datos);
+
+    <span class="keyword">if</span> ~isequal(Datos,Datos_struct.DatosCalc)
+        Datos=Datos_struct.DatosCalc;
+        set(handles.uitable1,<span class="string">'Data'</span>,Datos);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> ~isfield(handles,<span class="string">'Datos_struct'</span>)<span class="keyword">...</span>
+            ||handles.Datos_struct.nComps~=Datos_struct.nComps<span class="keyword">...</span>
+            ||handles.Datos_struct.nReacs~=Datos_struct.nReacs<span class="keyword">...</span>
+            ||handles.Datos_struct.Ref_Selectividad~=<span class="keyword">...</span>
+            Datos_struct.Ref_Selectividad<span class="keyword">...</span>
+            ||handles.Datos_struct.Ref_Rendimiento~=<span class="keyword">...</span>
+            Datos_struct.Ref_Rendimiento<span class="keyword">...</span>
+            ||~strcmp(handles.Datos_struct.Tipo,<span class="keyword">...</span>
+            Datos_struct.Tipo)
+
+        Datos_struct.VariablesDep(:,3)={false};
+        Datos_struct.VariablesDep(cellfun(@(x)~isempty(x),<span class="keyword">...</span>
+            regexp(Datos_struct.VariablesDep(:,1),<span class="string">'^C.+'</span>)),3)={true};
+        Datos_struct.VariablesDep(cellfun(@(x)~isempty(x),<span class="keyword">...</span>
+            regexp(Datos_struct.VariablesDep(:,1),<span class="string">'\WC.*\W'</span>)),3)={true};
+        Datos_struct.VariablesDep(cellfun(@(x)~isempty(x),<span class="keyword">...</span>
+            regexp(Datos_struct.VariablesDep(:,1),<span class="string">'ESTACIONARIO'</span>)),3)=<span class="keyword">...</span>
+            {true};
+
+        set(handles.uitable2,<span class="string">'Data'</span>,Datos_struct.VariablesDep);
+        set(handles.popupmenu1,<span class="string">'String'</span>,Datos_struct.VariablesXZ(:,1));
+        set(handles.popupmenu2,<span class="string">'String'</span>,Datos_struct.VariablesXZ(:,1));
+        set(handles.popupmenu2,<span class="string">'Value'</span>,2);
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> ~isfield(handles,<span class="string">'Datos_struct'</span>)<span class="keyword">...</span>
+            ||~isfield(handles.Datos_struct,<span class="string">'skipSolve'</span>)<span class="keyword">...</span>
+            ||~handles.Datos_struct.skipSolve
+        Datos_struct=resolver(Datos_struct);
+        graficar(hObject, eventdata, handles,Datos_struct);
+        handles.Datos_struct=Datos_struct;
+    <span class="keyword">else</span>
+        graficar(hObject, eventdata, handles,handles.Datos_struct);
+    <span class="keyword">end</span>
+    handles.Datos_struct.skipSolve=false;
+    openFigs=get(0,<span class="string">'Children'</span>);
+    delete(openFigs(strcmp(get(openFigs,<span class="string">'Name'</span>),<span class="string">'Calculando Edos. Est.'</span>)));
+    guidata(hObject,handles);
+<span class="keyword">catch</span> exception
+    <span class="keyword">if</span> strcmp(exception.identifier,<span class="string">'InputError:Conditions'</span>)
+        msgbox(exception.message,<span class="string">'Error'</span>,<span class="string">'error'</span>);
+    <span class="keyword">else</span>
+        msgbox([<span class="string">'Datos mal insertados. Message: '</span>,exception.message],<span class="keyword">...</span>
+            <span class="string">'Error'</span>,<span class="string">'error'</span>);
+    <span class="keyword">end</span>
+    getReport(exception)
+    openFigs=get(0,<span class="string">'Children'</span>);
+    delete(openFigs(strcmp(get(openFigs,<span class="string">'Name'</span>),<span class="string">'Calculando Edos. Est.'</span>)));
+    cla(handles.axes1);
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> Datos_struct1 = resolver(Datos_struct)
+<span class="keyword">switch</span> Datos_struct.Tipo
+    <span class="keyword">case</span> <span class="string">'PFR'</span>
+        <span class="keyword">if</span> Datos_struct.Estacionario
+            Datos_struct1=resolverPFR(Datos_struct);
+        <span class="keyword">else</span>
+            Datos_struct.Estacionario=true;
+            Datos_struct1=resolverPFR(Datos_struct);
+            Datos_struct1.Estacionario=false;
+            Datos_struct1=resolverPFR(Datos_struct1);
+        <span class="keyword">end</span>
+
+    <span class="keyword">case</span> <span class="string">'BR'</span>
+        Datos_struct1=resolverBR(Datos_struct);
+
+    <span class="keyword">case</span> <span class="string">'CSTR'</span>
+        <span class="keyword">if</span> Datos_struct.Estacionario
+            Datos_struct1=resolverCSTR(Datos_struct);
+        <span class="keyword">else</span>
+            Datos_struct.Estacionario=true;
+            Datos_struct1=resolverCSTR(Datos_struct);
+            Datos_struct1.Estacionario=false;
+            Datos_struct1=resolverCSTR(Datos_struct1);
+        <span class="keyword">end</span>
+
+    <span class="keyword">case</span> <span class="string">'SEMIBR'</span>
+        Datos_struct1=resolverSEMIBR(Datos_struct);
+
+    <span class="keyword">otherwise</span>
+        Datos_struct1=Datos_struct;
+        errRecord = MException(<span class="string">'InputError:ReactorType'</span>,<span class="keyword">...</span>
+            <span class="string">'Error: Tipo de reactor'</span>);
+        throw(errRecord);
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> graficar(hObject, eventdata, handles, Datos_struct)
+</pre><pre class="codeinput">VariablesDep = get(handles.uitable2,<span class="string">'Data'</span>);
+VariablesDepGraficadas=VariablesDep(cell2mat(VariablesDep(:,3)),:);
+Variables_XZ = Datos_struct.VariablesXZ(:,1:2);
+VariableIndep1Index = get(handles.popupmenu1,<span class="string">'Value'</span>);
+VariableIndep1List = get(handles.popupmenu1,<span class="string">'String'</span>);
+VariableIndep1String = VariableIndep1List{VariableIndep1Index};
+VariableIndep2Index = get(handles.popupmenu2,<span class="string">'Value'</span>);
+VariableIndep2List = get(handles.popupmenu2,<span class="string">'String'</span>);
+VariableIndep2String = VariableIndep2List{VariableIndep2Index};
+
+Datos_struct.colors=[colormap(<span class="string">'Hot'</span>);colormap(<span class="string">'HSV'</span>)]/1.9;
+Datos_struct.colors=<span class="keyword">...</span>
+    Datos_struct.colors(randperm(size(Datos_struct.colors,1)),:);
+Datos_struct.linestyles=<span class="keyword">...</span>
+    {<span class="string">'--*'</span>,<span class="string">'--o'</span>,<span class="string">'-.x'</span>,<span class="string">'-h'</span>,<span class="string">'-.d'</span>,<span class="string">'^-'</span>,<span class="string">':&lt;'</span>,<span class="string">'-s'</span>,<span class="string">'--v'</span>,<span class="string">':s'</span>,<span class="string">'--+'</span>};
+Datos_struct.linestyles=<span class="keyword">...</span>
+    Datos_struct.linestyles(randperm(size(Datos_struct.linestyles,2)));
+set(handles.uitoggletool9,<span class="string">'State'</span>,<span class="string">'on'</span>);
+
+<span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+    Datos_struct.MostrarEstadosEstacionarios = VariablesDep{<span class="keyword">...</span>
+        strcmp(VariablesDep(:,1),<span class="string">'ESTACIONARIO'</span>),3};
+<span class="keyword">end</span>
+
+VarIndep1=VariableIndep1String(1);
+VarIndep2=VariableIndep2String(1);
+
+<span class="keyword">switch</span> VarIndep1
+    <span class="keyword">case</span> <span class="string">'z'</span>
+        X = Datos_struct.(VarIndep1);
+    <span class="keyword">case</span> <span class="string">'t'</span>
+        <span class="keyword">if</span> Datos_struct.Estacionario <span class="keyword">...</span>
+                &amp;&amp; strcmp(Datos_struct.Tipo,<span class="string">'PFR'</span>)
+            X = Datos_struct.z;
+            VariableIndep1String=<span class="string">'z'</span>;
+            set(handles.popupmenu1,<span class="string">'Value'</span>,1);
+        <span class="keyword">elseif</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            <span class="keyword">if</span> Datos_struct.Estacionario
+                X = Datos_struct.T;
+                VariableIndep1String=<span class="string">'T'</span>;
+                set(handles.popupmenu1,<span class="string">'Value'</span>,1);
+                X_Edos_Est = Datos_struct.T_Edos_Est;
+            <span class="keyword">else</span>
+                X = Datos_struct.(VarIndep1);
+                X_Edos_Est = max(X)*ones(size(Datos_struct.T_Edos_Est));
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+            X = Datos_struct.(VarIndep1);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> {<span class="string">'C'</span> , <span class="string">'X'</span>, <span class="string">'Y'</span>, <span class="string">'S'</span>}
+        <span class="keyword">if</span> ~isempty(strfind(VariableIndep1String,<span class="string">'Yconsumo'</span>))
+            label=VariableIndep1String(<span class="keyword">...</span>
+                length(<span class="string">'Yconsumo'</span>)+1:length(VariableIndep1String));
+            VarIndep1=<span class="string">'Yconsumo'</span>;
+        <span class="keyword">else</span>
+            label=VariableIndep1String(2:length(VariableIndep1String));
+        <span class="keyword">end</span>
+        index=cellfun(@(x)strcmp(x,label),<span class="keyword">...</span>
+            Datos_struct.labels);
+        X=Datos_struct.(VarIndep1);
+        X=squeeze(X(index,:,:));
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            X_Edos_Est=Datos_struct.([VarIndep1,<span class="string">'_Edos_Est'</span>]);
+            X_Edos_Est=squeeze(X_Edos_Est(index,:,:));
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'Y_cons'</span>
+        label=VariableIndep1String(2:length(VariableIndep1String));
+        index=cellfun(@(x)strcmp(x,label),<span class="keyword">...</span>
+            Datos_struct.labels);
+        X=Datos_struct.(VarIndep1);
+        X=squeeze(X(index,:,:));
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            X_Edos_Est=Datos_struct.([VarIndep1,<span class="string">'_Edos_Est'</span>]);
+            X_Edos_Est=squeeze(X_Edos_Est(index,:,:));
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'T'</span>
+        X = Datos_struct.(VariableIndep1String);
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            X_Edos_Est=Datos_struct.([VariableIndep1String,<span class="string">'_Edos_Est'</span>]);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'r'</span>
+        index=eval(VariableIndep1String(2:length(VariableIndep1String)));
+        X=Datos_struct.(VarIndep1);
+        X=squeeze(X(index,:,:));
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            X_Edos_Est=Datos_struct.([VarIndep1,<span class="string">'_Edos_Est'</span>]);
+            X_Edos_Est=squeeze(X_Edos_Est(index,:,:));
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'q'</span>
+        X = Datos_struct.(VariableIndep1String);
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            X_Edos_Est=Datos_struct.([VariableIndep1String,<span class="string">'_Edos_Est'</span>]);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'Q'</span>
+        X = Datos_struct.(VariableIndep1String);
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            X_Edos_Est=Datos_struct.([VariableIndep1String,<span class="string">'_Edos_Est'</span>]);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'V'</span>
+        X = Datos_struct.(VariableIndep1String);
+<span class="keyword">end</span>
+
+<span class="keyword">switch</span> VarIndep2
+    <span class="keyword">case</span> <span class="string">'z'</span>
+        Z = Datos_struct.(VarIndep2);
+    <span class="keyword">case</span> <span class="string">'t'</span>
+        <span class="keyword">if</span> Datos_struct.Estacionario<span class="keyword">...</span>
+                &amp;&amp; strcmp(Datos_struct.Tipo,<span class="string">'PFR'</span>)
+            Z = Datos_struct.z;
+            VariableIndep2String=<span class="string">'z'</span>;
+            set(handles.popupmenu2,<span class="string">'Value'</span>,1);
+        <span class="keyword">elseif</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            Z = Datos_struct.T;
+            VariableIndep2String=<span class="string">'T'</span>;
+            set(handles.popupmenu2,<span class="string">'Value'</span>,1);
+            Z_Edos_Est = Datos_struct.T_Edos_Est;
+        <span class="keyword">else</span>
+            Z = Datos_struct.(VarIndep2);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> {<span class="string">'C'</span> , <span class="string">'X'</span>, <span class="string">'Y'</span>, <span class="string">'S'</span>}
+        <span class="keyword">if</span> ~isempty(strfind(VariableIndep2String,<span class="string">'Yconsumo'</span>))
+            label=VariableIndep2String(<span class="keyword">...</span>
+                length(<span class="string">'Yconsumo'</span>)+1:length(VariableIndep2String));
+            VarIndep2=<span class="string">'Yconsumo'</span>;
+        <span class="keyword">else</span>
+            label=VariableIndep2String(2:length(VariableIndep2String));
+        <span class="keyword">end</span>
+        index=cellfun(@(x)strcmp(x,label),<span class="keyword">...</span>
+            Datos_struct.labels);
+        Z=Datos_struct.(VarIndep2);
+        Z=squeeze(Z(index,:,:));
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            Z_Edos_Est=Datos_struct.([VarIndep2,<span class="string">'_Edos_Est'</span>]);
+            Z_Edos_Est=squeeze(Z_Edos_Est(index,:,:));
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'T'</span>
+        Z = Datos_struct.(VariableIndep2String);
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            Z_Edos_Est=Datos_struct.([VariableIndep2String,<span class="string">'_Edos_Est'</span>]);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'r'</span>
+        index=eval(VariableIndep2String(2:length(VariableIndep2String)));
+        Z=Datos_struct.(VarIndep2);
+        Z=squeeze(Z(index,:,:));
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            Z_Edos_Est=Datos_struct.([VarIndep2,<span class="string">'_Edos_Est'</span>]);
+            Z_Edos_Est=squeeze(Z_Edos_Est(index,:,:));
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'q'</span>
+        Z = Datos_struct.(VariableIndep2String);
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            Z_Edos_Est=Datos_struct.([VariableIndep2String,<span class="string">'_Edos_Est'</span>]);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'Q'</span>
+        Z = Datos_struct.(VariableIndep2String);
+        <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+            Z_Edos_Est=Datos_struct.([VariableIndep2String,<span class="string">'_Edos_Est'</span>]);
+        <span class="keyword">end</span>
+    <span class="keyword">case</span> <span class="string">'V'</span>
+        Z = Datos_struct.(VariableIndep2String);
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> strcmp(get(handles.Untitled_10, <span class="string">'Checked'</span>),<span class="string">'on'</span>)
+    cla(handles.axes1,<span class="string">'reset'</span>);
+<span class="keyword">end</span>
+
+legend(handles.axes1,<span class="string">'off'</span>);
+box(handles.axes1,<span class="string">'on'</span>);
+xlim(handles.axes1,<span class="string">'auto'</span>);
+ylim(handles.axes1,<span class="string">'auto'</span>);
+zlim(handles.axes1,<span class="string">'auto'</span>);
+hold(handles.axes1,<span class="string">'on'</span>);
+
+<span class="keyword">for</span> i=1:size(VariablesDepGraficadas,1)
+    Variable=VariablesDepGraficadas{i,1};
+    <span class="keyword">if</span> isempty(regexp(Variable,<span class="string">'\W.+\W'</span>,<span class="string">'ONCE'</span>))
+        <span class="keyword">if</span> strcmp(Variable,<span class="string">'ESTACIONARIO'</span>)
+            Var=Variable;
+        <span class="keyword">elseif</span> ~strcmp(Variable,<span class="string">'ESTACIONARIO'</span>)
+            Var=Variable(1);
+        <span class="keyword">end</span>
+        <span class="keyword">if</span> isfield(Datos_struct,Var)
+            <span class="keyword">switch</span> Var
+                <span class="keyword">case</span> {<span class="string">'C'</span> , <span class="string">'X'</span>, <span class="string">'Y'</span>, <span class="string">'S'</span>}
+                    <span class="keyword">if</span> ~isempty(strfind(Variable,<span class="string">'Yconsumo'</span>))
+                        label=Variable(<span class="keyword">...</span>
+                            length(<span class="string">'Yconsumo'</span>)+1:length(Variable));
+                        Var=<span class="string">'Yconsumo'</span>;
+                    <span class="keyword">else</span>
+                        label=Variable(2:length(Variable));
+                    <span class="keyword">end</span>
+                    index=cellfun(@(x)strcmp(x,label),<span class="keyword">...</span>
+                        Datos_struct.labels);
+                    <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+                        Y=Datos_struct.(Var);
+                        Y_Edos_Est=Datos_struct.([Var,<span class="string">'_Edos_Est'</span>]);
+                        Y_Edos_Est=Y_Edos_Est(index,:);
+                    <span class="keyword">else</span>
+                        Y=Datos_struct.(Var);
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> ~isvector(Y)
+                        Y=squeeze(Y(index,:,:));
+                    <span class="keyword">else</span>
+                        Y=Y(index,:);
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> strcmp(Var,<span class="string">'Y'</span>)||strcmp(Var,<span class="string">'Yconsumo'</span>)
+                        Variable=[Variable,<span class="string">'/'</span>,<span class="keyword">...</span>
+                            Datos_struct.labels{<span class="keyword">...</span>
+                            Datos_struct.Ref_Rendimiento}];
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> strcmp(Var,<span class="string">'S'</span>)
+                        Variable=[Variable,<span class="string">'/'</span>,<span class="keyword">...</span>
+                            Datos_struct.labels{<span class="keyword">...</span>
+                            Datos_struct.Ref_Selectividad}];
+                    <span class="keyword">end</span>
+                <span class="keyword">case</span> <span class="string">'T'</span>
+                    <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+                        Y=Datos_struct.(Variable);
+                        Y_Edos_Est=Datos_struct.([Variable,<span class="string">'_Edos_Est'</span>]);
+                    <span class="keyword">else</span>
+                        Y=Datos_struct.(Variable);
+                    <span class="keyword">end</span>
+                <span class="keyword">case</span> <span class="string">'r'</span>
+                    index=eval(Variable(2:length(Variable)));
+                    <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+                        Y=Datos_struct.(Var);
+                        Y_Edos_Est=Datos_struct.([Var,<span class="string">'_Edos_Est'</span>]);
+                        Y_Edos_Est=Y_Edos_Est(index,:);
+                    <span class="keyword">else</span>
+                        Y=Datos_struct.(Var);
+                    <span class="keyword">end</span>
+                    <span class="keyword">if</span> ~isvector(Y)
+                        Y=squeeze(Y(index,:,:));
+                    <span class="keyword">else</span>
+                        Y=Y(index,:);
+                    <span class="keyword">end</span>
+                <span class="keyword">case</span> <span class="string">'q'</span>
+                    <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+                        Y=Datos_struct.(Variable);
+                        Y_Edos_Est=Datos_struct.([Variable,<span class="string">'_Edos_Est'</span>]);
+                    <span class="keyword">else</span>
+                        Y=Datos_struct.(Variable);
+                    <span class="keyword">end</span>
+                <span class="keyword">case</span> <span class="string">'Q'</span>
+                    <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)
+                        Y=Datos_struct.(Variable);
+                        Y_Edos_Est=Datos_struct.([Variable,<span class="string">'_Edos_Est'</span>]);
+                    <span class="keyword">else</span>
+                        Y=Datos_struct.(Variable);
+                    <span class="keyword">end</span>
+                <span class="keyword">case</span> <span class="string">'V'</span>
+                    Y=Datos_struct.(Variable);
+            <span class="keyword">end</span>
+
+            <span class="keyword">if</span> ~Datos_struct.Estacionario <span class="keyword">...</span>
+                    &amp;&amp; ((VarIndep2==<span class="string">'z'</span> &amp;&amp; VarIndep1==<span class="string">'z'</span>)<span class="keyword">...</span>
+                    || (VarIndep2==<span class="string">'t'</span> &amp;&amp; VarIndep1==<span class="string">'t'</span>))
+                X = Datos_struct.z;
+                Z = Datos_struct.t;
+                VariableIndep1String=<span class="string">'z'</span>;
+                VariableIndep2String=<span class="string">'t'</span>;
+                set(handles.popupmenu1,<span class="string">'Value'</span>,1);
+                set(handles.popupmenu2,<span class="string">'Value'</span>,2);
+                X=X';
+                Y=Y';
+                Z=Z';
+            <span class="keyword">elseif</span> ~Datos_struct.Estacionario <span class="keyword">...</span>
+                    &amp;&amp; (VarIndep2==<span class="string">'t'</span> || VarIndep1==<span class="string">'z'</span>)
+                X=X';
+                Y=Y';
+                Z=Z';
+            <span class="keyword">end</span>
+
+            linestylesIndex=i;
+            colorsIndex=i;
+            <span class="keyword">if</span> i&gt;length(Datos_struct.linestyles)
+                linestylesIndex=<span class="keyword">...</span>
+                    mod((i-length(Datos_struct.linestyles)),<span class="keyword">...</span>
+                    length(Datos_struct.linestyles))+1;
+            <span class="keyword">end</span>
+            <span class="keyword">if</span> i&gt;length(Datos_struct.colors)
+                colorsIndex=<span class="keyword">...</span>
+                    mod((i-length(Datos_struct.colors)),<span class="keyword">...</span>
+                    length(Datos_struct.colors))+1;
+            <span class="keyword">end</span>
+
+            <span class="keyword">if</span> strcmp(<span class="string">'2D'</span>,<span class="keyword">...</span>
+                    get(get(handles.uipanel2,<span class="string">'SelectedObject'</span>),<span class="string">'String'</span>))
+                <span class="keyword">if</span> ~isvector(Y)
+                    h=surf(handles.axes1,X,Z,Y,<span class="keyword">...</span>
+                        <span class="string">'FaceColor'</span>,<span class="keyword">...</span>
+                        Datos_struct.colors(colorsIndex,:),<span class="keyword">...</span>
+                        <span class="string">'FaceAlpha'</span>,0.6,<span class="keyword">...</span>
+                        <span class="string">'LineStyle'</span>,<span class="string">'-'</span>,<span class="string">'LineWidth'</span>,1e-8,<span class="keyword">...</span>
+                        <span class="string">'EdgeColor'</span>,[0.1,0.1,0.1]);
+                    set(h(end),<span class="string">'DisplayName'</span>,[Variable,<span class="string">','</span>,<span class="keyword">...</span>
+                        VariablesDepGraficadas{i,2}]);
+                    view(0,0);
+                <span class="keyword">else</span>
+                    h=plot(handles.axes1,X,Y,<span class="keyword">...</span>
+                        Datos_struct.linestyles{linestylesIndex},<span class="keyword">...</span>
+                        <span class="string">'Color'</span>,Datos_struct.colors(colorsIndex,:),<span class="keyword">...</span>
+                        <span class="string">'LineWidth'</span>,2);
+                    set(h(end),<span class="string">'DisplayName'</span>,[Variable,<span class="string">','</span>,<span class="keyword">...</span>
+                        VariablesDepGraficadas{i,2}]);
+                    <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)<span class="keyword">...</span>
+                            &amp;&amp; Datos_struct.MostrarEstadosEstacionarios
+                        h=plot(handles.axes1,X_Edos_Est,Y_Edos_Est,<span class="keyword">...</span>
+                            Datos_struct.linestyles{linestylesIndex},<span class="keyword">...</span>
+                            <span class="string">'Color'</span>,Datos_struct.colors(colorsIndex,:),<span class="keyword">...</span>
+                            <span class="string">'LineWidth'</span>,2);
+                        set(h(end),<span class="string">'DisplayName'</span>,[Variable,<span class="string">','</span>,<span class="keyword">...</span>
+                            VariablesDepGraficadas{i,2},<span class="string">'_E_s_t'</span>]);
+                        set(h(end),<span class="string">'MarkerSize'</span>,<span class="keyword">...</span>
+                            3*get(h(end),<span class="string">'MarkerSize'</span>));
+                        set(h(end),<span class="string">'LineStyle'</span>,<span class="string">'none'</span>);
+                    <span class="keyword">end</span>
+                    view(2);
+                <span class="keyword">end</span>
+            <span class="keyword">else</span>
+                <span class="keyword">if</span> ~isvector(Y)
+                   h=surf(handles.axes1,X,Z,Y,<span class="keyword">...</span>
+                        <span class="string">'FaceColor'</span>,<span class="keyword">...</span>
+                        Datos_struct.colors(colorsIndex,:),<span class="keyword">...</span>
+                        <span class="string">'FaceAlpha'</span>,0.6,<span class="keyword">...</span>
+                        <span class="string">'LineStyle'</span>,<span class="string">'-'</span>,<span class="string">'LineWidth'</span>,1e-8,<span class="keyword">...</span>
+                        <span class="string">'EdgeColor'</span>,[0.1,0.1,0.1]);
+                    set(h(end),<span class="string">'DisplayName'</span>,[Variable,<span class="string">','</span>,<span class="keyword">...</span>
+                        VariablesDepGraficadas{i,2}]);
+                    view(3);
+                <span class="keyword">else</span>
+                    h=plot3(handles.axes1,X,Z,Y,<span class="keyword">...</span>
+                        Datos_struct.linestyles{linestylesIndex},<span class="keyword">...</span>
+                        <span class="string">'Color'</span>,<span class="keyword">...</span>
+                        Datos_struct.colors(colorsIndex,:),<span class="string">'LineWidth'</span>,2);
+                    set(h(end),<span class="string">'DisplayName'</span>,[Variable,<span class="string">','</span>,<span class="keyword">...</span>
+                        VariablesDepGraficadas{i,2}]);
+                    <span class="keyword">if</span> strcmp(Datos_struct.Tipo,<span class="string">'CSTR'</span>)<span class="keyword">...</span>
+                            &amp;&amp; Datos_struct.MostrarEstadosEstacionarios
+                        h=plot3(handles.axes1,<span class="keyword">...</span>
+                            X_Edos_Est,Z_Edos_Est,Y_Edos_Est,<span class="keyword">...</span>
+                            Datos_struct.linestyles{linestylesIndex},<span class="keyword">...</span>
+                            <span class="string">'Color'</span>,<span class="keyword">...</span>
+                            Datos_struct.colors(colorsIndex,:),<span class="keyword">...</span>
+                            <span class="string">'LineWidth'</span>,2);
+                        set(h(end),<span class="string">'DisplayName'</span>,[Variable,<span class="string">','</span>,<span class="keyword">...</span>
+                            VariablesDepGraficadas{i,2},<span class="string">'_E_s_t'</span>]);
+                        set(h(end),<span class="string">'MarkerSize'</span>,<span class="keyword">...</span>
+                            2*get(h(end),<span class="string">'MarkerSize'</span>));
+                        set(h(end),<span class="string">'LineStyle'</span>,<span class="string">'none'</span>);
+                    <span class="keyword">end</span>
+                    view(3);
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+<span class="keyword">if</span> ~isempty(get(handles.axes1,<span class="string">'Children'</span>))
+    legend(handles.axes1,<span class="string">'show'</span>);
+    xlabel(handles.axes1,<span class="keyword">...</span>
+        [VariableIndep1String,<span class="string">' , '</span>,<span class="keyword">...</span>
+        Variables_XZ{cellfun(@(x)strcmp(x,<span class="keyword">...</span>
+        VariableIndep1String),Variables_XZ),2}]);
+    <span class="keyword">if</span> strcmp(<span class="string">'2D'</span>,<span class="keyword">...</span>
+            get(get(handles.uipanel2,<span class="string">'SelectedObject'</span>),<span class="string">'String'</span>))
+        ylabel(handles.axes1,<span class="string">''</span>);
+    <span class="keyword">else</span>
+        ylabel(handles.axes1,<span class="keyword">...</span>
+            [VariableIndep2String,<span class="string">' , '</span>,<span class="keyword">...</span>
+            Variables_XZ{cellfun(@(x)strcmp(x,<span class="keyword">...</span>
+            VariableIndep2String),Variables_XZ),2}]);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+limsXAhora = get(handles.axes1,<span class="string">'XLim'</span>);
+limsYAhora = get(handles.axes1,<span class="string">'YLim'</span>);
+limsZAhora = get(handles.axes1,<span class="string">'ZLim'</span>);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,<span class="string">'XMIN'</span>),2}=<span class="keyword">...</span>
+    limsXAhora(1);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,<span class="string">'XMAX'</span>),2}=<span class="keyword">...</span>
+    limsXAhora(2);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,<span class="string">'YMIN'</span>),2}=<span class="keyword">...</span>
+    limsYAhora(1);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,<span class="string">'YMAX'</span>),2}=<span class="keyword">...</span>
+    limsYAhora(2);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,<span class="string">'ZMIN'</span>),2}=<span class="keyword">...</span>
+    limsZAhora(1);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,<span class="string">'ZMAX'</span>),2}=<span class="keyword">...</span>
+    limsZAhora(2);
+set(handles.uitable1,<span class="string">'Data'</span>,Datos_struct.DatosCalc);
+</pre><p>--- Executes just before PROBLEMASIR is made visible.</p><pre class="codeinput"><span class="keyword">function</span> PROBLEMASIR_OpeningFcn(hObject, eventdata, handles, varargin)
+handles.output = hObject;
+guidata(hObject, handles);
+codigoDeArranque(hObject, eventdata, handles, varargin)
+
+<span class="comment">% --- Outputs from this function are returned to the command line.</span>
+<span class="keyword">function</span> varargout = PROBLEMASIR_OutputFcn(hObject, eventdata, handles)
+varargout{1} = handles.output;
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> popupmenu1_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to popupmenu1 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    empty - handles not</span>
+<span class="comment">% created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: popupmenu controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), <span class="keyword">...</span>
+        get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% --- Executes on selection change in popupmenu1.</span>
+<span class="keyword">function</span> popupmenu1_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to popupmenu1 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1</span>
+<span class="comment">% contents as cell array</span>
+<span class="comment">%        contents{get(hObject,'Value')} returns selected item from</span>
+<span class="comment">%        popupmenu1</span>
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles)
+
+<span class="comment">% --- Executes on selection change in popupmenu2.</span>
+<span class="keyword">function</span> popupmenu2_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to popupmenu2 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+
+<span class="comment">% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu2</span>
+<span class="comment">% contents as cell array</span>
+<span class="comment">%        contents{get(hObject,'Value')} returns selected item from</span>
+<span class="comment">%        popupmenu2</span>
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles)
+
+<span class="comment">% --- Executes during object creation, after setting all properties.</span>
+<span class="keyword">function</span> popupmenu2_CreateFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to popupmenu2 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    empty - handles not</span>
+<span class="comment">% created until after all CreateFcns called</span>
+
+<span class="comment">% Hint: popupmenu controls usually have a white background on Windows.</span>
+<span class="comment">%       See ISPC and COMPUTER.</span>
+<span class="keyword">if</span> ispc &amp;&amp; isequal(get(hObject,<span class="string">'BackgroundColor'</span>), <span class="keyword">...</span>
+        get(0,<span class="string">'defaultUicontrolBackgroundColor'</span>))
+    set(hObject,<span class="string">'BackgroundColor'</span>,<span class="string">'white'</span>);
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> uipushtool1_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uipushtool1 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+<span class="keyword">global</span> solucionAnalisisEstacionario solucionAnalisisNoEstacionario
+solucionAnalisisEstacionario={};
+solucionAnalisisNoEstacionario={};
+[FileName,PathName,~]=uigetfile(<span class="string">'*.mat'</span>);
+Datos={};
+<span class="keyword">if</span> FileName~=0
+    load([PathName filesep FileName],<span class="string">'Datos'</span>);
+    <span class="comment">%</span>
+    <span class="comment">% Poner estos valores en la tabla uitable1 (a la izq.)}</span>
+    handles=rmfield(handles,<span class="string">'Datos_struct'</span>);
+    set(handles.uitable1,<span class="string">'Data'</span>,Datos); <span class="comment">%#ok&lt;COLND&gt;</span>
+    <span class="comment">%</span>
+    <span class="comment">% Correr el c&oacute;digo para actualizar ( o generar en dado caso) la gr&aacute;fica</span>
+    <span class="comment">% solicitada.</span>
+    actualizar(hObject, eventdata, handles, {});
+<span class="keyword">end</span>
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uipushtool6_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+hgexport(handles.figure1,<span class="string">'-clipboard'</span>);
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uipushtool7_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+figure2=figure(<span class="string">'MenuBar'</span>,<span class="string">'none'</span>,<span class="string">'ToolBar'</span>,<span class="string">'none'</span>,<span class="string">'Resize'</span>,<span class="string">'off'</span>);
+axes2=copyobj(handles.axes1,figure2);
+set(axes2,<span class="string">'Units'</span>,<span class="string">'characters'</span>);
+set(figure2,<span class="string">'Units'</span>,<span class="string">'characters'</span>);
+axesposition=get(axes2,<span class="string">'OuterPosition'</span>);
+figureposition=get(figure2,<span class="string">'Position'</span>);
+axesposition=[0,0,axesposition(3),axesposition(4)];
+figureposition=[figureposition(1),figureposition(2),<span class="keyword">...</span>
+    axesposition(3),axesposition(4)];
+set(axes2,<span class="string">'OuterPosition'</span>,axesposition);
+set(figure2,<span class="string">'Position'</span>,figureposition);
+set(axes2,<span class="string">'XLim'</span>,get(handles.axes1,<span class="string">'XLim'</span>));
+set(axes2,<span class="string">'YLim'</span>,get(handles.axes1,<span class="string">'YLim'</span>));
+set(axes2,<span class="string">'ZLim'</span>,get(handles.axes1,<span class="string">'ZLim'</span>));
+<span class="keyword">if</span> ~isempty(legend(handles.axes1))
+    set(legend(handles.axes1),<span class="string">'Units'</span>,get(axes2,<span class="string">'Units'</span>));
+    offset=([1,0,0,0;0,1,0,0;0,0,0,0;0,0,0,0]*<span class="keyword">...</span>
+        (get(legend(handles.axes1),<span class="string">'OuterPosition'</span>)-<span class="keyword">...</span>
+        get(handles.axes1,<span class="string">'OuterPosition'</span>))')';
+    legend2Position=offset+([0,0,0,0;0,0,0,0;0,0,1,0;0,0,0,1]*<span class="keyword">...</span>
+        get(legend(handles.axes1),<span class="string">'OuterPosition'</span>)')';
+    legend(axes2,<span class="string">'show'</span>);
+    set(legend(axes2),<span class="string">'OuterPosition'</span>,legend2Position);
+<span class="keyword">end</span>
+dcm_obj=datacursormode(handles.figure1);
+info_struct = getCursorInfo(dcm_obj);
+<span class="keyword">for</span> i=1:length(info_struct)
+    text(<span class="string">'Parent'</span>,axes2,<span class="string">'Position'</span>,info_struct(i).Position,<span class="keyword">...</span>
+        <span class="string">'String'</span>,[<span class="string">'\bullet\leftarrow'</span>,<span class="keyword">...</span>
+        mat2str(info_struct(i).Position',4)],<span class="string">'Fontweight'</span>,<span class="string">'bold'</span>);
+<span class="keyword">end</span>
+set(figure2,<span class="string">'PaperPositionMode'</span>,<span class="string">'auto'</span>);
+set(figure2,<span class="string">'InvertHardcopy'</span>,<span class="string">'off'</span>);
+set(figure2,<span class="string">'Color'</span>,<span class="string">'blue'</span>);
+hgexport(figure2,<span class="string">'-clipboard'</span>);
+delete(axes2);
+delete(figure2);
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uipushtool9_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% Write to Excel</span>
+<span class="comment">% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+success = mkdir(<span class="string">'exports'</span>);
+success = success &amp;&amp; fileattrib(<span class="string">'./exports'</span>,<span class="string">'+w'</span>);
+<span class="keyword">if</span> success
+    fileName=[<span class="string">'exported_'</span>,<span class="keyword">...</span>
+        datestr(now,<span class="string">'dd-mmm-yyyy-HH-MM-SS PM'</span>)];
+    xlswrite([<span class="string">'./exports/'</span>,fileName],get(handles.uitable1,<span class="string">'Data'</span>));
+    msgbox([<span class="string">'Data written to: '</span>,[<span class="string">'./exports/'</span>,fileName],<span class="string">'.xls'</span>]);
+<span class="keyword">else</span>
+    msgbox([<span class="string">'Falla en permisos al generar directorio: "./export" '</span>,<span class="keyword">...</span>
+        <span class="string">'. Favor de exportar manualmente'</span>]);
+<span class="keyword">end</span>
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uipushtool5_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+Datos = get(handles.uitable1,<span class="string">'Data'</span>);
+[FileName,PathName,FilterIndex]=uiputfile(<span class="string">'./*.mat'</span>,<span class="keyword">...</span>
+    <span class="string">'Guardar estado de variables'</span>);
+<span class="keyword">if</span> FileName~=0
+    save(FileName, <span class="string">'Datos'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uitoggletool10_OnCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uitoggletool10 (see GCBO) eventdata  reserved - to</span>
+<span class="comment">% be defined in a future version of MATLAB handles    structure with</span>
+<span class="comment">% handles and user data (see GUIDATA)</span>
+set(get(handles.axes1,<span class="string">'Children'</span>),<span class="string">'EdgeColor'</span>,<span class="string">'black'</span>);
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uitoggletool10_OffCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uitoggletool10 (see GCBO) eventdata  reserved - to</span>
+<span class="comment">% be defined in a future version of MATLAB handles    structure with</span>
+<span class="comment">% handles and user data (see GUIDATA)</span>
+<span class="keyword">if</span> ~handles.estacionario
+    set(get(handles.axes1,<span class="string">'Children'</span>),<span class="string">'EdgeColor'</span>,<span class="string">'none'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uipushtool8_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uipushtool8 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+variablesDep = get(handles.uitable2,<span class="string">'Data'</span>);
+variablesDep(:,3)=cellfun(@(x){false},cell(size(variablesDep(:,3))));
+set(handles.uitable2,<span class="string">'Data'</span>,variablesDep);
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles);
+
+<span class="comment">% --- Executes when entered data in editable cell(s) in uitable1.</span>
+<span class="keyword">function</span> uitable1_CellEditCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uitable1 (see GCBO) eventdata  structure with the</span>
+<span class="comment">% following fields (see UITABLE)</span>
+<span class="comment">%	Indices: row and column indices of the cell(s) edited PreviousData:</span>
+<span class="comment">%	previous data for the cell(s) edited EditData: string(s) entered by the</span>
+<span class="comment">%	user NewData: EditData or its converted form set on the Data property.</span>
+<span class="comment">%	Empty if Data was not changed Error: error string when failed to</span>
+<span class="comment">%	convert EditData to appropriate value for Data</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+Datos = get(handles.uitable1,<span class="string">'Data'</span>);
+variableModificada = Datos{eventdata.Indices(1),1};
+noSeInsertoUnNumero = not(isnumeric(eventdata.NewData))&amp;&amp;<span class="keyword">...</span>
+    not(islogical(eventdata.NewData))&amp;&amp;<span class="keyword">...</span>
+    not(ischar(eventdata.NewData)) ||any(isnan(eventdata.NewData));
+<span class="keyword">if</span> noSeInsertoUnNumero
+    Datos{eventdata.Indices(1),eventdata.Indices(2)}=<span class="keyword">...</span>
+        eventdata.PreviousData;
+    set(handles.uitable1,<span class="string">'Data'</span>,Datos);
+<span class="keyword">else</span>
+    <span class="keyword">switch</span> variableModificada
+        <span class="keyword">case</span> <span class="string">'XMAX'</span>
+            <span class="keyword">try</span>
+                limitesAnteriores = get(handles.axes1,<span class="string">'XLim'</span>);
+                xlim(handles.axes1,<span class="keyword">...</span>
+                    [limitesAnteriores(1),<span class="keyword">...</span>
+                    Datos{strcmp(Datos,variableModificada),2}]);
+            <span class="keyword">catch</span> exception
+                <span class="comment">% This is in case bad axis limits were chosen</span>
+                xlim(handles.axes1,<span class="string">'auto'</span>);
+            <span class="keyword">end</span>
+        <span class="keyword">case</span> <span class="string">'YMAX'</span>
+            <span class="keyword">try</span>
+                limitesAnteriores = get(handles.axes1,<span class="string">'YLim'</span>);
+                ylim(handles.axes1,<span class="keyword">...</span>
+                    [limitesAnteriores(1),<span class="keyword">...</span>
+                    Datos{strcmp(Datos,variableModificada),2}]);
+            <span class="keyword">catch</span> exception
+                <span class="comment">% This is in case bad axis limits were chosen</span>
+                ylim(handles.axes1,<span class="string">'auto'</span>);
+            <span class="keyword">end</span>
+        <span class="keyword">case</span> <span class="string">'ZMAX'</span>
+            <span class="keyword">try</span>
+                limitesAnteriores = get(handles.axes1,<span class="string">'ZLim'</span>);
+                zlim(handles.axes1,<span class="keyword">...</span>
+                    [limitesAnteriores(1),<span class="keyword">...</span>
+                    Datos{strcmp(Datos,variableModificada),2}]);
+            <span class="keyword">catch</span> exception
+                <span class="comment">% This is in case bad axis limits were chosen</span>
+                zlim(handles.axes1,<span class="string">'auto'</span>);
+            <span class="keyword">end</span>
+        <span class="keyword">case</span> <span class="string">'XMIN'</span>
+            <span class="keyword">try</span>
+                limitesAnteriores = get(handles.axes1,<span class="string">'XLim'</span>);
+                xlim(handles.axes1,<span class="keyword">...</span>
+                    [Datos{strcmp(Datos,variableModificada),2},<span class="keyword">...</span>
+                    limitesAnteriores(2)]);
+            <span class="keyword">catch</span> exception
+                <span class="comment">% This is in case bad axis limits were chosen</span>
+                xlim(handles.axes1,<span class="string">'auto'</span>);
+            <span class="keyword">end</span>
+        <span class="keyword">case</span> <span class="string">'YMIN'</span>
+            <span class="keyword">try</span>
+                limitesAnteriores = get(handles.axes1,<span class="string">'YLim'</span>);
+                ylim(handles.axes1,<span class="keyword">...</span>
+                    [Datos{strcmp(Datos,variableModificada),2},<span class="keyword">...</span>
+                    limitesAnteriores(2)]);
+            <span class="keyword">catch</span> exception
+                <span class="comment">% This is in case bad axis limits were chosen</span>
+                ylim(handles.axes1,<span class="string">'auto'</span>);
+            <span class="keyword">end</span>
+        <span class="keyword">case</span> <span class="string">'ZMIN'</span>
+            <span class="keyword">try</span>
+                limitesAnteriores = get(handles.axes1,<span class="string">'ZLim'</span>);
+                zlim(handles.axes1,<span class="keyword">...</span>
+                    [Datos{strcmp(Datos,variableModificada),2},<span class="keyword">...</span>
+                    limitesAnteriores(2)]);
+            <span class="keyword">catch</span> exception
+                <span class="comment">% This is in case bad axis limits were chosen</span>
+                zlim(handles.axes1,<span class="string">'auto'</span>);
+            <span class="keyword">end</span>
+        <span class="keyword">otherwise</span>
+            handles.Datos=Datos;
+            <span class="keyword">try</span>
+                actualizar(hObject, eventdata, handles);
+            <span class="keyword">catch</span> exception
+                Datos{eventdata.Indices(1),eventdata.Indices(2)}=<span class="keyword">...</span>
+                eventdata.PreviousData;
+                set(handles.uitable1,<span class="string">'Data'</span>,Datos);
+                msgbox([<span class="string">'Error in data, reverting to original value. '</span>,<span class="keyword">...</span>
+                    <span class="string">'Message: '</span>,exception.message],<span class="keyword">...</span>
+                    <span class="string">'Error'</span>,<span class="string">'error'</span>);
+            <span class="keyword">end</span>
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="comment">% --- Executes when entered data in editable cell(s) in uitable2.</span>
+<span class="keyword">function</span> uitable2_CellEditCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uitable2 (see GCBO) eventdata  structure with the</span>
+<span class="comment">% following fields (see UITABLE)</span>
+<span class="comment">%	Indices: row and column indices of the cell(s) edited PreviousData:</span>
+<span class="comment">%	previous data for the cell(s) edited EditData: string(s) entered by the</span>
+<span class="comment">%	user NewData: EditData or its converted form set on the Data property.</span>
+<span class="comment">%	Empty if Data was not changed Error: error string when failed to</span>
+<span class="comment">%	convert EditData to appropriate value for Data</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+variablesDep = get(handles.uitable2,<span class="string">'Data'</span>);
+variableModificada = variablesDep{eventdata.Indices(1),1};
+variableModificadaHabilitada = variablesDep{eventdata.Indices(1),3};
+<span class="keyword">if</span> ~isempty(regexp(variableModificada,<span class="string">'\W.+\W'</span>))
+    stringOfVal=strrep(variableModificada,<span class="string">'['</span>,<span class="string">''</span>);
+    stringOfVal=strrep(stringOfVal,<span class="string">']'</span>,<span class="string">''</span>);
+    <span class="keyword">if</span> variableModificadaHabilitada
+        variablesDep(cellfun(@(x)~isempty(x),regexp(variablesDep(:,1),<span class="keyword">...</span>
+            [<span class="string">'^'</span>,stringOfVal,<span class="string">'+'</span>])),3)={true};
+        set(handles.uitable2,<span class="string">'Data'</span>,variablesDep);
+    <span class="keyword">else</span>
+        variablesDep(cellfun(@(x)~isempty(x),regexp(variablesDep(:,1),<span class="keyword">...</span>
+            [<span class="string">'^'</span>,stringOfVal,<span class="string">'+'</span>])),3)={false};
+        set(handles.uitable2,<span class="string">'Data'</span>,variablesDep);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles);
+
+<span class="comment">% --- Executes when selected object is changed in uipanel2.</span>
+<span class="keyword">function</span> uipanel2_SelectionChangeFcn(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to the selected object in uipanel2 eventdata  structure</span>
+<span class="comment">% with the following fields (see UIBUTTONGROUP)</span>
+<span class="comment">%	EventName: string 'SelectionChanged' (read only) OldValue: handle of</span>
+<span class="comment">%	the previously selected object or empty if none was selected NewValue:</span>
+<span class="comment">%	handle of the currently selected object</span>
+<span class="comment">% handles    structure with handles and user data (see GUIDATA)</span>
+<span class="keyword">switch</span> get(eventdata.NewValue,<span class="string">'String'</span>) <span class="comment">% Get String of selected object.</span>
+    <span class="keyword">case</span> <span class="string">'2D'</span>
+        set(handles.text2,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+        set(handles.popupmenu2,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+        view(handles.axes1,2);
+    <span class="keyword">case</span> <span class="string">'3D'</span>
+        set(handles.text2,<span class="string">'Visible'</span>,<span class="string">'on'</span>);
+        set(handles.popupmenu2,<span class="string">'Visible'</span>,<span class="string">'on'</span>);
+        view(handles.axes1,3);
+    <span class="keyword">otherwise</span>
+        set(handles.text2,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+        set(handles.popupmenu2,<span class="string">'Visible'</span>,<span class="string">'off'</span>);
+<span class="keyword">end</span>
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles);
+
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uipushtool4_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uipushtool4 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+actualizar(hObject, eventdata, handles)
+
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> Untitled_10_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to Untitled_10 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+<span class="keyword">if</span> strcmp(get(handles.Untitled_10, <span class="string">'Checked'</span>),<span class="string">'on'</span>)
+    set(handles.Untitled_10, <span class="string">'Checked'</span>,<span class="string">'off'</span>);
+<span class="keyword">else</span>
+    set(handles.Untitled_10, <span class="string">'Checked'</span>,<span class="string">'on'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> Untitled_6_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to Untitled_6 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> Untitled_7_Callback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to Untitled_7 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+
+<span class="comment">% --------------------------------------------------------------------</span>
+<span class="keyword">function</span> uitoggletool9_ClickedCallback(hObject, eventdata, handles)
+<span class="comment">% hObject    handle to uitoggletool9 (see GCBO) eventdata  reserved - to be</span>
+<span class="comment">% defined in a future version of MATLAB handles    structure with handles</span>
+<span class="comment">% and user data (see GUIDATA)</span>
+<span class="keyword">if</span> strcmp(get(handles.uitoggletool9,<span class="string">'State'</span>),<span class="string">'on'</span>)
+    h=get(handles.axes1,<span class="string">'Children'</span>);
+    markers=<span class="keyword">...</span>
+        {<span class="string">'*'</span>,<span class="string">'o'</span>,<span class="string">'x'</span>,<span class="string">'h'</span>,<span class="string">'d'</span>,<span class="string">'^'</span>,<span class="string">'&lt;'</span>,<span class="string">'s'</span>,<span class="string">'v'</span>,<span class="string">'s'</span>,<span class="string">'+'</span>};
+    markers=markers(randperm(size(markers,2)));
+    markers=repmat(markers,1,ceil(length(h)/length(markers)));
+    <span class="keyword">for</span> j=1:length(h)
+        set(h(j),<span class="string">'Marker'</span>,markers{j});
+    <span class="keyword">end</span>
+<span class="keyword">elseif</span> strcmp(get(handles.uitoggletool9,<span class="string">'State'</span>),<span class="string">'off'</span>)
+    set(get(handles.axes1,<span class="string">'Children'</span>),<span class="string">'Marker'</span>,<span class="string">'.'</span>);
+<span class="keyword">end</span>
+</pre><p class="footer"><br>
+      Published with MATLAB&reg; 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+function varargout = PROBLEMASIR(varargin)
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @PROBLEMASIR_OpeningFcn, ...
+                   'gui_OutputFcn',  @PROBLEMASIR_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+%%
+function codigoDeArranque(hObject, eventdata, handles, varargin)
+path(path,genpath('matlab_exts'));
+handles.Datos=get(handles.uitable1,'Data');
+set(handles.uitable1,'Data',handles.Datos);
+set(handles.uitable1,'Rowname',[]);
+set(handles.uitable1,'Columneditable',[false true false]);
+
+actualizar(hObject, eventdata, handles, varargin)
+
+function actualizar(hObject, eventdata, handles, varargin)
+
+Datos=get(handles.uitable1,'Data');
+
+try
+    
+    Datos_struct = obtenerDatos(Datos);    
+    
+    if ~isequal(Datos,Datos_struct.DatosCalc)
+        Datos=Datos_struct.DatosCalc;
+        set(handles.uitable1,'Data',Datos);
+    end
+    
+    if ~isfield(handles,'Datos_struct')...
+            ||handles.Datos_struct.nComps~=Datos_struct.nComps...
+            ||handles.Datos_struct.nReacs~=Datos_struct.nReacs...
+            ||handles.Datos_struct.Ref_Selectividad~=...
+            Datos_struct.Ref_Selectividad...
+            ||handles.Datos_struct.Ref_Rendimiento~=...
+            Datos_struct.Ref_Rendimiento...
+            ||~strcmp(handles.Datos_struct.Tipo,...
+            Datos_struct.Tipo)
+        
+        Datos_struct.VariablesDep(:,3)={false};
+        Datos_struct.VariablesDep(cellfun(@(x)~isempty(x),...
+            regexp(Datos_struct.VariablesDep(:,1),'^C.+')),3)={true};
+        Datos_struct.VariablesDep(cellfun(@(x)~isempty(x),...
+            regexp(Datos_struct.VariablesDep(:,1),'\WC.*\W')),3)={true};
+        Datos_struct.VariablesDep(cellfun(@(x)~isempty(x),...
+            regexp(Datos_struct.VariablesDep(:,1),'ESTACIONARIO')),3)=...
+            {true};
+                        
+        set(handles.uitable2,'Data',Datos_struct.VariablesDep);
+        set(handles.popupmenu1,'String',Datos_struct.VariablesXZ(:,1));
+        set(handles.popupmenu2,'String',Datos_struct.VariablesXZ(:,1));
+        set(handles.popupmenu2,'Value',2);
+    end    
+    if ~isfield(handles,'Datos_struct')...
+            ||~isfield(handles.Datos_struct,'skipSolve')...
+            ||~handles.Datos_struct.skipSolve
+        Datos_struct=resolver(Datos_struct);      
+        graficar(hObject, eventdata, handles,Datos_struct);
+        handles.Datos_struct=Datos_struct;   
+    else
+        graficar(hObject, eventdata, handles,handles.Datos_struct);        
+    end
+    handles.Datos_struct.skipSolve=false;
+    openFigs=get(0,'Children');
+    delete(openFigs(strcmp(get(openFigs,'Name'),'Calculando Edos. Est.')));
+    guidata(hObject,handles);
+catch exception
+    if strcmp(exception.identifier,'InputError:Conditions')
+        msgbox(exception.message,'Error','error');
+    else
+        msgbox(['Datos mal insertados. Message: ',exception.message],...
+            'Error','error');
+    end
+    getReport(exception)   
+    openFigs=get(0,'Children');
+    delete(openFigs(strcmp(get(openFigs,'Name'),'Calculando Edos. Est.')));
+    cla(handles.axes1);
+end
+
+function Datos_struct1 = resolver(Datos_struct)
+switch Datos_struct.Tipo
+    case 'PFR'
+        if Datos_struct.Estacionario            
+            Datos_struct1=resolverPFR(Datos_struct);
+        else
+            Datos_struct.Estacionario=true;
+            Datos_struct1=resolverPFR(Datos_struct);
+            Datos_struct1.Estacionario=false;
+            Datos_struct1=resolverPFR(Datos_struct1);
+        end
+    
+    case 'BR'
+        Datos_struct1=resolverBR(Datos_struct);
+
+    case 'CSTR'
+        if Datos_struct.Estacionario            
+            Datos_struct1=resolverCSTR(Datos_struct);
+        else
+            Datos_struct.Estacionario=true;
+            Datos_struct1=resolverCSTR(Datos_struct);
+            Datos_struct1.Estacionario=false;
+            Datos_struct1=resolverCSTR(Datos_struct1);
+        end
+        
+    case 'SEMIBR'
+        Datos_struct1=resolverSEMIBR(Datos_struct);
+        
+    otherwise                
+        Datos_struct1=Datos_struct;
+        errRecord = MException('InputError:ReactorType',...
+            'Error: Tipo de reactor');
+        throw(errRecord);
+end
+
+function graficar(hObject, eventdata, handles, Datos_struct)
+VariablesDep = get(handles.uitable2,'Data');
+VariablesDepGraficadas=VariablesDep(cell2mat(VariablesDep(:,3)),:);
+Variables_XZ = Datos_struct.VariablesXZ(:,1:2);
+VariableIndep1Index = get(handles.popupmenu1,'Value');
+VariableIndep1List = get(handles.popupmenu1,'String');
+VariableIndep1String = VariableIndep1List{VariableIndep1Index};
+VariableIndep2Index = get(handles.popupmenu2,'Value');
+VariableIndep2List = get(handles.popupmenu2,'String');
+VariableIndep2String = VariableIndep2List{VariableIndep2Index};
+
+Datos_struct.colors=[colormap('Hot');colormap('HSV')]/1.9;
+Datos_struct.colors=...
+    Datos_struct.colors(randperm(size(Datos_struct.colors,1)),:);
+Datos_struct.linestyles=...
+    {'REPLACE_WITH_DASH_DASH*','REPLACE_WITH_DASH_DASHo','-.x','-h','-.d','^-',':<','-s','REPLACE_WITH_DASH_DASHv',':s','REPLACE_WITH_DASH_DASH+'};
+Datos_struct.linestyles=...
+    Datos_struct.linestyles(randperm(size(Datos_struct.linestyles,2)));
+set(handles.uitoggletool9,'State','on');
+
+if strcmp(Datos_struct.Tipo,'CSTR')
+    Datos_struct.MostrarEstadosEstacionarios = VariablesDep{...
+        strcmp(VariablesDep(:,1),'ESTACIONARIO'),3};
+end
+
+VarIndep1=VariableIndep1String(1);
+VarIndep2=VariableIndep2String(1);
+
+switch VarIndep1
+    case 'z'        
+        X = Datos_struct.(VarIndep1);
+    case 't'
+        if Datos_struct.Estacionario ...
+                && strcmp(Datos_struct.Tipo,'PFR')
+            X = Datos_struct.z;
+            VariableIndep1String='z';
+            set(handles.popupmenu1,'Value',1);
+        elseif strcmp(Datos_struct.Tipo,'CSTR')            
+            if Datos_struct.Estacionario
+                X = Datos_struct.T;
+                VariableIndep1String='T';
+                set(handles.popupmenu1,'Value',1);
+                X_Edos_Est = Datos_struct.T_Edos_Est;
+            else
+                X = Datos_struct.(VarIndep1);
+                X_Edos_Est = max(X)*ones(size(Datos_struct.T_Edos_Est));
+            end
+        else
+            X = Datos_struct.(VarIndep1);            
+        end
+    case {'C' , 'X', 'Y', 'S'}
+        if ~isempty(strfind(VariableIndep1String,'Yconsumo'))
+            label=VariableIndep1String(...
+                length('Yconsumo')+1:length(VariableIndep1String));
+            VarIndep1='Yconsumo';
+        else
+            label=VariableIndep1String(2:length(VariableIndep1String));
+        end        
+        index=cellfun(@(x)strcmp(x,label),...
+            Datos_struct.labels);
+        X=Datos_struct.(VarIndep1);
+        X=squeeze(X(index,:,:));
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            X_Edos_Est=Datos_struct.([VarIndep1,'_Edos_Est']);
+            X_Edos_Est=squeeze(X_Edos_Est(index,:,:));
+        end
+    case 'Y_cons'
+        label=VariableIndep1String(2:length(VariableIndep1String));
+        index=cellfun(@(x)strcmp(x,label),...
+            Datos_struct.labels);
+        X=Datos_struct.(VarIndep1);
+        X=squeeze(X(index,:,:));
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            X_Edos_Est=Datos_struct.([VarIndep1,'_Edos_Est']);
+            X_Edos_Est=squeeze(X_Edos_Est(index,:,:));
+        end
+    case 'T'
+        X = Datos_struct.(VariableIndep1String);
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            X_Edos_Est=Datos_struct.([VariableIndep1String,'_Edos_Est']);
+        end
+    case 'r'
+        index=eval(VariableIndep1String(2:length(VariableIndep1String)));
+        X=Datos_struct.(VarIndep1);
+        X=squeeze(X(index,:,:));
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            X_Edos_Est=Datos_struct.([VarIndep1,'_Edos_Est']);
+            X_Edos_Est=squeeze(X_Edos_Est(index,:,:));
+        end
+    case 'q'
+        X = Datos_struct.(VariableIndep1String);
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            X_Edos_Est=Datos_struct.([VariableIndep1String,'_Edos_Est']);
+        end
+    case 'Q'
+        X = Datos_struct.(VariableIndep1String);
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            X_Edos_Est=Datos_struct.([VariableIndep1String,'_Edos_Est']);
+        end
+    case 'V'
+        X = Datos_struct.(VariableIndep1String);        
+end
+
+switch VarIndep2
+    case 'z'
+        Z = Datos_struct.(VarIndep2);
+    case 't'
+        if Datos_struct.Estacionario...
+                && strcmp(Datos_struct.Tipo,'PFR')
+            Z = Datos_struct.z;
+            VariableIndep2String='z';
+            set(handles.popupmenu2,'Value',1);
+        elseif strcmp(Datos_struct.Tipo,'CSTR')
+            Z = Datos_struct.T;
+            VariableIndep2String='T';
+            set(handles.popupmenu2,'Value',1);
+            Z_Edos_Est = Datos_struct.T_Edos_Est;
+        else
+            Z = Datos_struct.(VarIndep2);
+        end
+    case {'C' , 'X', 'Y', 'S'}
+        if ~isempty(strfind(VariableIndep2String,'Yconsumo'))
+            label=VariableIndep2String(...
+                length('Yconsumo')+1:length(VariableIndep2String));
+            VarIndep2='Yconsumo';
+        else
+            label=VariableIndep2String(2:length(VariableIndep2String));
+        end        
+        index=cellfun(@(x)strcmp(x,label),...
+            Datos_struct.labels);
+        Z=Datos_struct.(VarIndep2);
+        Z=squeeze(Z(index,:,:));
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            Z_Edos_Est=Datos_struct.([VarIndep2,'_Edos_Est']);
+            Z_Edos_Est=squeeze(Z_Edos_Est(index,:,:));
+        end
+    case 'T'
+        Z = Datos_struct.(VariableIndep2String);
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            Z_Edos_Est=Datos_struct.([VariableIndep2String,'_Edos_Est']);
+        end
+    case 'r'
+        index=eval(VariableIndep2String(2:length(VariableIndep2String)));
+        Z=Datos_struct.(VarIndep2);
+        Z=squeeze(Z(index,:,:));
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            Z_Edos_Est=Datos_struct.([VarIndep2,'_Edos_Est']);
+            Z_Edos_Est=squeeze(Z_Edos_Est(index,:,:));
+        end
+    case 'q'
+        Z = Datos_struct.(VariableIndep2String);
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            Z_Edos_Est=Datos_struct.([VariableIndep2String,'_Edos_Est']);
+        end
+    case 'Q'
+        Z = Datos_struct.(VariableIndep2String);
+        if strcmp(Datos_struct.Tipo,'CSTR')            
+            Z_Edos_Est=Datos_struct.([VariableIndep2String,'_Edos_Est']);
+        end
+    case 'V'
+        Z = Datos_struct.(VariableIndep2String);        
+end
+
+if strcmp(get(handles.Untitled_10, 'Checked'),'on')
+    cla(handles.axes1,'reset');
+end
+
+legend(handles.axes1,'off');
+box(handles.axes1,'on');
+xlim(handles.axes1,'auto');
+ylim(handles.axes1,'auto');
+zlim(handles.axes1,'auto');
+hold(handles.axes1,'on');
+
+for i=1:size(VariablesDepGraficadas,1)
+    Variable=VariablesDepGraficadas{i,1};    
+    if isempty(regexp(Variable,'\W.+\W','ONCE'))
+        if strcmp(Variable,'ESTACIONARIO')
+            Var=Variable;
+        elseif ~strcmp(Variable,'ESTACIONARIO')
+            Var=Variable(1);
+        end        
+        if isfield(Datos_struct,Var)
+            switch Var
+                case {'C' , 'X', 'Y', 'S'}
+                    if ~isempty(strfind(Variable,'Yconsumo'))
+                        label=Variable(...
+                            length('Yconsumo')+1:length(Variable));
+                        Var='Yconsumo';
+                    else                        
+                        label=Variable(2:length(Variable));
+                    end                    
+                    index=cellfun(@(x)strcmp(x,label),...
+                        Datos_struct.labels);                    
+                    if strcmp(Datos_struct.Tipo,'CSTR')
+                        Y=Datos_struct.(Var);
+                        Y_Edos_Est=Datos_struct.([Var,'_Edos_Est']);
+                        Y_Edos_Est=Y_Edos_Est(index,:);
+                    else
+                        Y=Datos_struct.(Var);
+                    end
+                    if ~isvector(Y)
+                        Y=squeeze(Y(index,:,:));
+                    else
+                        Y=Y(index,:);
+                    end                    
+                    if strcmp(Var,'Y')||strcmp(Var,'Yconsumo')
+                        Variable=[Variable,'/',...
+                            Datos_struct.labels{...
+                            Datos_struct.Ref_Rendimiento}];
+                    end
+                    if strcmp(Var,'S')
+                        Variable=[Variable,'/',...
+                            Datos_struct.labels{...
+                            Datos_struct.Ref_Selectividad}];
+                    end
+                case 'T'                    
+                    if strcmp(Datos_struct.Tipo,'CSTR')
+                        Y=Datos_struct.(Variable);
+                        Y_Edos_Est=Datos_struct.([Variable,'_Edos_Est']);
+                    else
+                        Y=Datos_struct.(Variable);
+                    end
+                case 'r'
+                    index=eval(Variable(2:length(Variable)));
+                    if strcmp(Datos_struct.Tipo,'CSTR')
+                        Y=Datos_struct.(Var);
+                        Y_Edos_Est=Datos_struct.([Var,'_Edos_Est']);
+                        Y_Edos_Est=Y_Edos_Est(index,:);
+                    else
+                        Y=Datos_struct.(Var);
+                    end                    
+                    if ~isvector(Y)
+                        Y=squeeze(Y(index,:,:));
+                    else
+                        Y=Y(index,:);
+                    end
+                case 'q'
+                    if strcmp(Datos_struct.Tipo,'CSTR')
+                        Y=Datos_struct.(Variable);
+                        Y_Edos_Est=Datos_struct.([Variable,'_Edos_Est']);
+                    else
+                        Y=Datos_struct.(Variable);
+                    end
+                case 'Q'
+                    if strcmp(Datos_struct.Tipo,'CSTR')
+                        Y=Datos_struct.(Variable);
+                        Y_Edos_Est=Datos_struct.([Variable,'_Edos_Est']);
+                    else
+                        Y=Datos_struct.(Variable);
+                    end
+                case 'V'
+                    Y=Datos_struct.(Variable);
+            end                        
+            
+            if ~Datos_struct.Estacionario ...
+                    && ((VarIndep2=='z' && VarIndep1=='z')...
+                    || (VarIndep2=='t' && VarIndep1=='t'))
+                X = Datos_struct.z;
+                Z = Datos_struct.t;
+                VariableIndep1String='z';
+                VariableIndep2String='t';
+                set(handles.popupmenu1,'Value',1);
+                set(handles.popupmenu2,'Value',2);
+                X=X';
+                Y=Y';
+                Z=Z';
+            elseif ~Datos_struct.Estacionario ...
+                    && (VarIndep2=='t' || VarIndep1=='z')
+                X=X';
+                Y=Y';
+                Z=Z';
+            end
+            
+            linestylesIndex=i;
+            colorsIndex=i;
+            if i>length(Datos_struct.linestyles)
+                linestylesIndex=...
+                    mod((i-length(Datos_struct.linestyles)),...
+                    length(Datos_struct.linestyles))+1;
+            end
+            if i>length(Datos_struct.colors)
+                colorsIndex=...
+                    mod((i-length(Datos_struct.colors)),...
+                    length(Datos_struct.colors))+1;
+            end
+            
+            if strcmp('2D',...
+                    get(get(handles.uipanel2,'SelectedObject'),'String'))
+                if ~isvector(Y)
+                    h=surf(handles.axes1,X,Z,Y,...
+                        'FaceColor',...
+                        Datos_struct.colors(colorsIndex,:),...
+                        'FaceAlpha',0.6,...
+                        'LineStyle','-','LineWidth',1e-8,...
+                        'EdgeColor',[0.1,0.1,0.1]);
+                    set(h(end),'DisplayName',[Variable,',',...
+                        VariablesDepGraficadas{i,2}]);
+                    view(0,0);
+                else
+                    h=plot(handles.axes1,X,Y,...
+                        Datos_struct.linestyles{linestylesIndex},...
+                        'Color',Datos_struct.colors(colorsIndex,:),...
+                        'LineWidth',2);
+                    set(h(end),'DisplayName',[Variable,',',...
+                        VariablesDepGraficadas{i,2}]);
+                    if strcmp(Datos_struct.Tipo,'CSTR')...
+                            && Datos_struct.MostrarEstadosEstacionarios
+                        h=plot(handles.axes1,X_Edos_Est,Y_Edos_Est,...
+                            Datos_struct.linestyles{linestylesIndex},...
+                            'Color',Datos_struct.colors(colorsIndex,:),...
+                            'LineWidth',2);
+                        set(h(end),'DisplayName',[Variable,',',...
+                            VariablesDepGraficadas{i,2},'_E_s_t']);                        
+                        set(h(end),'MarkerSize',...
+                            3*get(h(end),'MarkerSize'));
+                        set(h(end),'LineStyle','none');
+                    end
+                    view(2);
+                end                
+            else
+                if ~isvector(Y)
+                   h=surf(handles.axes1,X,Z,Y,...
+                        'FaceColor',...
+                        Datos_struct.colors(colorsIndex,:),...
+                        'FaceAlpha',0.6,...
+                        'LineStyle','-','LineWidth',1e-8,...
+                        'EdgeColor',[0.1,0.1,0.1]);
+                    set(h(end),'DisplayName',[Variable,',',...
+                        VariablesDepGraficadas{i,2}]);
+                    view(3);                    
+                else
+                    h=plot3(handles.axes1,X,Z,Y,...
+                        Datos_struct.linestyles{linestylesIndex},...
+                        'Color',...
+                        Datos_struct.colors(colorsIndex,:),'LineWidth',2);
+                    set(h(end),'DisplayName',[Variable,',',...
+                        VariablesDepGraficadas{i,2}]);
+                    if strcmp(Datos_struct.Tipo,'CSTR')...
+                            && Datos_struct.MostrarEstadosEstacionarios
+                        h=plot3(handles.axes1,...
+                            X_Edos_Est,Z_Edos_Est,Y_Edos_Est,...
+                            Datos_struct.linestyles{linestylesIndex},...
+                            'Color',...
+                            Datos_struct.colors(colorsIndex,:),...
+                            'LineWidth',2);
+                        set(h(end),'DisplayName',[Variable,',',...
+                            VariablesDepGraficadas{i,2},'_E_s_t']);                        
+                        set(h(end),'MarkerSize',...
+                            2*get(h(end),'MarkerSize'));
+                        set(h(end),'LineStyle','none');
+                    end
+                    view(3);                    
+                end                
+            end
+        end
+    end
+end
+if ~isempty(get(handles.axes1,'Children'))
+    legend(handles.axes1,'show');
+    xlabel(handles.axes1,...
+        [VariableIndep1String,' , ',...
+        Variables_XZ{cellfun(@(x)strcmp(x,...
+        VariableIndep1String),Variables_XZ),2}]);
+    if strcmp('2D',...
+            get(get(handles.uipanel2,'SelectedObject'),'String'))
+        ylabel(handles.axes1,'');
+    else
+        ylabel(handles.axes1,...
+            [VariableIndep2String,' , ',...
+            Variables_XZ{cellfun(@(x)strcmp(x,...
+            VariableIndep2String),Variables_XZ),2}]);
+    end
+end
+limsXAhora = get(handles.axes1,'XLim');
+limsYAhora = get(handles.axes1,'YLim');
+limsZAhora = get(handles.axes1,'ZLim');
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,'XMIN'),2}=...
+    limsXAhora(1);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,'XMAX'),2}=...
+    limsXAhora(2);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,'YMIN'),2}=...
+    limsYAhora(1);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,'YMAX'),2}=...
+    limsYAhora(2);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,'ZMIN'),2}=...
+    limsZAhora(1);
+Datos_struct.DatosCalc{strcmp(Datos_struct.DatosCalc,'ZMAX'),2}=...
+    limsZAhora(2);
+set(handles.uitable1,'Data',Datos_struct.DatosCalc);
+
+
+%%
+% REPLACE_WITH_DASH_DASH- Executes just before PROBLEMASIR is made visible.
+function PROBLEMASIR_OpeningFcn(hObject, eventdata, handles, varargin)
+handles.output = hObject;
+guidata(hObject, handles);
+codigoDeArranque(hObject, eventdata, handles, varargin)
+
+% REPLACE_WITH_DASH_DASH- Outputs from this function are returned to the command line.
+function varargout = PROBLEMASIR_OutputFcn(hObject, eventdata, handles) 
+varargout{1} = handles.output;
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function popupmenu1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu1 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    empty - handles not
+% created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), ...
+        get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% REPLACE_WITH_DASH_DASH- Executes on selection change in popupmenu1.
+function popupmenu1_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu1 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu1
+% contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from
+%        popupmenu1
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles)
+
+% REPLACE_WITH_DASH_DASH- Executes on selection change in popupmenu2.
+function popupmenu2_Callback(hObject, eventdata, handles)
+% hObject    handle to popupmenu2 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+
+% Hints: contents = cellstr(get(hObject,'String')) returns popupmenu2
+% contents as cell array
+%        contents{get(hObject,'Value')} returns selected item from
+%        popupmenu2
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles)
+
+% REPLACE_WITH_DASH_DASH- Executes during object creation, after setting all properties.
+function popupmenu2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to popupmenu2 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    empty - handles not
+% created until after all CreateFcns called
+
+% Hint: popupmenu controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), ...
+        get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function uipushtool1_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uipushtool1 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+global solucionAnalisisEstacionario solucionAnalisisNoEstacionario
+solucionAnalisisEstacionario={};
+solucionAnalisisNoEstacionario={};
+[FileName,PathName,~]=uigetfile('*.mat');
+Datos={};
+if FileName~=0
+    load([PathName filesep FileName],'Datos');
+    %
+    % Poner estos valores en la tabla uitable1 (a la izq.)}
+    handles=rmfield(handles,'Datos_struct');
+    set(handles.uitable1,'Data',Datos); %#ok<COLND>
+    %
+    % Correr el código para actualizar ( o generar en dado caso) la gráfica
+    % solicitada.
+    actualizar(hObject, eventdata, handles, {});
+end
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uipushtool6_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+hgexport(handles.figure1,'-clipboard');
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uipushtool7_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+figure2=figure('MenuBar','none','ToolBar','none','Resize','off');
+axes2=copyobj(handles.axes1,figure2);
+set(axes2,'Units','characters');
+set(figure2,'Units','characters');
+axesposition=get(axes2,'OuterPosition');
+figureposition=get(figure2,'Position');
+axesposition=[0,0,axesposition(3),axesposition(4)];
+figureposition=[figureposition(1),figureposition(2),...
+    axesposition(3),axesposition(4)];
+set(axes2,'OuterPosition',axesposition);
+set(figure2,'Position',figureposition);
+set(axes2,'XLim',get(handles.axes1,'XLim'));
+set(axes2,'YLim',get(handles.axes1,'YLim'));
+set(axes2,'ZLim',get(handles.axes1,'ZLim'));
+if ~isempty(legend(handles.axes1))
+    set(legend(handles.axes1),'Units',get(axes2,'Units'));
+    offset=([1,0,0,0;0,1,0,0;0,0,0,0;0,0,0,0]*...
+        (get(legend(handles.axes1),'OuterPosition')-...
+        get(handles.axes1,'OuterPosition'))')';
+    legend2Position=offset+([0,0,0,0;0,0,0,0;0,0,1,0;0,0,0,1]*...
+        get(legend(handles.axes1),'OuterPosition')')';
+    legend(axes2,'show');
+    set(legend(axes2),'OuterPosition',legend2Position);
+end
+dcm_obj=datacursormode(handles.figure1);
+info_struct = getCursorInfo(dcm_obj);
+for i=1:length(info_struct)
+    text('Parent',axes2,'Position',info_struct(i).Position,...
+        'String',['\bullet\leftarrow',...
+        mat2str(info_struct(i).Position',4)],'Fontweight','bold');
+end
+set(figure2,'PaperPositionMode','auto');
+set(figure2,'InvertHardcopy','off');
+set(figure2,'Color','blue');
+hgexport(figure2,'-clipboard');
+delete(axes2);
+delete(figure2);
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uipushtool9_ClickedCallback(hObject, eventdata, handles)
+% Write to Excel
+% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+success = mkdir('exports');
+success = success && fileattrib('./exports','+w');
+if success 
+    fileName=['exported_',...
+        datestr(now,'dd-mmm-yyyy-HH-MM-SS PM')];
+    xlswrite(['./exports/',fileName],get(handles.uitable1,'Data'));
+    msgbox(['Data written to: ',['./exports/',fileName],'.xls']);
+else
+    msgbox(['Falla en permisos al generar directorio: "./export" ',...
+        '. Favor de exportar manualmente']);
+end
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uipushtool5_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+Datos = get(handles.uitable1,'Data');
+[FileName,PathName,FilterIndex]=uiputfile('./*.mat',...
+    'Guardar estado de variables');
+if FileName~=0
+    save(FileName, 'Datos');
+end
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uitoggletool10_OnCallback(hObject, eventdata, handles)
+% hObject    handle to uitoggletool10 (see GCBO) eventdata  reserved - to
+% be defined in a future version of MATLAB handles    structure with
+% handles and user data (see GUIDATA)
+set(get(handles.axes1,'Children'),'EdgeColor','black');
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uitoggletool10_OffCallback(hObject, eventdata, handles)
+% hObject    handle to uitoggletool10 (see GCBO) eventdata  reserved - to
+% be defined in a future version of MATLAB handles    structure with
+% handles and user data (see GUIDATA)
+if ~handles.estacionario
+    set(get(handles.axes1,'Children'),'EdgeColor','none');
+end
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uipushtool8_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uipushtool8 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+variablesDep = get(handles.uitable2,'Data');
+variablesDep(:,3)=cellfun(@(x){false},cell(size(variablesDep(:,3))));
+set(handles.uitable2,'Data',variablesDep);
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles);
+
+% REPLACE_WITH_DASH_DASH- Executes when entered data in editable cell(s) in uitable1.
+function uitable1_CellEditCallback(hObject, eventdata, handles)
+% hObject    handle to uitable1 (see GCBO) eventdata  structure with the
+% following fields (see UITABLE)
+%	Indices: row and column indices of the cell(s) edited PreviousData:
+%	previous data for the cell(s) edited EditData: string(s) entered by the
+%	user NewData: EditData or its converted form set on the Data property.
+%	Empty if Data was not changed Error: error string when failed to
+%	convert EditData to appropriate value for Data
+% handles    structure with handles and user data (see GUIDATA)
+Datos = get(handles.uitable1,'Data');
+variableModificada = Datos{eventdata.Indices(1),1};
+noSeInsertoUnNumero = not(isnumeric(eventdata.NewData))&&...
+    not(islogical(eventdata.NewData))&&...
+    not(ischar(eventdata.NewData)) ||any(isnan(eventdata.NewData));
+if noSeInsertoUnNumero
+    Datos{eventdata.Indices(1),eventdata.Indices(2)}=...
+        eventdata.PreviousData;    
+    set(handles.uitable1,'Data',Datos);
+else
+    switch variableModificada
+        case 'XMAX'
+            try
+                limitesAnteriores = get(handles.axes1,'XLim');
+                xlim(handles.axes1,...
+                    [limitesAnteriores(1),...
+                    Datos{strcmp(Datos,variableModificada),2}]);
+            catch exception
+                % This is in case bad axis limits were chosen
+                xlim(handles.axes1,'auto');
+            end
+        case 'YMAX'
+            try
+                limitesAnteriores = get(handles.axes1,'YLim');
+                ylim(handles.axes1,...
+                    [limitesAnteriores(1),...
+                    Datos{strcmp(Datos,variableModificada),2}]);
+            catch exception
+                % This is in case bad axis limits were chosen
+                ylim(handles.axes1,'auto');
+            end
+        case 'ZMAX'
+            try
+                limitesAnteriores = get(handles.axes1,'ZLim');
+                zlim(handles.axes1,...
+                    [limitesAnteriores(1),...
+                    Datos{strcmp(Datos,variableModificada),2}]);
+            catch exception
+                % This is in case bad axis limits were chosen
+                zlim(handles.axes1,'auto');
+            end
+        case 'XMIN'
+            try
+                limitesAnteriores = get(handles.axes1,'XLim');
+                xlim(handles.axes1,...
+                    [Datos{strcmp(Datos,variableModificada),2},...
+                    limitesAnteriores(2)]);
+            catch exception
+                % This is in case bad axis limits were chosen
+                xlim(handles.axes1,'auto');
+            end
+        case 'YMIN'
+            try
+                limitesAnteriores = get(handles.axes1,'YLim');
+                ylim(handles.axes1,...
+                    [Datos{strcmp(Datos,variableModificada),2},...
+                    limitesAnteriores(2)]);
+            catch exception
+                % This is in case bad axis limits were chosen
+                ylim(handles.axes1,'auto');
+            end
+        case 'ZMIN'
+            try
+                limitesAnteriores = get(handles.axes1,'ZLim');
+                zlim(handles.axes1,...
+                    [Datos{strcmp(Datos,variableModificada),2},...
+                    limitesAnteriores(2)]);
+            catch exception
+                % This is in case bad axis limits were chosen
+                zlim(handles.axes1,'auto');
+            end
+        otherwise
+            handles.Datos=Datos;
+            try
+                actualizar(hObject, eventdata, handles);
+            catch exception
+                Datos{eventdata.Indices(1),eventdata.Indices(2)}=...
+                eventdata.PreviousData;    
+                set(handles.uitable1,'Data',Datos);
+                msgbox(['Error in data, reverting to original value. ',...
+                    'Message: ',exception.message],...
+                    'Error','error');
+            end
+    end
+end
+
+% REPLACE_WITH_DASH_DASH- Executes when entered data in editable cell(s) in uitable2.
+function uitable2_CellEditCallback(hObject, eventdata, handles)
+% hObject    handle to uitable2 (see GCBO) eventdata  structure with the
+% following fields (see UITABLE)
+%	Indices: row and column indices of the cell(s) edited PreviousData:
+%	previous data for the cell(s) edited EditData: string(s) entered by the
+%	user NewData: EditData or its converted form set on the Data property.
+%	Empty if Data was not changed Error: error string when failed to
+%	convert EditData to appropriate value for Data
+% handles    structure with handles and user data (see GUIDATA)
+variablesDep = get(handles.uitable2,'Data');
+variableModificada = variablesDep{eventdata.Indices(1),1};
+variableModificadaHabilitada = variablesDep{eventdata.Indices(1),3};
+if ~isempty(regexp(variableModificada,'\W.+\W'))
+    stringOfVal=strrep(variableModificada,'[','');
+    stringOfVal=strrep(stringOfVal,']','');
+    if variableModificadaHabilitada
+        variablesDep(cellfun(@(x)~isempty(x),regexp(variablesDep(:,1),...
+            ['^',stringOfVal,'+'])),3)={true};
+        set(handles.uitable2,'Data',variablesDep);
+    else
+        variablesDep(cellfun(@(x)~isempty(x),regexp(variablesDep(:,1),...
+            ['^',stringOfVal,'+'])),3)={false};
+        set(handles.uitable2,'Data',variablesDep);
+    end
+end
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles);
+
+% REPLACE_WITH_DASH_DASH- Executes when selected object is changed in uipanel2.
+function uipanel2_SelectionChangeFcn(hObject, eventdata, handles)
+% hObject    handle to the selected object in uipanel2 eventdata  structure
+% with the following fields (see UIBUTTONGROUP)
+%	EventName: string 'SelectionChanged' (read only) OldValue: handle of
+%	the previously selected object or empty if none was selected NewValue:
+%	handle of the currently selected object
+% handles    structure with handles and user data (see GUIDATA)
+switch get(eventdata.NewValue,'String') % Get String of selected object.
+    case '2D'
+        set(handles.text2,'Visible','off');
+        set(handles.popupmenu2,'Visible','off');
+        view(handles.axes1,2);
+    case '3D'
+        set(handles.text2,'Visible','on');
+        set(handles.popupmenu2,'Visible','on');    
+        view(handles.axes1,3);
+    otherwise
+        set(handles.text2,'Visible','off');
+        set(handles.popupmenu2,'Visible','off');        
+end
+handles.Datos_struct.skipSolve=true;
+actualizar(hObject, eventdata, handles);
+
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uipushtool4_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uipushtool4 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+actualizar(hObject, eventdata, handles)
+
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function Untitled_10_Callback(hObject, eventdata, handles)
+% hObject    handle to Untitled_10 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+if strcmp(get(handles.Untitled_10, 'Checked'),'on')
+    set(handles.Untitled_10, 'Checked','off');
+else
+    set(handles.Untitled_10, 'Checked','on');
+end
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function Untitled_6_Callback(hObject, eventdata, handles)
+% hObject    handle to Untitled_6 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function Untitled_7_Callback(hObject, eventdata, handles)
+% hObject    handle to Untitled_7 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function uitoggletool9_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uitoggletool9 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+if strcmp(get(handles.uitoggletool9,'State'),'on')
+    h=get(handles.axes1,'Children');
+    markers=...
+        {'*','o','x','h','d','^','<','s','v','s','+'};
+    markers=markers(randperm(size(markers,2)));
+    markers=repmat(markers,1,ceil(length(h)/length(markers)));    
+    for j=1:length(h)
+        set(h(j),'Marker',markers{j});
+    end
+elseif strcmp(get(handles.uitoggletool9,'State'),'off')
+    set(get(handles.axes1,'Children'),'Marker','.');
+end
+
+##### SOURCE END #####
+--></body></html>
