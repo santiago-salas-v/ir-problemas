@@ -76,6 +76,12 @@ try
     else
         graficar(hObject, eventdata, handles,handles.Datos_struct);
     end
+    if isfield(handles,'annotations')
+        for i=1:numel(handles.annotations)
+            delete(handles.annotations{i});
+        end
+        handles=rmfield(handles,'annotations');
+    end
     handles.Datos_struct.skipSolve=false;
     openFigs=get(0,'Children');
     delete(openFigs(strcmp(get(openFigs,'Name'),'Calculando Edos. Est.')));
@@ -663,9 +669,25 @@ cellArraySinNaN=...
     cellfun(@(x)NaN2Empty(x),cellArrayConNaN,'UniformOutput',false);
 end
 
+function cambiarTextoDeAnotacion(varargin)
+%CAMBIARTEXTODEANOTACION para utilizar como ButtonDownFcn
+% de reemplazar texto en TextBox anotación de gráfica por el
+% deseado
+% CAMBIARTEXTODEANOTACION(varargin) toma el primer elemento
+% de varargin y si es handle a una anotación, cambia su 
+% valor de texto.
+if numel(varargin)>1
+    h=varargin{1};
+    if ishandle(h) && strcmp(get(h,'Type'),'hggroup')
+        respuesta=inputdlg('Nuevo valor');
+        set(h,'String',respuesta);
+    end
+end
+end
+
 % --------------------------------------------------------------------
 function uipushtool6_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 hgexport(handles.figure1,'-clipboard');
@@ -673,7 +695,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool7_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 figure2=figure('MenuBar','none','ToolBar','none','Resize','off');
@@ -707,6 +729,15 @@ for i=1:length(info_struct)
         'String',['\bullet\leftarrow',...
         mat2str(info_struct(i).Position',4)],'Fontweight','bold');
 end
+if isfield(handles,'annotations')
+    c=cell(size(handles.annotations));
+    for i=1:numel(handles.annotations)
+        c{i}=annotation(figure2,'textbox',...
+            get(handles.annotations{i},'Position'));
+        set(c{i},'String',get(handles.annotations{i},...
+            'String'));
+    end
+end
 set(figure2,'PaperPositionMode','auto');
 set(figure2,'InvertHardcopy','off');
 set(figure2,'Color','blue');
@@ -718,7 +749,7 @@ end
 % --------------------------------------------------------------------
 function uipushtool9_ClickedCallback(hObject, eventdata, handles)
 % Write to Excel
-% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 success = mkdir('exports');
@@ -736,7 +767,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool5_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool9 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 Datos = get(handles.uitable1,'Data');
@@ -980,4 +1011,34 @@ if strcmp(get(handles.uitoggletool9,'State'),'on')
 elseif strcmp(get(handles.uitoggletool9,'State'),'off')
     set(get(handles.axes1,'Children'),'Marker','.');
 end
+end
+
+% --------------------------------------------------------------------
+function uipushtool10_ClickedCallback(hObject, eventdata, handles)
+% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+    [X,Y]=ginput(1);
+    XLIMS=get(handles.axes1,'XLim');
+    YLIMS=get(handles.axes1,'YLim');
+    WIDTH=1/100*abs(diff(XLIMS));
+    HEIGHT=6/100*abs(diff(YLIMS));
+    figpos=dsxy2figxy(handles.axes1,...
+        [X Y WIDTH HEIGHT]);
+    if figpos(1)>=0 && figpos(1)<=1 && ...
+            figpos(2)>=0 && figpos(2)<=1        
+        b=annotation('textbox',figpos);
+        if isfield(handles,'annotations')
+            handles.annotations=[handles.annotations;b];
+        else
+            handles.annotations={b};
+        end
+        guidata(hObject,handles);
+        respuesta=...
+            inputdlg('Agregar texto','Escriba una anotación',...
+            1,{'[Cambiar texto]'});
+        set(b,'String',respuesta);
+        set(b,'ButtonDownFcn',{@cambiarTextoDeAnotacion});
+        set(b,'FitBoxToText','on');
+    end
 end
