@@ -730,12 +730,15 @@ for i=1:length(info_struct)
         mat2str(info_struct(i).Position',4)],'Fontweight','bold');
 end
 if isfield(handles,'annotations')
-    c=cell(size(handles.annotations));
+    c=cell(size(handles.annotations));    
     for i=1:numel(handles.annotations)
-        c{i}=annotation(figure2,'textbox',...
-            get(handles.annotations{i},'Position'));
-        set(c{i},'String',get(handles.annotations{i},...
-            'String'));
+        posicionOriginal=get(handles.annotations{i},'Position');
+        posicionCorregida=dsxy2figxy(axes2,...
+            get(handles.annotations{i},'UserData'));
+        posicionCorregida(3:4)=posicionOriginal(3:4);
+        c{i}=annotation(figure2,'textbox',posicionCorregida);                
+        set(c{i},'String',get(handles.annotations{i},'String'));
+        set(c{i},'FitBoxToText','on');
     end
 end
 set(figure2,'PaperPositionMode','auto');
@@ -1023,11 +1026,11 @@ function uipushtool10_ClickedCallback(hObject, eventdata, handles)
     YLIMS=get(handles.axes1,'YLim');
     WIDTH=1/100*abs(diff(XLIMS));
     HEIGHT=6/100*abs(diff(YLIMS));
-    figpos=dsxy2figxy(handles.axes1,...
+    posicionCorregida=dsxy2figxy(handles.axes1,...
         [X Y WIDTH HEIGHT]);
-    if figpos(1)>=0 && figpos(1)<=1 && ...
-            figpos(2)>=0 && figpos(2)<=1        
-        b=annotation('textbox',figpos);
+    if posicionCorregida(1)>=0 && posicionCorregida(1)<=1 && ...
+            posicionCorregida(2)>=0 && posicionCorregida(2)<=1        
+        b=annotation('textbox',posicionCorregida);
         if isfield(handles,'annotations')
             handles.annotations=[handles.annotations;b];
         else
@@ -1036,9 +1039,13 @@ function uipushtool10_ClickedCallback(hObject, eventdata, handles)
         guidata(hObject,handles);
         respuesta=...
             inputdlg('Agregar texto','Escriba una anotación',...
-            1,{'[Cambiar texto]'});
+            1,{'[Cambiar texto]'});        
         set(b,'String',respuesta);
         set(b,'ButtonDownFcn',{@cambiarTextoDeAnotacion});
         set(b,'FitBoxToText','on');
+        set(b,'BackgroundColor','flat');
+        posicionCorregida=get(b,'Position');
+        set(b,'UserData',...
+            [X Y posicionCorregida(3) posicionCorregida(4)]);
     end
 end
