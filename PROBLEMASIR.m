@@ -679,7 +679,8 @@ function cambiarTextoDeAnotacion(varargin)
 if numel(varargin)>1
     h=varargin{1};
     if ishandle(h) && strcmp(get(h,'Type'),'hggroup')
-        respuesta=inputdlg('Nuevo valor');
+        respuesta=inputdlg('Nuevo valor','Cambiar valor',...
+            1,get(h,'String'));
         set(h,'String',respuesta);
     end
 end
