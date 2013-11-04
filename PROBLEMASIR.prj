@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project>
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Yo.PASILLO\Documents\TSSV\documents-export-2013-10-31" file="C:\Users\Yo.PASILLO\Documents\TSSV\documents-export-2013-10-31\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="931047462" preferred-package-location="C:\Users\Yo.PASILLO\Documents\TSSV\documents-export-2013-10-31\PROBLEMASIR">
-    <param.project.name>C:\Users\Yo.PASILLO\Documents\TSSV\documents-export-2013-10-31\PROBLEMASIR.prj</param.project.name>
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Documents and Settings\Yo\My Documents\FQ\Tesis" file="C:\Documents and Settings\Yo\My Documents\FQ\Tesis\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="1046438634" preferred-package-location="C:\Documents and Settings\Yo\My Documents\FQ\Tesis">
+    <param.project.name>C:\Documents and Settings\Yo\My Documents\FQ\Tesis\PROBLEMASIR.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR</param.appname>
     <param.intermediate>${PROJECT_ROOT}\PROBLEMASIR\src</param.intermediate>
     <param.output>${PROJECT_ROOT}\PROBLEMASIR\distrib</param.output>
     <param.embed.ctf>true</param.embed.ctf>
     <param.tbx_on_path>
-      <item>none</item>
+      <item>optim</item>
     </param.tbx_on_path>
     <param.warnings>
       <warning.fullpath>on</warning.fullpath>
@@ -61,7 +61,6 @@
     </fileset.main>
     <fileset.resources>
       <file>${PROJECT_ROOT}\delta_Hr.m</file>
-      <file>${PROJECT_ROOT}\matlab_exts</file>
       <file>${PROJECT_ROOT}\obtenerDatos.m</file>
       <file>${PROJECT_ROOT}\Prob_01_CSTR_Fogler_p8-11.mat</file>
       <file>${PROJECT_ROOT}\Prob_01_CSTR_Fogler_p8-8.mat</file>
@@ -89,19 +88,40 @@
       <file>${PROJECT_ROOT}\resolverCSTR.m</file>
       <file>${PROJECT_ROOT}\resolverPFR.m</file>
       <file>${PROJECT_ROOT}\resolverSEMIBR.m</file>
+      <file>C:\Documents and Settings\Yo\My Documents\git\ir-problemas\matlab_exts</file>
     </fileset.resources>
     <fileset.package>
-      <file special-file="file.mcr" reference-mode="direct">${MATLAB_ROOT}\toolbox\compiler\deploy\win32\MCRInstaller.exe</file>
+      <file>${PROJECT_ROOT}\gui6_variables_default.mat</file>
+      <file>${PROJECT_ROOT}\Prob_01_CSTR_Fogler_p8-11.mat</file>
+      <file>${PROJECT_ROOT}\Prob_01_CSTR_Fogler_p8-8.mat</file>
+      <file>${PROJECT_ROOT}\Prob_01_CSTR_valores.mat</file>
+      <file>${PROJECT_ROOT}\Prob_01_CSTR_valores_Carberry_p175.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_caso_de_estudio_no_est.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores_Carberry_p175.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores_Carberry_p179.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores_Carberry_p179_.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores_Fogler_p8-10.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores_Fogler_p8-10_NUEVOF.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores_Fogler_p8-3.mat</file>
+      <file>${PROJECT_ROOT}\Prob_02_PFR_valores_Fogler_p8-4.mat</file>
+      <file>${PROJECT_ROOT}\Prob_03_BR_Transesterification_Of_SBO.mat</file>
+      <file>${PROJECT_ROOT}\Prob_03_BR_valores_Carberry_p175.mat</file>
+      <file>${PROJECT_ROOT}\Prob_03_BR_valores_Fogler_p8-10.mat</file>
+      <file>${PROJECT_ROOT}\Prob_03_BR_valores_Fogler_p9-1.mat</file>
+      <file>${PROJECT_ROOT}\Prob_03_SEMIBR_valores_Carberry_p175.mat</file>
+      <file>${PROJECT_ROOT}\Prob_03_SEMIBR_valores_Fogler_p9-4.mat</file>
+      <file>${PROJECT_ROOT}\Prob_03_SEMIBR_valores_Fogler_p9-7.mat</file>
     </fileset.package>
     <build-deliverables>
-      <file name="readme.txt" location="${PROJECT_ROOT}\PROBLEMASIR\distrib" optional="true">C:\Users\Yo.PASILLO\Documents\TSSV\documents-export-2013-10-31\PROBLEMASIR\distrib\readme.txt</file>
-      <file name="PROBLEMASIR.exe" location="${PROJECT_ROOT}\PROBLEMASIR\distrib" optional="false">C:\Users\Yo.PASILLO\Documents\TSSV\documents-export-2013-10-31\PROBLEMASIR\distrib\PROBLEMASIR.exe</file>
+      <file name="readme.txt" location="${PROJECT_ROOT}\PROBLEMASIR\distrib" optional="true">C:\Documents and Settings\Yo\My Documents\FQ\Tesis\PROBLEMASIR\distrib\readme.txt</file>
+      <file name="PROBLEMASIR.exe" location="${PROJECT_ROOT}\PROBLEMASIR\distrib" optional="false">C:\Documents and Settings\Yo\My Documents\FQ\Tesis\PROBLEMASIR\distrib\PROBLEMASIR.exe</file>
     </build-deliverables>
     <workflow />
     <matlab>
       <root>C:\Program Files\MATLAB\R2011b</root>
       <path>
-        <directory>C:\Users\Yo.PASILLO\Documents\MATLAB</directory>
+        <directory>C:\Documents and Settings\Yo\My Documents\MATLAB</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlabxl\matlabxl</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlabxl\matlabxldemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlab\demos</directory>
@@ -139,32 +159,6 @@
         <directory>${MATLAB_ROOT}\toolbox\matlab\datamanager</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\simulink</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\instrument</directory>
-        <directory>${MATLAB_ROOT}\toolbox\rtw\targets\AUTOSAR\AUTOSAR</directory>
-        <directory>${MATLAB_ROOT}\toolbox\rtw\accel</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\blocks\library</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\blocks\obsolete</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simulink</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simulink\slresolve</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\blocks</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\components</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\fixedandfloat</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\fixedandfloat\obsolete</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\dee</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simulink\MPlayIO</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simulink\dataobjectwizard</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simdemos</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simdemos\aerospace</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simdemos\automotive</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simdemos\industrial</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simdemos\simfeatures</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simdemos\simgeneral</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simulink\modeladvisor</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\simulink\modeladvisor\fixpt</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\glue</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\glue\studio</directory>
-        <directory>${MATLAB_ROOT}\toolbox\stateflow\stateflow</directory>
-        <directory>${MATLAB_ROOT}\toolbox\stateflow\coder</directory>
-        <directory>${MATLAB_ROOT}\toolbox\stateflow\sfdemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlab\audiovideo</directory>
         <directory>${MATLAB_ROOT}\toolbox\coder\matlabcoder</directory>
         <directory>${MATLAB_ROOT}\toolbox\coder\codegendemos</directory>
@@ -177,34 +171,21 @@
         <directory>${MATLAB_ROOT}\toolbox\shared\comparisons</directory>
         <directory>${MATLAB_ROOT}\toolbox\compiler</directory>
         <directory>${MATLAB_ROOT}\toolbox\compiler\compilerdemos</directory>
-        <directory>${MATLAB_ROOT}\toolbox\control\control</directory>
-        <directory>${MATLAB_ROOT}\toolbox\control\ctrlguis</directory>
-        <directory>${MATLAB_ROOT}\toolbox\control\ctrlobsolete</directory>
-        <directory>${MATLAB_ROOT}\toolbox\control\ctrlutil</directory>
-        <directory>${MATLAB_ROOT}\toolbox\control\ctrldemos</directory>
-        <directory>${MATLAB_ROOT}\help\toolbox\control\examples</directory>
         <directory>${MATLAB_ROOT}\toolbox\curvefit\curvefit</directory>
         <directory>${MATLAB_ROOT}\toolbox\curvefit\splines</directory>
         <directory>${MATLAB_ROOT}\toolbox\curvefit\cftoolgui</directory>
         <directory>${MATLAB_ROOT}\toolbox\curvefit\sftoolgui</directory>
         <directory>${MATLAB_ROOT}\toolbox\curvefit\curvefitdemos</directory>
-        <directory>${MATLAB_ROOT}\toolbox\daq\daq</directory>
-        <directory>${MATLAB_ROOT}\toolbox\daq\daqguis</directory>
-        <directory>${MATLAB_ROOT}\toolbox\daq\daqblks\daqblks</directory>
-        <directory>${MATLAB_ROOT}\toolbox\daq\daqblks\daqmasks</directory>
-        <directory>${MATLAB_ROOT}\toolbox\daq\daqblks\daqmex</directory>
-        <directory>${MATLAB_ROOT}\toolbox\daq\daqdemos</directory>
-        <directory>${MATLAB_ROOT}\toolbox\database\database</directory>
-        <directory>${MATLAB_ROOT}\toolbox\database\vqb</directory>
-        <directory>${MATLAB_ROOT}\toolbox\database\dbdemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\dotnetbuilder\dotnetbuilder</directory>
         <directory>${MATLAB_ROOT}\toolbox\dotnetbuilder\dotnetbuilderdemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\eml\eml</directory>
         <directory>${MATLAB_ROOT}\toolbox\exlink</directory>
-        <directory>${MATLAB_ROOT}\toolbox\fixedpoint\fixedpointtool</directory>
-        <directory>${MATLAB_ROOT}\toolbox\fixedpoint\fidemos</directory>
+        <directory>${MATLAB_ROOT}\toolbox\finance\finance</directory>
+        <directory>${MATLAB_ROOT}\toolbox\finance\calendar</directory>
+        <directory>${MATLAB_ROOT}\toolbox\finance\finsupport</directory>
+        <directory>${MATLAB_ROOT}\toolbox\finance\ftseries</directory>
+        <directory>${MATLAB_ROOT}\toolbox\finance\findemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\fixedpoint\fixedpoint</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\fixedandfloat\fxpdemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\idelink</directory>
         <directory>${MATLAB_ROOT}\toolbox\idelink\extensions\adivdsp</directory>
         <directory>${MATLAB_ROOT}\toolbox\idelink\extensions\adivdsp\mdlinfo</directory>
@@ -270,55 +251,36 @@
         <directory>${MATLAB_ROOT}\toolbox\javabuilder\javabuilder</directory>
         <directory>${MATLAB_ROOT}\toolbox\javabuilder\javabuilderdemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\sam\m3i</directory>
-        <directory>${MATLAB_ROOT}\toolbox\slvnv\reqmgt</directory>
-        <directory>${MATLAB_ROOT}\toolbox\slvnv\slvnv</directory>
-        <directory>${MATLAB_ROOT}\toolbox\slvnv\rmidemos</directory>
+        <directory>${MATLAB_ROOT}\toolbox\optim\optim</directory>
+        <directory>${MATLAB_ROOT}\toolbox\optim\optimdemos</directory>
+        <directory>${MATLAB_ROOT}\toolbox\pde</directory>
+        <directory>${MATLAB_ROOT}\toolbox\pde\pdedemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\rptgen\rptgen</directory>
         <directory>${MATLAB_ROOT}\toolbox\rptgen\rptgenv1</directory>
         <directory>${MATLAB_ROOT}\toolbox\rptgen\rptgendemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\rptgen\xmlcomp</directory>
-        <directory>${MATLAB_ROOT}\toolbox\simulink\blocks\sb2sl</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\asynciolib</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\can</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\can\canblks</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\can\canmasks</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\can\canmex</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\cgir_fe</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\controllib\engine</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\controllib\engine\options</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\controllib\engine\optim</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\controllib\general</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\controllib\graphics</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\controllib\requirements</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\dastudio</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\dastudio\depviewer</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\dspblks\dspblks</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\dspblks\dspmex</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\eml\eml</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\hdlshared</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\optimlib</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\rptgen</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\sigbldr</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\siglib</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\slcontrollib</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\sldv</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\slvnv</directory>
-        <directory>${MATLAB_ROOT}\toolbox\slvnv\simcoverage</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\spcuilib</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\statslib</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\testmeaslib\general</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\testmeaslib\graphics</directory>
         <directory>${MATLAB_ROOT}\toolbox\shared\testmeaslib\simulink</directory>
-        <directory>${MATLAB_ROOT}\toolbox\sl3d\sl3d</directory>
-        <directory>${MATLAB_ROOT}\toolbox\sl3d\sl3ddemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\stats\stats</directory>
         <directory>${MATLAB_ROOT}\toolbox\stats\classreg</directory>
         <directory>${MATLAB_ROOT}\toolbox\stats\statsdemos</directory>
-        <directory>${MATLAB_ROOT}\toolbox\stm\stm</directory>
-        <directory>${MATLAB_ROOT}\toolbox\stm\stmdemos</directory>
         <directory>${MATLAB_ROOT}\toolbox\symbolic\symbolic</directory>
         <directory>${MATLAB_ROOT}\toolbox\symbolic\symbolicdemos</directory>
-        <directory>${MATLAB_ROOT}\toolbox\shared\system</directory>
         <directory>${MATLAB_ROOT}\toolbox\target\extensions\processor\blackfin</directory>
         <directory>${MATLAB_ROOT}\toolbox\target\extensions\processor\blackfin\blks</directory>
         <directory>${MATLAB_ROOT}\toolbox\target\extensions\processor\blackfin\blks\mex</directory>
@@ -405,11 +367,13 @@
         <directory>${PROJECT_ROOT}\matlab_exts\afemmatlab\AFEM@matlab\7_CodeMap\AFEM@matlab\6_Tool</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\afemmatlab\__MACOSX</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\afemmatlab\__MACOSX\AFEM@matlab</directory>
+        <directory>${PROJECT_ROOT}\matlab_exts\basicFunctions</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\cell2csv</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\gaffe</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\getxls</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\hpde</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\hpde\examples</directory>
+        <directory>${PROJECT_ROOT}\matlab_exts\hpde\manuscript</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\hpde\solver</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\odeabort</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\plotxx</directory>
@@ -421,11 +385,11 @@
       <mac>false</mac>
       <windows>true</windows>
       <win2k>false</win2k>
-      <winxp>false</winxp>
+      <winxp>true</winxp>
       <vista>false</vista>
       <linux>false</linux>
       <solaris>false</solaris>
-      <osver>6.1</osver>
+      <osver>5.1</osver>
       <os32>true</os32>
       <os64>false</os64>
       <arch>win32</arch>
