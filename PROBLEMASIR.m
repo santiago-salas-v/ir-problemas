@@ -633,7 +633,12 @@ function uipushtool1_ClickedCallback(hObject, eventdata, handles)
 global solucionAnalisisEstacionario solucionAnalisisNoEstacionario
 solucionAnalisisEstacionario={};
 solucionAnalisisNoEstacionario={};
-[FileName,PathName,~]=uigetfile('*.mat;*.xlsx;*.xls');
+[success,~] = mkdir('DATA');
+if success 
+    [FileName,PathName,~]=uigetfile('./DATA/*.mat;*.xlsx;*.xls');    
+else
+    [FileName,PathName,~]=uigetfile('./*.mat;*.xlsx;*.xls');
+end
 Datos={};
 if FileName~=0
     extension=regexp(FileName,'.mat$|.xls$|.xlsx$','match');
@@ -756,7 +761,7 @@ function uipushtool9_ClickedCallback(hObject, eventdata, handles)
 % hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
-success = mkdir('exports');
+[success,MESSAGE,MESSAGEID] = mkdir('exports');
 success = success && fileattrib('./exports','+w');
 if success
     fileName=['exported_',...
@@ -765,7 +770,7 @@ if success
     msgbox(['Data written to: ',['./exports/',fileName],'.xls']);
 else
     msgbox(['Falla en permisos al generar directorio: "./export" ',...
-        '. Favor de exportar manualmente']);
+        '. Favor de exportar manualmente:',MESSAGEID,',',MESSAGE]);
 end
 end
 
@@ -774,11 +779,28 @@ function uipushtool5_ClickedCallback(hObject, eventdata, handles)
 % hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
-Datos = get(handles.uitable1,'Data');
-[FileName,PathName,FilterIndex]=uiputfile('./*.mat',...
-    'Guardar estado de variables');
+[success,~] = mkdir('DATA');
+success = success && fileattrib('./DATA','+w');
+if success
+    [FileName,PathName,~]=uiputfile({'*.mat';'*.xls'},...
+        'Guardar estado de variables','./DATA/*.xls');
+else
+    [FileName,PathName,~]=uiputfile({'*.mat';'*.xls'},...
+        'Guardar estado de variables','./*.xls');
+end
 if FileName~=0
-    save(FileName, 'Datos');
+    extension=regexp(FileName,'.mat$|.xls$|.xlsx$','match');
+    if isempty(extension)
+        extension='.xls';
+        FileName=[FileName,extension];
+    end
+    if strcmp('.mat',extension)
+        save([PathName,FileName], get(handles.uitable1,'Data'));
+    elseif strcmp(extension,'.xls') ||...
+            strcmp(extension,'.xlsx')
+        xlswrite([PathName,FileName],...
+            get(handles.uitable1,'Data'));    
+    end
 end
 end
 
