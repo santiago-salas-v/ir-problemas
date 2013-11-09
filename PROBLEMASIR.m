@@ -674,6 +674,10 @@ cellArraySinNaN=...
     cellfun(@(x)NaN2Empty(x),cellArrayConNaN,'UniformOutput',false);
 end
 
+function output = nombreDeVariable(variable)
+    output = inputname(1);
+end
+
 function cambiarTextoDeAnotacion(varargin)
 %CAMBIARTEXTODEANOTACION para utilizar como ButtonDownFcn
 % de reemplazar texto en TextBox anotación de gráfica por el
@@ -779,6 +783,7 @@ function uipushtool5_ClickedCallback(hObject, eventdata, handles)
 % hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
+Datos = get(handles.uitable1,'Data');
 [success,~] = mkdir('DATA');
 success = success && fileattrib('./DATA','+w');
 if success
@@ -795,7 +800,7 @@ if FileName~=0
         FileName=[FileName,extension];
     end
     if strcmp('.mat',extension)
-        save([PathName,FileName], get(handles.uitable1,'Data'));
+        save([PathName,FileName],nombreDeVariable(Datos));
     elseif strcmp(extension,'.xls') ||...
             strcmp(extension,'.xlsx')
         xlswrite([PathName,FileName],...
