@@ -10,9 +10,7 @@ Pasos para correr la aplicación:
 1.  Descargar e instalar el entorno independiente para aplicaciones Matlab "MCR". Disponible para Windows, Linux, Mac.
     http://www.mathworks.com/products/compiler/mcr/
 2.  Descargar ejecutable PROBLEMASIR_pkg para su sistema (los siguientes enlaces llevan a sourceforge.net)
-    Windows:    http://sourceforge.net/projects/ir-problemas-distrib/files/PROBLEMASIR_pkg.exe/download
-    Mac:        (implementando)
-    Linux:      (implementando)
+    https://sourceforge.net/projects/ir-problemas-distrib/
 3.  Guardar el ejecutable PROBLEMASIR_pkg en una localización en la computadora:
     Por ejemplo "C:\Users\NombreDeUsuario\My Documents\IRPROBLEMAS"
 4.  Correr el ejecutable PROBLEMASIR_pkg
