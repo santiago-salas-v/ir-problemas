@@ -1,6 +1,8 @@
 *.exe
 *.asv
 *ignorethis*
+*.tmp
+*~$.*
 PROBLEMASIR
 matlab_exts/afemmatlab/
 matlab_exts/unit_conversions/
