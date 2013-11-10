@@ -713,8 +713,21 @@ if numel(varargin)>1
     if ishandle(h) && strcmp(get(h,'Type'),'line')
         try
             inspect(h);
-        catch error 
-            msgbox(error.message,'Error','error');
+        catch error    
+            % Si Java está limitado, registrar error en log ya que 
+            % no estará disponible la funcion INSPECT
+            report=getReport(error);
+            openedFile=fopen('./error_ignorethis.log','a+');
+            fprintf(openedFile,'=====================================');
+            fprintf(openedFile,'\n');
+            fprintf(openedFile,'%s',...
+                datestr(now,'dd-mmm-yyyy-HH-MM-SS PM'));
+            fprintf(openedFile,'\n');
+            fprintf(openedFile,'%s',report);
+            fprintf(openedFile,'\n');
+            fprintf(openedFile,'=====================================');
+            fprintf(openedFile,'\n');
+            fclose(openedFile);
         end
     end
 end
