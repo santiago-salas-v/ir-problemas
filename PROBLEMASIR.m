@@ -454,7 +454,8 @@ for i=1:size(VariablesDepGraficadas,1)
                         'LineStyle','-','LineWidth',1e-8,...
                         'EdgeColor',[0.1,0.1,0.1]);
                     set(h(end),'DisplayName',[Variable,',',...
-                        VariablesDepGraficadas{i,2}]);
+                        VariablesDepGraficadas{i,2}]);                 
+                    set(h(end),'ButtonDownFcn',@inspeccionarLinea);
                     view(0,0);
                 else
                     h=plot(handles.axes1,X,Y,...
@@ -466,6 +467,7 @@ for i=1:size(VariablesDepGraficadas,1)
                         'LineWidth',2);
                     set(h(end),'DisplayName',[Variable,',',...
                         VariablesDepGraficadas{i,2}]);
+                    set(h(end),'ButtonDownFcn',@inspeccionarLinea);
                     if strcmp(Datos_struct.Tipo,'CSTR')...
                             && Datos_struct.MostrarEstadosEstacionarios
                         h=plot(handles.axes1,X_Edos_Est,Y_Edos_Est,...
@@ -477,6 +479,7 @@ for i=1:size(VariablesDepGraficadas,1)
                         set(h(end),'MarkerSize',...
                             3*get(h(end),'MarkerSize'));
                         set(h(end),'LineStyle','none');
+                        set(h(end),'ButtonDownFcn',@inspeccionarLinea);
                     end
                     view(2);
                 end
@@ -492,6 +495,7 @@ for i=1:size(VariablesDepGraficadas,1)
                         'EdgeColor',[0.1,0.1,0.1]);
                     set(h(end),'DisplayName',[Variable,',',...
                         VariablesDepGraficadas{i,2}]);
+                    set(h(end),'ButtonDownFcn',@inspeccionarLinea);
                     view(3);
                 else
                     h=plot3(handles.axes1,X,Z,Y,...
@@ -503,6 +507,7 @@ for i=1:size(VariablesDepGraficadas,1)
                         'LineWidth',2);
                     set(h(end),'DisplayName',[Variable,',',...
                         VariablesDepGraficadas{i,2}]);
+                    set(h(end),'ButtonDownFcn',@inspeccionarLinea);
                     if strcmp(Datos_struct.Tipo,'CSTR')...
                             && Datos_struct.MostrarEstadosEstacionarios
                         h=plot3(handles.axes1,...
@@ -516,6 +521,7 @@ for i=1:size(VariablesDepGraficadas,1)
                         set(h(end),'MarkerSize',...
                             2*get(h(end),'MarkerSize'));
                         set(h(end),'LineStyle','none');
+                        set(h(end),'ButtonDownFcn',@inspeccionarLinea);
                     end
                     view(3);
                 end
@@ -661,8 +667,8 @@ end
 end
 
 function cellArraySinNaN=quitarNaN(cellArrayConNaN)
-%QUITARNAN reemplaza valores NaN generados en array de
-% celdas al importar de Excel.
+%QUITARNAN(varargin) reemplaza valores NaN generados en array de
+% celdas contenido en cellArrayConNaN al importar de Excel.
 % DatosSinNaN = QUITARNAN(DatosConNaN) regresa matriz
 % DatosSinNaN donde el valor NaN fue reemplazado de
 % la matriz DatosConNaN por [].
@@ -675,6 +681,9 @@ cellArraySinNaN=...
 end
 
 function output = nombreDeVariable(variable)
+%NOMBREDEVARIABLE(variable) toma una variable y regresa su nombre.
+% Útil para usarse con la función save, que únicamente acepta texto
+% con el nombre de la variable.
     output = inputname(1);
 end
 
@@ -691,6 +700,18 @@ if numel(varargin)>1
         respuesta=inputdlg('Nuevo valor','Cambiar valor',...
             1,get(h,'String'));
         set(h,'String',respuesta);
+    end
+end
+end
+
+function inspeccionarLinea(varargin)
+%INSPECCIONARLINEA(varargin) Función para mostrar al usuario las 
+% propiedades de las líneas cuando hace click en ellas, permitiendo
+% su edición.
+if numel(varargin)>1
+    h=varargin{1};
+    if ishandle(h) && strcmp(get(h,'Type'),'line')
+        inspect(h);
     end
 end
 end
