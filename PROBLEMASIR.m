@@ -711,7 +711,11 @@ function inspeccionarLinea(varargin)
 if numel(varargin)>1
     h=varargin{1};
     if ishandle(h) && strcmp(get(h,'Type'),'line')
-        inspect(h);
+        try
+            inspect(h);
+        catch error 
+            msgbox(error.message,'Error','error');
+        end
     end
 end
 end
