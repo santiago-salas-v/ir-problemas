@@ -1,6 +1,5 @@
-% Resuelve los perfiles para SEMIBR
 function Datos_struct_final = resolverSEMIBR(Datos_struct)    
-
+%RESOLVERSEMIBR Resuelve los perfiles para SEMIBR
 Isot=Datos_struct.Isot;
 Coefs_esteq=Datos_struct.Coefs_esteq;
 nComps=Datos_struct.nComps;

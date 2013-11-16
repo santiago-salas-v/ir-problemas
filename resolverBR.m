@@ -1,6 +1,5 @@
-% Resuelve los perfiles para BR
 function Datos_struct_final = resolverBR(Datos_struct)    
-
+%RESOLVERBR Resuelve los perfiles para BR
 Isot=Datos_struct.Isot;
 Coefs_esteq=Datos_struct.Coefs_esteq;
 nComps=Datos_struct.nComps;

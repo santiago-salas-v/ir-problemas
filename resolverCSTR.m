@@ -1,6 +1,5 @@
-% Resuelve los perfiles para CSTR
 function Datos_struct_final = resolverCSTR(Datos_struct)
-
+%RESOLVERCSTR Resuelve los perfiles para CSTR
 Isot=Datos_struct.Isot;
 Estacionario=Datos_struct.Estacionario;
 Incompresible=Datos_struct.Incompresible;
