@@ -282,10 +282,8 @@ elseif strcmp(Datos_struct.Tipo,'SEMIBR')
     Datos{strcmp(Datos,'A'),2}=Datos_struct.A;
 elseif strcmp(Datos_struct.Tipo,'CSTR')
     Datos{strcmp(Datos,'A'),2}=Datos_struct.A;
-    Datos{strcmp(Datos,'theta'),2}=Datos_struct.theta;
 elseif strcmp(Datos_struct.Tipo,'PFR')
     Datos{strcmp(Datos,'a'),2}=Datos_struct.a;
-    Datos{strcmp(Datos,'theta'),2}=Datos_struct.theta;    
 end
     
 %Compresible no estacionario no se ha implementado
