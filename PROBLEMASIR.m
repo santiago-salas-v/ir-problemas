@@ -352,7 +352,9 @@ for i=1:size(VariablesDepGraficadas,1)
                     if strcmp(Datos_struct.Tipo,'CSTR')
                         Y=Datos_struct.(Var);
                         Y_Edos_Est=Datos_struct.([Var,'_Edos_Est']);
-                        Y_Edos_Est=Y_Edos_Est(index,:);
+                        if ~isnan(Y_Edos_Est)
+                            Y_Edos_Est=Y_Edos_Est(index,:);
+                        end
                     else
                         Y=Datos_struct.(Var);
                     end
@@ -773,9 +775,18 @@ end
 dcm_obj=datacursormode(handles.figure1);
 info_struct = getCursorInfo(dcm_obj);
 for i=1:length(info_struct)
-    text('Parent',axes2,'Position',info_struct(i).Position,...
+    puntoMedioX=mean(get(axes2,'XLim'));
+    posicionEnX=info_struct(i).Position(1);
+    if posicionEnX >= puntoMedioX
+        text('Parent',axes2,'Position',info_struct(i).Position,...
+        'String',[mat2str(info_struct(i).Position',4),...
+        '\rightarrow\bullet',],'Fontweight','bold',...
+        'HorizontalAlignment','right');
+    else
+        text('Parent',axes2,'Position',info_struct(i).Position,...
         'String',['\bullet\leftarrow',...
         mat2str(info_struct(i).Position',4)],'Fontweight','bold');
+    end    
 end
 if isfield(handles,'annotations')
     c=cell(size(handles.annotations));    
