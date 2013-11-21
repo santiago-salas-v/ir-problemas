@@ -352,7 +352,7 @@ for i=1:size(VariablesDepGraficadas,1)
                     if strcmp(Datos_struct.Tipo,'CSTR')
                         Y=Datos_struct.(Var);
                         Y_Edos_Est=Datos_struct.([Var,'_Edos_Est']);
-                        if ~isnan(Y_Edos_Est)
+                        if ~all(all(arrayfun(@isnan,Y)))
                             Y_Edos_Est=Y_Edos_Est(index,:);
                         end
                     else
@@ -532,6 +532,11 @@ for i=1:size(VariablesDepGraficadas,1)
     end
 end
 if ~isempty(get(handles.axes1,'Children'))
+    set(handles.axes1,'Position',...
+        [69.800000000000000,...
+        11.230769230769232,...
+        67.600000000000010,...
+        19.615384615384620]);
     legend(handles.axes1,'show');
     xlabel(handles.axes1,...
         [VariableIndep1String,' , ',...
