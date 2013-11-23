@@ -86,8 +86,9 @@ if Estacionario
         (T0-T)+...
         -(Qa0*rhoCp_a)./(Vr*rho_Cp).*(Ta0-T)*(1-exp(-U*A./(Qa0*rhoCp_a)));
     try
-        T_Edos_Est=rmsearch(@(x)interp1(T,qrem-qgen,x),...
-            'fzero',Tmax/2,1e-10,Tmax,'InitialSample',1*length(T));
+        % crossing.m
+        % http://www.mathworks.com/matlabcentral/fileexchange/2432-crossing
+        [~,T_Edos_Est]=crossing(qrem-qgen,T);
         C_Edos_Est=interp1(T,C',T_Edos_Est)';
         Ta_Edos_Est=interp1(T,Ta,T_Edos_Est);
         r_Edos_Est=interp1(T,r',T_Edos_Est)';
