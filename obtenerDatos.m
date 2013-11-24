@@ -228,6 +228,18 @@ for i=1:length(Datos_struct.productosConSelectividad)
     VariablesDep{Row,2}='[adim]';
 end
 
+if strcmp(Datos_struct.Tipo,'PFR')
+    Row=Row+1;
+    VariablesDep{Row,1}='[F]';
+    VariablesDep{Row,2}='gmol/min';
+    VariablesDep{Row,4}='FLUJO MOLAR';
+    for i=1:Datos_struct.nComps
+        Row=Row+1;
+        VariablesDep{Row,1}=['F',Datos_struct.labels{i}];
+        VariablesDep{Row,2}=VariablesDep{Row-i,2};
+    end 
+end
+
 Row=Row+1;
 VariablesDep{Row,1}='[Q]';
 VariablesDep{Row,2}='[L/min]';

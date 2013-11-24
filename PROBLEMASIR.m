@@ -339,7 +339,7 @@ for i=1:size(VariablesDepGraficadas,1)
         end
         if isfield(Datos_struct,Var)
             switch Var
-                case {'C' , 'X', 'Y', 'S'}
+                case {'C' , 'X', 'Y', 'S','F'}
                     if ~isempty(strfind(Variable,'Yconsumo'))
                         label=Variable(...
                             length('Yconsumo')+1:length(Variable));
