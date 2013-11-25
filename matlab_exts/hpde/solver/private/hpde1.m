@@ -31,6 +31,7 @@ variable_step = isa(timestep,'function_handle');
 t = sol.t;
 x = sol.x;
 u = sol.u;
+du = zeros(size(sol.u));
 
 M = length(x);                         % number of mesh points
 dx = x(2) - x(1);                      % increment in space
@@ -79,8 +80,10 @@ while ~done
     Fval = feval(pdefun,t,x(2:M-1),umid,uxmid);
     if LxF
         u(:,2:M-1) = umid + 0.5*dt*Fval;
+        du(:,2:M-1)= Fval;
     else
         u(:,2:M-1) = u(:,2:M-1) + dt*Fval;
+        du(:,2:M-1)= Fval;
     end
     t = t + 0.5*dt;
     
@@ -93,15 +96,18 @@ while ~done
         
         if have_NL
             u(NeumannL,1) = u(NeumannL,2);
+            du(NeumannL,1) = du(NeumannL,2);
         end
         if have_NR
             u(NeumannR,M) = u(NeumannR,M-1);
+            du(NeumannR,M) = du(NeumannR,M-1);
         end
     end
     
     if smooth
         for eqn = 1:npdes
             u(eqn,1:M) = nlfilter2p1(u(eqn,1:M));
+            du(eqn,1:M) = nlfilter2p1(du(eqn,1:M));
         end
     end  
     
@@ -112,6 +118,7 @@ end
 % Load results in structure for return:
 sol.t = t;
 sol.u = u;
+sol.du = du;
 
 % end function hpde1
 

@@ -174,19 +174,11 @@ VariablesDep{Row,1}='[q]';
 VariablesDep{Row,2}='K/min';
 VariablesDep{Row,4}='CALOR TRANSF/rhoCp';
 Row=Row+1;
-VariablesDep{Row,1}='qiservicio';
+VariablesDep{Row,1}='qgen';
 VariablesDep{Row,2}=VariablesDep{Row-1,2};
 Row=Row+1;
-VariablesDep{Row,1}='qiproceso';
+VariablesDep{Row,1}='qrem';
 VariablesDep{Row,2}=VariablesDep{Row-1,2};
-if strcmp(Datos_struct.Tipo,'CSTR')
-    Row=Row+1;
-    VariablesDep{Row,1}='qgen';
-    VariablesDep{Row,2}=VariablesDep{Row-1,2};
-    Row=Row+1;
-    VariablesDep{Row,1}='qrem';
-    VariablesDep{Row,2}=VariablesDep{Row-1,2};
-end
 Row=Row+1;
 VariablesDep{Row,1}='[X]';
 VariablesDep{Row,2}='[adim]';

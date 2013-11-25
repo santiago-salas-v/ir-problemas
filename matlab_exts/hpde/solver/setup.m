@@ -110,6 +110,7 @@ sol.pdefun = pdefun;
 sol.t = t;
 sol.x = x;
 sol.u = u;
+sol.du = zeros(size(u));
 
 sol.nstep = 0;
 
