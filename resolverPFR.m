@@ -679,10 +679,10 @@ end
 for j=1:size(C,1)
     if ismember(j,productosSonCompsNo)
         if length(size(C))<3
-            Y(j,:)=F(j,:)./...
+            Y(j,:)=(F(j,:)-F0(j))./...
                 (F0(Ref_Rendimiento));
         else
-            Y(j,:,:)=F(j,:,:)./...
+            Y(j,:,:)=(squeeze(F(j,:,:))-F0(j))./...
                 (F0(Ref_Rendimiento));
         end
     end
@@ -702,11 +702,10 @@ end
 for j=1:size(C,1)
     if j~=Ref_Selectividad && ismember(j,productosSonCompsNo)
         if length(size(C))<3
-            S(j,:)=(F(j,:)-F0(j))./...
-                (F(Ref_Selectividad,:)-F0(Ref_Selectividad));
+            S(j,:)=Y(j,:)/Y(Ref_Selectividad,:);
         else
-            S(j,:,:)=(squeeze(F(j,:,:))-F0(j))./...
-                (squeeze(F(Ref_Selectividad,:,:))-F0(Ref_Selectividad));
+            S(j,:,:)=squeeze(Y(j,:,:))./...
+                squeeze(Y(Ref_Selectividad,:,:));
         end
     end
 end

@@ -208,44 +208,41 @@ Yconsumo=NaN*zeros(size(C));
 %CONVERSIÓN
 for j=1:size(C,1)
     if ismember(j,reactivosSonCompsNo)
-        if length(size(C))<3
-            X(j,:)=(Q0.*C0(j)-Q.*C(j,:))./(Q0.*C0(j));
+        if t==inf
+            X(j,:)=...
+                (Q0*C0(j)-Q0*C(j,:))./...
+                (Q0*C0(j));
         else
-            X(j,:,:)=(Q0.*C0(j)-Q.*squeeze(C(j,:,:)))./(Q0.*C0(j));
+            X(j,:)=...
+                (Vr.*C_t0(j)+Q0*t*C0(j)-Q0*t.*C(j,:))./...
+                (Vr.*C_t0(j)+Q0*t*C0(j));
         end
     end
 end
 %RENDIMIENTO POR ALIMENTACIÓN
 for j=1:size(C,1)
     if ismember(j,productosSonCompsNo)
-        if length(size(C))<3
-            Y(j,:)=Q.*C(j,:)./...
-                (Q0.*C0(Ref_Rendimiento));
+        if t==inf
+            Y(j,:)=(Q.*C(j,:)-Q0.*C0(j))./...
+                (Q0*C0(Ref_Rendimiento));
         else
-            Y(j,:,:)=Q.*C(j,:,:)./...
-                (Q0.*C0(Ref_Rendimiento));
+            Y(j,:)=...
+                (Q0*t.*C(j,:)-Vr.*C_t0(j)-Q0*t*C0(j))./...
+                (Vr*C_t0(Ref_Rendimiento)+...
+                Q0*t*C0(Ref_Rendimiento));            
         end
     end
 end
 %RENDIMIENTO POR CONSUMO
 for j=1:size(C,1)
     if ismember(j,productosSonCompsNo)
-        if length(size(C))<3
-            Yconsumo(j,:)=Y(j,:)./X(Ref_Rendimiento,:);
-        else
-            Yconsumo(j,:,:)=Y(j,:,:)./...
-                (X(Ref_Rendimiento,:,:));
-        end
+        Yconsumo(j,:)=Y(j,:)./X(Ref_Rendimiento,:);
     end
 end
 %SELECTIVIDAD
 for j=1:size(C,1)
     if j~=Ref_Selectividad && ismember(j,productosSonCompsNo)
-        if length(size(C))<3
-            S(j,:)=Q.*C(j,:)./(Q.*C(Ref_Selectividad,:));
-        else
-            S(j,:,:)=Q.*C(j,:,:)./(Q.*C(Ref_Selectividad,:,:));
-        end
+       S(j,:)=Y(j,:)./Y(Ref_Selectividad,:);
     end
 end
 
