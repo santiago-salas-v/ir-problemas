@@ -64,7 +64,7 @@ if Estacionario
                 dT_en_dz = 0*ones(1,size(C,2));
                 F=C*Q0/1000;%mol/min
                 Q=Q0/1000*ones(size(z));%L/min
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
             elseif ~Incompresible
                 M=1/Az*1000*eye(nComps);%1/cm^2*cm^3/L
                 odeOptions=odeset('Mass',M,'OutputFcn',@odeprog,...
@@ -87,7 +87,7 @@ if Estacionario
                     C(j,:)=sum(C0)*F(j,:)./sum(F,1);
                 end
                 Q=sum(F,1)./sum(C,1);%L/min
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
             end            
         elseif factorCoContraCorriente==-1
             %-1 Contra-Corriente
@@ -110,7 +110,7 @@ if Estacionario
                 dT_en_dz = 0*ones(1,size(C,2));
                 F=C*Q0/1000;%mol/min
                 Q=Q0/1000*ones(size(z));%L/min
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
             elseif ~Incompresible
                 M=1/Az*1000*eye(nComps);%1/cm^2*cm^3/L
                 odeOptions=odeset('Mass',M,'OutputFcn',@odeprog,...
@@ -133,15 +133,13 @@ if Estacionario
                     C(j,:)=sum(C0)*F(j,:)./sum(F,1);
                 end
                 Q=sum(F,1)./sum(C,1);
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);                
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);                
             end  
         end
         % Ta ya está fija por el balance de materia y energía 
         % únicamente en el fluido de proceso. Calcular Ta.
         rho_Cp=CpMolares*C;
-        Ta=-1/(U*a)*(-DHr*r)+T;
-        qiproceso=U*a./(rho_Cp).*(Ta-T);
-        qiservicio=-U*a./(rhoCp_a).*(Ta-T);
+        Ta=-1/(U*a)*(-DHr*r)+T;        
         qgen=1./(rho_Cp).*(sum(...
             (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares))'.*r,1));
         qrem=+Q./Az.*dT_en_dz+...
@@ -186,7 +184,7 @@ if Estacionario
                 Ta=sol.y(end,:);
                 F=C*Q0/1000;%mol/min
                 Q=Q0/1000*ones(size(z));%L/min
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);       
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);       
                 [~,dy_en_dz] = deval(sol,z);
                 dT_en_dz = dy_en_dz(end-1,:);
             elseif ~Incompresible
@@ -228,7 +226,7 @@ if Estacionario
                     C(j,:)=sum(C0)*F(j,:)./sum(F,1).*T0./T;
                 end
                 Q=sum(F,1)./sum(C,1);
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);  
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);  
                 [~,dy_en_dz] = deval(sol,z);
                 dT_en_dz = dy_en_dz(end-1,:);
             end
@@ -277,7 +275,7 @@ if Estacionario
                 Ta=sol.y(end,:);
                 F=C*Q0/1000;%mol/min
                 Q=Q0/1000*ones(size(z));%L/min
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);   
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);   
                 [~,dy_en_dz] = deval(sol,z);
                 dT_en_dz = dy_en_dz(end-1,:);
             elseif ~Incompresible
@@ -329,14 +327,12 @@ if Estacionario
                     C(j,:)=sum(C0)*F(j,:)./sum(F,1).*T0./T;
                 end
                 Q=sum(F,1)./sum(C,1);
-                r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref); 
+                [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref); 
                 [~,dy_en_dz] = deval(sol,z);
                 dT_en_dz = dy_en_dz(end-1,:);
             end
         end
-        rho_Cp=CpMolares*C;
-        qiproceso=U*a./(rho_Cp).*(Ta-T);
-        qiservicio=-U*a./(rhoCp_a).*(Ta-T);
+        rho_Cp=CpMolares*C;        
         qgen=1./(rho_Cp).*(sum(...
             (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares))'.*r,1));
         qrem=+Q./Az.*dT_en_dz+...
@@ -440,8 +436,9 @@ elseif ~Estacionario
         end
         rho_Cp=zeros(size(T));   
         r=zeros(nReacs,nPuntos,nTiempos);                  
+        k=zeros(nReacs,nPuntos,nTiempos);                  
         for j=1:nPuntos
-            r(:,j,:)=rapideces(squeeze(C(:,j,:)),...
+            [r(:,j,:),k(:,j,:)]=rapideces(squeeze(C(:,j,:)),...
                 T(j,:),Exponentes_r,k0,E,R,T0ref);            
         end       
         for j=1:size(rho_Cp,1)
@@ -471,9 +468,7 @@ elseif ~Estacionario
         for j=1:nTiempos
             Ta_z(:,j)=interp1((z(1:end-1)+z(2:end))/2,...
                 diff(Ta(:,j)')./diff(z),z);
-        end
-        qiproceso=U*a./(rho_Cp).*(Ta-T);
-        qiservicio=-U*a./(rhoCp_a).*(Ta-T);        
+        end        
         Qa=Aza/factorCoContraCorriente*(...
             -U*a./(rhoCp_a).*(Ta-T)-Ta_t).*(1./Ta_z);
     elseif ~Isot
@@ -540,6 +535,7 @@ elseif ~Estacionario
                 Ta=squeeze(Y(end,:,:));
                 Q=squeeze(sum(F,1)./sum(C,1));
                 r=zeros(nReacs,nPuntos,nTiempos);               
+                k=zeros(nReacs,nPuntos,nTiempos);               
                 qgen=zeros(size(T));
                 qrem=zeros(size(T));
                 rho_Cp=zeros(size(T));                
@@ -547,16 +543,14 @@ elseif ~Estacionario
                     rho_Cp(j,:)=CpMolares*squeeze(C(:,j,:));
                 end
                 for j=1:nPuntos
-                    r(:,j,:)=rapideces(squeeze(C(:,j,:)),...
+                    [r(:,j,:),k(:,j,:)]=rapideces(squeeze(C(:,j,:)),...
                         T(j,:),Exponentes_r,k0,E,R,T0ref);                    
                     qgen(j,:)=1./(rho_Cp(j,:)).*(sum(...
                         (-delta_Hr(T(j,:),delta_Hf,Coefs_esteq,CpMolares...
                         ))'.*squeeze(r(:,j,:)),1));
                     qrem(j,:)=+Q(j,:)./Az.*dT_en_dz(j,:)+...
                         -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:));
-                end
-                qiproceso=U*a./(rho_Cp).*(Ta-T);
-                qiservicio=-U*a./(rhoCp_a).*(Ta-T);
+                end                
                 Qa=Qa0*ones(size(T));
             elseif ~Incompresible
                 
@@ -627,6 +621,7 @@ elseif ~Estacionario
                 Ta=squeeze(Y(end,:,:));
                 Q=squeeze(sum(F,1)./sum(C,1));
                 r=zeros(nReacs,nPuntos,nTiempos);
+                k=zeros(nReacs,nPuntos,nTiempos);
                 rho_Cp=zeros(size(T));
                 qgen=zeros(size(T));
                 qrem=zeros(size(T));
@@ -634,16 +629,14 @@ elseif ~Estacionario
                     rho_Cp(j,:)=CpMolares*squeeze(C(:,j,:));
                 end
                 for j=1:nPuntos
-                    r(:,j,:)=rapideces(squeeze(C(:,j,:)),...
+                    [r(:,j,:),k(:,j,:)]=rapideces(squeeze(C(:,j,:)),...
                         T(j,:),Exponentes_r,k0,E,R,T0ref);
                     qgen(j,:)=1./(rho_Cp(j,:)).*(sum(...
                         (-delta_Hr(T(j,:),delta_Hf,Coefs_esteq,CpMolares...
                         ))'.*squeeze(r(:,j,:)),1));
                     qrem(j,:)=+Q(j,:)./Az.*dT_en_dz(j,:)+...
                         -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:));
-                end                
-                qiproceso=U*a./(rho_Cp).*(Ta-T);
-                qiservicio=-U*a./(rhoCp_a).*(Ta-T);
+                end
                 Qa=Qa0*ones(size(T));
             elseif ~Incompresible
                 
@@ -722,11 +715,10 @@ Datos_struct.S=S;
 Datos_struct.T=T;
 Datos_struct.Ta=Ta;
 Datos_struct.r=r;
-Datos_struct.qiproceso=qiproceso;
-Datos_struct.qiservicio=qiservicio;
+Datos_struct.k=k;
 Datos_struct.qrem=qrem;
 Datos_struct.qgen=qgen;
-Datos_struct.q={qiproceso;qiservicio;qgen;qrem};
+Datos_struct.q={qgen;qrem};
 Datos_struct.Q=Q;
 Datos_struct.Qa=Qa;
 Datos_struct_final=Datos_struct;

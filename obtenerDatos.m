@@ -170,9 +170,19 @@ for i=1:Datos_struct.nReacs
     VariablesDep{Row,2}=VariablesDep{Row-i,2};
 end
 Row=Row+1;
+VariablesDep{Row,1}='[k]';
+VariablesDep{Row,2}='(1/min){\times}(gmol/L)^{(1-{\Sigma}_j({\alpha}_{ij}))}';
+VariablesDep{Row,4}='CONSTANTE DE RAPIDEZ';
+for i=1:Datos_struct.nReacs
+    Row=Row+1;
+    VariablesDep{Row,1}=['k',int2str(i)];
+    VariablesDep{Row,2}=['(1/min){\times}(gmol/L)^{',...
+        num2str(1-sum(Datos_struct.Exponentes_r(i,:))),'}'];
+end
+Row=Row+1;
 VariablesDep{Row,1}='[q]';
 VariablesDep{Row,2}='K/min';
-VariablesDep{Row,4}='CALOR TRANSF/rhoCp';
+VariablesDep{Row,4}='CALOR/rhoCp';
 Row=Row+1;
 VariablesDep{Row,1}='qgen';
 VariablesDep{Row,2}=VariablesDep{Row-1,2};

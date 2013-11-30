@@ -77,7 +77,7 @@ if Estacionario
     sol.C=C;
     sol.Ta=Ta;
     sol.Qa=Qa;%L/min
-    r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
+    [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
     rho_Cp=CpMolares*C;
     qgen=1./(rho_Cp).*(sum(...
         (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares))'.*r...
@@ -92,6 +92,7 @@ if Estacionario
         C_Edos_Est=interp1(T,C',T_Edos_Est)';
         Ta_Edos_Est=interp1(T,Ta,T_Edos_Est);
         r_Edos_Est=interp1(T,r',T_Edos_Est)';
+        k_Edos_Est=interp1(T,k',T_Edos_Est)';
         qrem_Edos_Est=interp1(T,qrem,T_Edos_Est);
         qgen_Edos_Est=interp1(T,qgen,T_Edos_Est);
     catch exception
@@ -101,6 +102,7 @@ if Estacionario
             C_Edos_Est=NaN;
             Ta_Edos_Est=NaN;
             r_Edos_Est=NaN;
+            k_Edos_Est=NaN;
             qrem_Edos_Est=NaN;
             qgen_Edos_Est=NaN;
         end
@@ -174,7 +176,7 @@ elseif ~Estacionario
         elseif ~Incompresible
         end
     end
-    r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
+    [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
     rho_Cp=CpMolares*C;
     qgen=1./(rho_Cp).*(sum(...
         (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares))'.*r...
@@ -187,18 +189,11 @@ elseif ~Estacionario
     C_Edos_Est=Datos_struct.C_Edos_Est;
     Ta_Edos_Est=Datos_struct.Ta_Edos_Est;
     r_Edos_Est=Datos_struct.r_Edos_Est;
+    k_Edos_Est=Datos_struct.k_Edos_Est;
     qrem_Edos_Est=Datos_struct.qrem_Edos_Est;
     qgen_Edos_Est=Datos_struct.qgen_Edos_Est;
 end
-if norm(Ta-Ta0)==0
-    qiproceso=+U*A./(Vr*rho_Cp).*(Ta-T);
-    qiservicio=-U*A./(Va*rhoCp_a).*(Ta-T);
-else
-    qiproceso=+U*A./(Vr*rho_Cp).*...
-        (Ta-Ta0)./log((Ta-T)./(Ta0-T));
-    qiservicio=-U*A./(Va*rhoCp_a).*...
-        (Ta-Ta0)./log((Ta-T)./(Ta0-T));
-end
+
 Q=Q0*ones(size(T));
 
 X=NaN*zeros(size(C));
@@ -247,18 +242,14 @@ for j=1:size(C,1)
 end
 
 warning('off','all');
-if Estacionario
-    qiproceso_Edos_Est=interp1(T,qiproceso,T_Edos_Est);
-    qiservicio_Edos_Est=interp1(T,qiservicio,T_Edos_Est);
+if Estacionario    
     Q_Edos_Est=interp1(T,Q,T_Edos_Est);
     Qa_Edos_Est=interp1(T,Qa,T_Edos_Est);
     X_Edos_Est=interp1(T,X',T_Edos_Est)';
     Y_Edos_Est=interp1(T,Y',T_Edos_Est)';
     Yconsumo_Edos_Est=interp1(T,Yconsumo',T_Edos_Est)';
     S_Edos_Est=interp1(T,S',T_Edos_Est)';
-elseif ~Estacionario
-    qiproceso_Edos_Est=Datos_struct.qiproceso_Edos_Est;
-    qiservicio_Edos_Est=Datos_struct.qiservicio_Edos_Est;
+elseif ~Estacionario    
     Q_Edos_Est=Datos_struct.Q_Edos_Est;
     Qa_Edos_Est=Datos_struct.Qa_Edos_Est;
     X_Edos_Est=Datos_struct.X_Edos_Est;
@@ -279,11 +270,10 @@ Datos_struct.T=T;
 Datos_struct.Ta=Ta;
 Datos_struct.T_Edos_Est=T_Edos_Est;
 Datos_struct.r=r;
-Datos_struct.qiproceso=qiproceso;
-Datos_struct.qiservicio=qiservicio;
+Datos_struct.k=k;
 Datos_struct.qgen=qgen;
 Datos_struct.qrem=qrem;
-Datos_struct.q={qiproceso;qiservicio;qrem;qgen};
+Datos_struct.q={qrem;qgen};
 Datos_struct.Qa=Qa;
 Datos_struct.Q=Q;
 
@@ -295,13 +285,11 @@ Datos_struct.S_Edos_Est=S_Edos_Est;
 Datos_struct.T_Edos_Est=T_Edos_Est;
 Datos_struct.Ta_Edos_Est=Ta_Edos_Est;
 Datos_struct.r_Edos_Est=r_Edos_Est;
-Datos_struct.qiproceso_Edos_Est=qiproceso_Edos_Est;
-Datos_struct.qiservicio_Edos_Est=qiservicio_Edos_Est;
+Datos_struct.k_Edos_Est=k_Edos_Est;
 Datos_struct.qgen_Edos_Est=qgen_Edos_Est;
 Datos_struct.qrem_Edos_Est=qrem_Edos_Est;
 Datos_struct.q_Edos_Est=...
-    {qiproceso_Edos_Est;qiservicio_Edos_Est;...
-    qrem_Edos_Est;qgen_Edos_Est};
+    {qrem_Edos_Est;qgen_Edos_Est};
 Datos_struct.Qa_Edos_Est=Qa_Edos_Est;
 Datos_struct.Q_Edos_Est=Q_Edos_Est;
 

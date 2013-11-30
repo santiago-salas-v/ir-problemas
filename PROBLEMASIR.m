@@ -380,7 +380,7 @@ for i=1:size(VariablesDepGraficadas,1)
                     else
                         Y=Datos_struct.(Variable);
                     end
-                case 'r'
+                case {'r' , 'k'}
                     index=eval(Variable(2:length(Variable)));
                     if strcmp(Datos_struct.Tipo,'CSTR')
                         Y=Datos_struct.(Var);

@@ -117,16 +117,13 @@ elseif ~Isot
     Ta=sol.y(end,:);      
     Qa=Qa0*ones(size(T));
 end
-r=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
+[r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
 rho_Cp=CpMolares*C;
-qiproceso=U*A./(rho_Cp).*(Ta-T);
-qiservicio=-U*A./(rhoCp_a).*(Ta-T);
 qgen=1./(rho_Cp).*(sum(...
     (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares))'.*r,1));
 qrem=-Q0./Vr.*(CpMolares*C0'./(rho_Cp)).*(T0-T)+...
      -U*A./(Vr.*rho_Cp).*(Ta-Ta0)/log((Ta-T)/(Ta0-T));
 Q=Datos_struct.Q0*ones(size(t));
-
 
 X=NaN*zeros(size(C));
 Y=NaN*zeros(size(C));
@@ -170,11 +167,10 @@ Datos_struct.S=S;
 Datos_struct.T=T;
 Datos_struct.Ta=Ta;
 Datos_struct.r=r;
-Datos_struct.qiproceso=qiproceso;
-Datos_struct.qiservicio=qiservicio;
+Datos_struct.k=k;
 Datos_struct.qrem=qrem;
 Datos_struct.qgen=qgen;
-Datos_struct.q={qiproceso;qiservicio;qrem;qgen};
+Datos_struct.q={qrem;qgen};
 Datos_struct.Q=Q;
 Datos_struct.Qa=Qa;
 Datos_struct.Vr=Vr;
