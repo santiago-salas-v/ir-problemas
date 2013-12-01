@@ -189,6 +189,18 @@ VariablesDep{Row,2}=VariablesDep{Row-1,2};
 Row=Row+1;
 VariablesDep{Row,1}='qrem';
 VariablesDep{Row,2}=VariablesDep{Row-1,2};
+if strcmp(Datos_struct.Tipo,'PFR')
+    Row=Row+1;
+    VariablesDep{Row,1}='[q_z]';
+    VariablesDep{Row,2}='K/cm';
+    VariablesDep{Row,4}='CALOR/rhoCp*Az/Q';
+    Row=Row+1;
+    VariablesDep{Row,1}='qgen_z';
+    VariablesDep{Row,2}=VariablesDep{Row-1,2};
+    Row=Row+1;
+    VariablesDep{Row,1}='qrem_z';
+    VariablesDep{Row,2}=VariablesDep{Row-1,2};
+end
 Row=Row+1;
 VariablesDep{Row,1}='[X]';
 VariablesDep{Row,2}='[adim]';

@@ -143,7 +143,9 @@ if Estacionario
         qgen=1./(rho_Cp).*(sum(...
             (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares))'.*r,1));
         qrem=+(Q*1000)./Az.*dT_en_dz+...
-            -U*a./(rho_Cp).*(Ta-T);
+                -U*a./(rho_Cp).*(Ta-T);
+        qrem_z= -U*a./(rho_Cp).*(Ta-T).*Az./(Q*1000);
+        qgen_z= +qgen.*Az./(Q*1000);
         Ta_z=interp1((z(1:end-1)+z(2:end))/2,diff(Ta)./diff(z),z);
         Qa=1/factorCoContraCorriente*...
             -U*a./(rhoCp_a).*(Ta-T0).*(1./Ta_z)*Aza;
@@ -337,6 +339,8 @@ if Estacionario
             (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares))'.*r,1));
         qrem=+(Q*1000)./Az.*dT_en_dz+...
             -U*a./(rho_Cp).*(Ta-T);
+        qrem_z= -U*a./(rho_Cp).*(Ta-T).*Az./(Q*1000);
+        qgen_z= +qgen.*Az./(Q*1000);
         Qa=Qa0*ones(size(T));
     end
 elseif ~Estacionario    
@@ -449,6 +453,8 @@ elseif ~Estacionario
         Ta_t=zeros(size(Ta));
         qgen=zeros(size(T));
         qrem=zeros(size(T));
+        qrem_z=zeros(size(T));
+        qgen_z=zeros(size(T));
         for j=1:nPuntos
             Ta(j,:)=-sum(...
                 (-delta_Hr(T(j,:),delta_Hf,...
@@ -460,6 +466,8 @@ elseif ~Estacionario
                 ))'.*squeeze(r(:,j,:)),1));
             qrem(j,:)=+Q(j,:)./Az.*dT_en_dz(j,:)+...
                 -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:));
+            qrem_z(j,:)= -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:)).*Az./(Q(j,:)*1000);
+            qgen_z(j,:)= +qgen(j,:).*Az./(Q(j,:)*1000);
         end
         for j=1:nPuntos
             Ta_t(j,:)=interp1((t(1:end-1)+t(2:end))/2,...
@@ -538,6 +546,8 @@ elseif ~Estacionario
                 k=zeros(nReacs,nPuntos,nTiempos);               
                 qgen=zeros(size(T));
                 qrem=zeros(size(T));
+                qrem_z=zeros(size(T));
+                qgen_z=zeros(size(T));
                 rho_Cp=zeros(size(T));                
                 for j=1:size(rho_Cp,1)
                     rho_Cp(j,:)=CpMolares*squeeze(C(:,j,:));
@@ -550,6 +560,9 @@ elseif ~Estacionario
                         ))'.*squeeze(r(:,j,:)),1));
                     qrem(j,:)=+(Q(j,:)*1000)./Az.*dT_en_dz(j,:)+...
                         -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:));
+                    qrem_z(j,:)= -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:)).*Az./...
+                        (Q(j,:)*1000);
+                    qgen_z(j,:)= +qgen(j,:).*Az./(Q(j,:)*1000);
                 end                
                 Qa=Qa0*ones(size(T));
             elseif ~Incompresible
@@ -625,6 +638,8 @@ elseif ~Estacionario
                 rho_Cp=zeros(size(T));
                 qgen=zeros(size(T));
                 qrem=zeros(size(T));
+                qrem_z=zeros(size(T));
+                qgen_z=zeros(size(T));
                 for j=1:size(rho_Cp,1)
                     rho_Cp(j,:)=CpMolares*squeeze(C(:,j,:));
                 end
@@ -636,6 +651,9 @@ elseif ~Estacionario
                         ))'.*squeeze(r(:,j,:)),1));
                     qrem(j,:)=+(Q(j,:)*1000)./Az.*dT_en_dz(j,:)+...
                         -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:));
+                    qrem_z(j,:)= -U*a./(rho_Cp(j,:)).*(Ta(j,:)-T(j,:)).*Az./...
+                        (Q(j,:)*1000);
+                    qgen_z(j,:)= +qgen(j,:).*Az./(Q(j,:)*1000);
                 end
                 Qa=Qa0*ones(size(T));
             elseif ~Incompresible
@@ -718,7 +736,9 @@ Datos_struct.r=r;
 Datos_struct.k=k;
 Datos_struct.qrem=qrem;
 Datos_struct.qgen=qgen;
-Datos_struct.q={qgen;qrem};
+Datos_struct.qrem_z=qrem_z;
+Datos_struct.qgen_z=qgen_z;
+Datos_struct.q={qgen;qrem;qrem_z;qgen_z};
 Datos_struct.Q=Q;
 Datos_struct.Qa=Qa;
 Datos_struct_final=Datos_struct;
