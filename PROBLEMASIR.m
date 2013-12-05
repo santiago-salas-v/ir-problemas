@@ -236,7 +236,7 @@ switch VarIndep1
         if strcmp(Datos_struct.Tipo,'CSTR')
             X_Edos_Est=Datos_struct.([VariableIndep1String,'_Edos_Est']);
         end
-    case 'r'
+    case {'r' , 'k'}
         index=eval(VariableIndep1String(2:length(VariableIndep1String)));
         X=Datos_struct.(VarIndep1);
         X=squeeze(X(index,:,:));
@@ -296,7 +296,7 @@ switch VarIndep2
         if strcmp(Datos_struct.Tipo,'CSTR')
             Z_Edos_Est=Datos_struct.([VariableIndep2String,'_Edos_Est']);
         end
-    case 'r'
+    case {'r','k'}
         index=eval(VariableIndep2String(2:length(VariableIndep2String)));
         Z=Datos_struct.(VarIndep2);
         Z=squeeze(Z(index,:,:));
