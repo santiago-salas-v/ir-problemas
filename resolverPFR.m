@@ -550,6 +550,7 @@ elseif ~Estacionario
                     @(hObject,eventdata)...
                     stop_ClickedCallback(hObject, eventdata));                
                 legend(axes2,'T','Ta');
+                title(axes2,[num2str(t(1)),'min']);
                 refreshdata(h,'caller');
                 drawnow;
                 set(h(1),'XDataSource','z');
@@ -580,6 +581,7 @@ elseif ~Estacionario
                     Y(:,:,j)=sol.u;  
                     dy_en_dz(:,:,j)=sol.du;
                     % Refrescar ventana de estatus
+                    title(axes2,[num2str(t(j)),'min']);
                     refreshdata(h,'caller');
                     drawnow;
                 end
@@ -671,6 +673,7 @@ elseif ~Estacionario
                     @(hObject,eventdata)...
                     stop_ClickedCallback(hObject, eventdata));                
                 legend(axes2,'T','Ta');
+                title(axes2,[num2str(t(1)),'min']);
                 refreshdata(h,'caller');
                 drawnow;
                 set(h(1),'XDataSource','z');
@@ -700,6 +703,7 @@ elseif ~Estacionario
                     Y(:,:,j)=sol.u;
                     dy_en_dz(:,:,j)=sol.du;
                     % Refrescar ventana de estatus
+                    title(axes2,[num2str(t(j)),'min']);
                     refreshdata(h,'caller');
                     drawnow;
                 end

@@ -98,7 +98,7 @@ catch exception
     if strcmp(exception.identifier,'InputError:Conditions')
         msgbox(exception.message,'Error','error');
     else
-        msgbox(['Datos mal insertados. Message: ',exception.message],...
+        msgbox(['Revisar datos. Message: ',exception.message],...
             'Error','error');
     end
     getReport(exception)
