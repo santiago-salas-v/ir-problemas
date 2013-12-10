@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"><!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>rapideces</title>
+   <meta name="generator" content="MATLAB 7.13"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2013-12-08"><meta name="DC.source" content="rapideces.m"><style type="text/css">
+
+body {
+  background-color: white;
+  margin:10px;
+}
+
+h1 {
+  color: #990000; 
+  font-size: x-large;
+}
+
+h2 {
+  color: #990000;
+  font-size: medium;
+}
+
+/* Make the text shrink to fit narrow windows, but not stretch too far in 
+wide windows. */ 
+p,h1,h2,div.content div {
+  max-width: 600px;
+  /* Hack for IE6 */
+  width: auto !important; width: 600px;
+}
+
+pre.codeinput {
+  background: #EEEEEE;
+  padding: 10px;
+}
+@media print {
+  pre.codeinput {word-wrap:break-word; width:100%;}
+} 
+
+span.keyword {color: #0000FF}
+span.comment {color: #228B22}
+span.string {color: #A020F0}
+span.untermstring {color: #B20000}
+span.syscmd {color: #B28C00}
+
+pre.codeoutput {
+  color: #666666;
+  padding: 10px;
+}
+
+pre.error {
+  color: red;
+}
+
+p.footer {
+  text-align: right;
+  font-size: xx-small;
+  font-weight: lighter;
+  font-style: italic;
+  color: gray;
+}
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="keyword">function</span> [varargout]=rapideces(C,T,alfa,k0,E,R,T0ref)
+<span class="comment">%RAPIDECES obtiene rapideces basado en el modelo de potencia:</span>
+<span class="comment">%  r(T,C1,C2,...,Cn)=ki(T)*C1^alpha_(i,1)*C2^alpha_(i,2)*...</span>
+<span class="comment">%                         *Cn^alpha_(i,n)</span>
+<span class="comment">%  Y efecto de temperatura en la constante de rapidez mediante</span>
+<span class="comment">%  expresión de tipo Arrhenius:</span>
+<span class="comment">%  ki(T)=ki0*exp(-Ei/R*(1/T-1/T0ref))</span>
+<span class="comment">%</span>
+<span class="comment">%  r = RAPIDECES(C,T,alfa,k0,E,R,T0ref) regresa matriz r de Nr</span>
+<span class="comment">%  rapideces, con vector de concentraciones C, temperatura T,</span>
+<span class="comment">%  órdenes de reacción ALFA, constantes de rapidez en T0ref k0,</span>
+<span class="comment">%  constante universal de los gases R, temperatura de referencia</span>
+<span class="comment">%  de ecuación de Arrhenius T0ref.</span>
+<span class="comment">%</span>
+<span class="comment">%  [r,k] = RAPIDECES(C,T,alfa,k0,E,R,T0ref) regresa matriz r de Nr</span>
+<span class="comment">%  rapideces, y matriz k de Nr constantes de rapidez, con vector de</span>
+<span class="comment">%  concentraciones C, temperatura T, órdenes de reacción ALFA, constantes</span>
+<span class="comment">%  de rapidez en T0ref k0, constante universal de los gases R, temperatura</span>
+<span class="comment">%  de referencia de ecuación de Arrhenius T0ref.</span>
+r=zeros(size(alfa,1),size(C,2));
+k=zeros(size(alfa,1),size(C,2));
+<span class="keyword">for</span> i=1:size(alfa,1)
+    k(i,:)=k0(i)*exp(-E(i)/R*(1./T-1/T0ref));
+    r(i,:)=k(i,:);
+    <span class="keyword">for</span> j=1:size(C,1)
+        r(i,:)=r(i,:).*C(j,:).^alfa(i,j);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargout==2
+    varargout{1}=r;
+    varargout{2}=k;
+<span class="keyword">elseif</span> nargout==1
+    varargout{1}=r;
+<span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><p class="footer"><br>
+      Published with MATLAB® 7.13<br></p></div><!--
+##### SOURCE BEGIN #####
+function [varargout]=rapideces(C,T,alfa,k0,E,R,T0ref)
+%RAPIDECES obtiene rapideces basado en el modelo de potencia:
+%  r(T,C1,C2,...,Cn)=ki(T)*C1^alpha_(i,1)*C2^alpha_(i,2)*...
+%                         *Cn^alpha_(i,n)
+%  Y efecto de temperatura en la constante de rapidez mediante
+%  expresión de tipo Arrhenius:
+%  ki(T)=ki0*exp(-Ei/R*(1/T-1/T0ref))
+%  
+%  r = RAPIDECES(C,T,alfa,k0,E,R,T0ref) regresa matriz r de Nr
+%  rapideces, con vector de concentraciones C, temperatura T, 
+%  órdenes de reacción ALFA, constantes de rapidez en T0ref k0,
+%  constante universal de los gases R, temperatura de referencia
+%  de ecuación de Arrhenius T0ref.
+%
+%  [r,k] = RAPIDECES(C,T,alfa,k0,E,R,T0ref) regresa matriz r de Nr
+%  rapideces, y matriz k de Nr constantes de rapidez, con vector de 
+%  concentraciones C, temperatura T, órdenes de reacción ALFA, constantes
+%  de rapidez en T0ref k0, constante universal de los gases R, temperatura
+%  de referencia de ecuación de Arrhenius T0ref.
+r=zeros(size(alfa,1),size(C,2));
+k=zeros(size(alfa,1),size(C,2));
+for i=1:size(alfa,1)
+    k(i,:)=k0(i)*exp(-E(i)/R*(1./T-1/T0ref));
+    r(i,:)=k(i,:);
+    for j=1:size(C,1)
+        r(i,:)=r(i,:).*C(j,:).^alfa(i,j);
+    end
+end
+
+if nargout==2
+    varargout{1}=r;
+    varargout{2}=k;
+elseif nargout==1
+    varargout{1}=r;    
+end
+
+end
+##### SOURCE END #####
+--></body></html>
