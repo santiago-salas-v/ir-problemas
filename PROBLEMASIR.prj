@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project>
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="288205958" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="1264419995" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
     <param.project.name>C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR</param.appname>
@@ -63,6 +63,7 @@
       <file>${PROJECT_ROOT}\delta_Hr.m</file>
       <file>${PROJECT_ROOT}\matlab_exts</file>
       <file>${PROJECT_ROOT}\obtenerDatos.m</file>
+      <file>${PROJECT_ROOT}\parar_Solucion_PFR_NoEst.m</file>
       <file>${PROJECT_ROOT}\PROBLEMASIR.fig</file>
       <file>${PROJECT_ROOT}\rapideces.m</file>
       <file>${PROJECT_ROOT}\resolverBR.m</file>
@@ -82,7 +83,6 @@
     <matlab>
       <root>C:\Users\Santiago Salas\Documents\OTHER\Applications\MATLAB\R2011b</root>
       <path>
-        <directory>${MATLAB_ROOT}\help\techdoc\creating_guis\examples</directory>
         <directory>C:\Users\Santiago Salas\git\ir-problemas</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlabxl\matlabxl</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlabxl\matlabxldemos</directory>
@@ -307,10 +307,9 @@
         <directory>${MATLAB_ROOT}\toolbox\target\extensions\operatingsystem\windows\blks\mex</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlab\timeseries</directory>
         <directory>${PROJECT_ROOT}\matlab_exts</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\RandomlyMultiStartedOptimizations</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\RandomlyMultiStartedOptimizations\demo</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\basicFunctions</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\cell2csv</directory>
+        <directory>${PROJECT_ROOT}\matlab_exts\crossing</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\hpde</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\hpde\examples</directory>
         <directory>${PROJECT_ROOT}\matlab_exts\hpde\solver</directory>
