@@ -734,7 +734,8 @@ if numel(varargin)>1
     h=varargin{1};
     if ishandle(h) && strcmp(get(h,'Type'),'line')
         try
-            inspect(h);
+%            inspect(h);
+            PropiedadesDeSerie(h,varargin{2});
         catch error    
             % Si Java está limitado, registrar error en log ya que 
             % no estará disponible la funcion INSPECT
