@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project>
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="1264419995" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="3076081690" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
     <param.project.name>C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR</param.appname>
@@ -65,6 +65,7 @@
       <file>${PROJECT_ROOT}\obtenerDatos.m</file>
       <file>${PROJECT_ROOT}\parar_Solucion_PFR_NoEst.m</file>
       <file>${PROJECT_ROOT}\PROBLEMASIR.fig</file>
+      <file>${PROJECT_ROOT}\PropiedadesDeSerie.m</file>
       <file>${PROJECT_ROOT}\rapideces.m</file>
       <file>${PROJECT_ROOT}\resolverBR.m</file>
       <file>${PROJECT_ROOT}\resolverCSTR.m</file>
