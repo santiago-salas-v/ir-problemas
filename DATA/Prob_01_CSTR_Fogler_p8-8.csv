@@ -1,0 +1,44 @@
+sep=|
+OPERACIÓN||
+Tipo|CSTR|
+Estacionario|1|
+Isot|0|
+Incompresible|1|
+REACCIÓN||
+delta_Hf|[-66600,-123000,-226000,-122.6*1/(1055/1000/454)]*1055/1000/454|kJ/gmol
+Coefs_esteq|[-1,-1,+1,0]|
+delta_Hr_0|-84585.9030837004|J/gmol
+E|[32400*1055/454]|J/gmol
+k0|16.96e12/60*exp(-32400*1055/454/(8.314*300))|(1/min)(gmol/L)^(1-Sum_j(alpha_ij))
+T0ref|         300|K
+Exponentes_r|[+1,0,0,0]|
+Ref_Selectividad|           3|
+Ref_Rendimiento|           1|
+REACTOR||
+C0|[43.04,802.8,0,71.8]/60/454/(46.62*2*(1+2.5)*28.32/60)|gmol/L
+C_t0|[43.04,802.8,0,71.8]/60/454/(46.62*2*(1+2.5)*28.32/60)|gmol/L
+T0|    297.0389|K
+T_t0|         303|K
+Q0|   154.03248|L/min
+Longitud|    148.1699|cm
+Diam|     98.7799|cm
+Vr|1135.499725259334|L
+U|           0|Btu/(h ft2 R)
+A|49.49352326305132|ft2
+theta|7.371820055480081|min
+Ta0|    302.5944|K
+Diam_a|         100|cm
+Qa0|           1|L/min
+PROPIEDADES||
+Cp_Molares|[35,18,46,19.5]*1055/1000/454*9/5|kJ/(gmol K)
+rhoCp_a|       4.182|kJ/(L K)
+INTEGRACIÓN||
+tiempo_tot|         100|min
+Tmax|         800|K
+EJES||
+XMIN|           0|
+XMAX|         800|
+YMIN|           0|
+YMAX|      0.0002|
+ZMIN|          -1|
+ZMAX|           1|

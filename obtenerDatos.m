@@ -384,7 +384,7 @@ else
 end
 if ~isscalar(Datos{strcmp(Datos,'ZMAX'),2})
     if ischar(Datos{strcmp(Datos,'ZMAX'),2})
-        Datos_struct.tiempo_tot = ...
+        Datos_struct.ZMAX = ...
             eval(Datos{strcmp(Datos,'ZMAX'),2});
     end    
 else

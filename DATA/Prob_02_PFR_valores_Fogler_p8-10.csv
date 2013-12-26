@@ -1,0 +1,42 @@
+sep=|
+OPERACIÓN||
+Tipo|PFR|
+Estacionario|1|
+Isot|0|
+Co_Corriente|1|
+Incompresible|0|
+REACCIÓN||
+delta_Hf|[-20,-40,-160]|kJ/gmol
+Coefs_esteq|[-1,+1,0;-2,0,+1]|
+delta_Hr_0|[-20000 -120000]|J/gmol
+E|[+33256,+74826]|J/gmol
+k0|[600,5.4/2]|(1/min)(gmol/L)^(1-Sum_j(alpha_ij))
+T0ref|         300|K
+Exponentes_r|[+1,0,0;+2,0,0]|
+Ref_Selectividad|           2|
+Ref_Rendimiento|           1|
+REACTOR||
+C0|[0.1,0,0]|gmol/L
+T0|         423|K
+Q0|       60000|L/min
+Longitud|  87.7122329|cm
+Diam|        3.81|cm
+Vr|0.9999999994223611|L
+U|     6710.12|Btu/(h ft2 R)
+a|1.130069335087635|ft2/L
+Ta0|         373|K
+Diam_a|        4.42|cm
+Qa0|       20697|L/min
+PROPIEDADES||
+Cp_Molares|[0.090,0.090,0.180]|kJ/(gmol K)
+rhoCp_a|      0.0022|kJ/(L K)
+INTEGRACIÓN||
+tiempo_tot|    6.4E-006|min
+timestep_factor|      1E-008|
+EJES||
+XMIN|           0|
+XMAX|         100|
+YMIN|           0|
+YMAX|         0.1|
+ZMIN|          -1|
+ZMAX|           1|
