@@ -47,7 +47,7 @@ if isempty(Datos_struct.Incompresible) ||...
    Datos_struct.Isot=false;      
    Datos{strcmp(Datos,'Isot'),2}=Datos_struct.Isot;
 end
-if ~isscalar(Datos{strcmp(Datos,'Coefs_esteq'),2})
+if ~isempty(Datos{strcmp(Datos,'Coefs_esteq'),2})
     if ischar(Datos{strcmp(Datos,'Coefs_esteq'),2})
         Datos_struct.Coefs_esteq = ...
         eval(Datos{strcmp(Datos,'Coefs_esteq'),2});
@@ -58,7 +58,7 @@ else
 end
 Datos_struct.nReacs=size(Datos_struct.Coefs_esteq,1);
 Datos_struct.nComps=size(Datos_struct.Coefs_esteq,2);
-if ~isscalar(Datos{strcmp(Datos,'delta_Hf'),2})
+if ~isempty(Datos{strcmp(Datos,'delta_Hf'),2})
     if ischar(Datos{strcmp(Datos,'delta_Hf'),2})
         Datos_struct.delta_Hf = ...
         reshape(eval(Datos{strcmp(Datos,'delta_Hf'),2})*...
@@ -71,7 +71,7 @@ else
 end
 Datos_struct.delta_Hr_0 = reshape(Datos_struct.Coefs_esteq*...
     Datos_struct.delta_Hf',1,Datos_struct.nReacs);
-if ~isscalar(Datos{strcmp(Datos,'E'),2})
+if ~isempty(Datos{strcmp(Datos,'E'),2})
     if ischar(Datos{strcmp(Datos,'E'),2})
         Datos_struct.E = reshape(eval(Datos{strcmp(Datos,'E'),2}),1,...
         Datos_struct.nReacs);
@@ -80,7 +80,7 @@ else
     Datos_struct.E = ...
     Datos{strcmp(Datos,'E'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'k0'),2})
+if ~isempty(Datos{strcmp(Datos,'k0'),2})
     if ischar(Datos{strcmp(Datos,'k0'),2})
         Datos_struct.k0 = reshape(eval(Datos{strcmp(Datos,'k0'),2}),1,...
         Datos_struct.nReacs);
@@ -89,7 +89,7 @@ else
     Datos_struct.k0 = ...
     Datos{strcmp(Datos,'k0'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'T0ref'),2})
+if ~isempty(Datos{strcmp(Datos,'T0ref'),2})
     if ischar(Datos{strcmp(Datos,'T0ref'),2})
         Datos_struct.T0ref = ...
         eval(Datos{strcmp(Datos,'T0ref'),2});
@@ -98,7 +98,7 @@ else
     Datos_struct.T0ref = ...
     Datos{strcmp(Datos,'T0ref'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'Exponentes_r'),2})
+if ~isempty(Datos{strcmp(Datos,'Exponentes_r'),2})
     if ischar(Datos{strcmp(Datos,'Exponentes_r'),2})
         Datos_struct.Exponentes_r = ...
         eval(Datos{strcmp(Datos,'Exponentes_r'),2});
@@ -107,7 +107,7 @@ else
     Datos_struct.Exponentes_r = ...
     Datos{strcmp(Datos,'Exponentes_r'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'Ref_Rendimiento'),2})
+if ~isempty(Datos{strcmp(Datos,'Ref_Rendimiento'),2})
     if ischar(Datos{strcmp(Datos,'Ref_Rendimiento'),2})
         Datos_struct.Ref_Rendimiento = ...
         eval(Datos{strcmp(Datos,'Ref_Rendimiento'),2});
@@ -116,7 +116,7 @@ else
     Datos_struct.Ref_Rendimiento = ...
     Datos{strcmp(Datos,'Ref_Rendimiento'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'Ref_Selectividad'),2})
+if ~isempty(Datos{strcmp(Datos,'Ref_Selectividad'),2})
     if ischar(Datos{strcmp(Datos,'Ref_Selectividad'),2})
         Datos_struct.Ref_Selectividad = ...
         eval(Datos{strcmp(Datos,'Ref_Selectividad'),2});
@@ -125,7 +125,7 @@ else
     Datos_struct.Ref_Selectividad = ...
     Datos{strcmp(Datos,'Ref_Selectividad'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'C0'),2})
+if ~isempty(Datos{strcmp(Datos,'C0'),2})
     if ischar(Datos{strcmp(Datos,'C0'),2})
         Datos_struct.C0 = eval(Datos{strcmp(Datos,'C0'),2});
     end    
@@ -134,7 +134,7 @@ else
     Datos{strcmp(Datos,'C0'),2};
 end
 Datos_struct.C0 = reshape(Datos_struct.C0,1,numel(Datos_struct.C0));
-if ~isscalar(Datos{strcmp(Datos,'T0'),2})
+if ~isempty(Datos{strcmp(Datos,'T0'),2})
     if ischar(Datos{strcmp(Datos,'T0'),2})
         Datos_struct.T0 = eval(Datos{strcmp(Datos,'T0'),2});
     end    
@@ -144,7 +144,7 @@ else
 end
 if strcmp(Datos_struct.Tipo,'SEMIBR')||...
         strcmp(Datos_struct.Tipo,'CSTR')
-    if ~isscalar(Datos{strcmp(Datos,'C_t0'),2})
+    if ~isempty(Datos{strcmp(Datos,'C_t0'),2})
         if ischar(Datos{strcmp(Datos,'C_t0'),2})
             Datos_struct.C_t0 = eval(Datos{strcmp(Datos,'C_t0'),2});
         end    
@@ -154,7 +154,7 @@ if strcmp(Datos_struct.Tipo,'SEMIBR')||...
     end
     Datos_struct.C_t0 = ...
         reshape(Datos_struct.C_t0,1,numel(Datos_struct.C_t0));
-    if ~isscalar(Datos{strcmp(Datos,'T_t0'),2})
+    if ~isempty(Datos{strcmp(Datos,'T_t0'),2})
         if ischar(Datos{strcmp(Datos,'T_t0'),2})
             Datos_struct.T_t0 = eval(Datos{strcmp(Datos,'T_t0'),2});
         end    
@@ -163,7 +163,7 @@ if strcmp(Datos_struct.Tipo,'SEMIBR')||...
         Datos{strcmp(Datos,'T_t0'),2};
     end
 end
-if ~isscalar(Datos{strcmp(Datos,'Longitud'),2})
+if ~isempty(Datos{strcmp(Datos,'Longitud'),2})
     if ischar(Datos{strcmp(Datos,'Longitud'),2})
         Datos_struct.Longitud = eval(Datos{strcmp(Datos,'Longitud'),2});
     end    
@@ -171,7 +171,7 @@ else
     Datos_struct.Longitud = ...
     Datos{strcmp(Datos,'Longitud'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'Diam'),2})
+if ~isempty(Datos{strcmp(Datos,'Diam'),2})
     if ischar(Datos{strcmp(Datos,'Diam'),2})
         Datos_struct.Diam = eval(Datos{strcmp(Datos,'Diam'),2});
     end    
@@ -180,7 +180,7 @@ else
     Datos{strcmp(Datos,'Diam'),2};
 end
 Datos_struct.Vr = Datos_struct.Longitud*pi/4*Datos_struct.Diam^2*1/1000;
-if ~isscalar(Datos{strcmp(Datos,'U'),2})
+if ~isempty(Datos{strcmp(Datos,'U'),2})
     if ischar(Datos{strcmp(Datos,'U'),2})
         Datos_struct.U = ...
             eval(Datos{strcmp(Datos,'U'),2})*1055*1/60*9/5;
@@ -189,7 +189,7 @@ else
     Datos_struct.U = ...
         Datos{strcmp(Datos,'U'),2}*1055*1/60*9/5;
 end
-if ~isscalar(Datos{strcmp(Datos,'Ta0'),2})
+if ~isempty(Datos{strcmp(Datos,'Ta0'),2})
     if ischar(Datos{strcmp(Datos,'Ta0'),2})
         Datos_struct.Ta0 = ...
             eval(Datos{strcmp(Datos,'Ta0'),2});
@@ -198,7 +198,7 @@ else
     Datos_struct.Ta0 = ...
         Datos{strcmp(Datos,'Ta0'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'Diam_a'),2})
+if ~isempty(Datos{strcmp(Datos,'Diam_a'),2})
     if ischar(Datos{strcmp(Datos,'Diam_a'),2})
         Datos_struct.Diam_a = ...
             eval(Datos{strcmp(Datos,'Diam_a'),2});
@@ -207,7 +207,7 @@ else
     Datos_struct.Diam_a = ...
         Datos{strcmp(Datos,'Diam_a'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'Qa0'),2})
+if ~isempty(Datos{strcmp(Datos,'Qa0'),2})
     if ischar(Datos{strcmp(Datos,'Qa0'),2})
         Datos_struct.Qa0 = ...
             eval(Datos{strcmp(Datos,'Qa0'),2});
@@ -239,7 +239,7 @@ if strcmp(Datos_struct.Tipo,'PFR')
         Datos_struct.factorCoContraCorriente = -1;
     end
     Datos_struct.a = 4/Datos_struct.Diam*1/30.48^2*1000;
-    if ~isscalar(Datos{strcmp(Datos,'Q0'),2})
+    if ~isempty(Datos{strcmp(Datos,'Q0'),2})
         if ischar(Datos{strcmp(Datos,'Q0'),2})
             Datos_struct.Q0 = ...
                 eval(Datos{strcmp(Datos,'Q0'),2});
@@ -250,7 +250,7 @@ if strcmp(Datos_struct.Tipo,'PFR')
     end
     Datos_struct.theta = Datos_struct.Vr/Datos_struct.Q0;
     Datos_struct.uz=Datos_struct.Q0*1000/(pi/4*Datos_struct.Diam^2);
-    if ~isscalar(Datos{strcmp(Datos,'timestep_factor'),2})
+    if ~isempty(Datos{strcmp(Datos,'timestep_factor'),2})
         if ischar(Datos{strcmp(Datos,'timestep_factor'),2})
             Datos_struct.timestep_factor = ...
                 eval(Datos{strcmp(Datos,'timestep_factor'),2});
@@ -262,7 +262,7 @@ if strcmp(Datos_struct.Tipo,'PFR')
 elseif strcmp(Datos_struct.Tipo,'CSTR')
     Datos_struct.Longitud = 1.5*Datos_struct.Diam;
     Datos_struct.A = pi*Datos_struct.Diam*Datos_struct.Longitud*1/30.48^2;
-    if ~isscalar(Datos{strcmp(Datos,'Q0'),2})
+    if ~isempty(Datos{strcmp(Datos,'Q0'),2})
         if ischar(Datos{strcmp(Datos,'Q0'),2})
             Datos_struct.Q0 = ...
                 eval(Datos{strcmp(Datos,'Q0'),2});
@@ -275,7 +275,7 @@ elseif strcmp(Datos_struct.Tipo,'CSTR')
     Datos_struct.uz=Datos_struct.Q0*1000/(pi/4*Datos_struct.Diam^2);
     Datos_struct.Va = Datos_struct.Longitud*...
         pi/4*(Datos_struct.Diam_a^2-Datos_struct.Diam^2)*1/1000;
-    if ~isscalar(Datos{strcmp(Datos,'Tmax'),2})
+    if ~isempty(Datos{strcmp(Datos,'Tmax'),2})
         if ischar(Datos{strcmp(Datos,'Tmax'),2})
             Datos_struct.Tmax = ...
                 eval(Datos{strcmp(Datos,'Tmax'),2});
@@ -292,7 +292,7 @@ elseif strcmp(Datos_struct.Tipo,'BR')
 elseif strcmp(Datos_struct.Tipo,'SEMIBR')
     Datos_struct.Longitud = 1.5*Datos_struct.Diam;
     Datos_struct.A = pi*Datos_struct.Diam*Datos_struct.Longitud*1/30.48^2;
-    if ~isscalar(Datos{strcmp(Datos,'Q0'),2})
+    if ~isempty(Datos{strcmp(Datos,'Q0'),2})
         if ischar(Datos{strcmp(Datos,'Q0'),2})
             Datos_struct.Q0 = ...
                 eval(Datos{strcmp(Datos,'Q0'),2});
@@ -306,7 +306,7 @@ elseif strcmp(Datos_struct.Tipo,'SEMIBR')
     Datos_struct.Va = Datos_struct.Longitud*...
         pi/4*(Datos_struct.Diam_a^2-Datos_struct.Diam^2)*1/1000;    
 end
-if ~isscalar(Datos{strcmp(Datos,'Cp_Molares'),2})
+if ~isempty(Datos{strcmp(Datos,'Cp_Molares'),2})
     if ischar(Datos{strcmp(Datos,'Cp_Molares'),2})
         Datos_struct.CpMolares = ...
             eval(Datos{strcmp(Datos,'Cp_Molares'),2})*1000;
@@ -317,7 +317,7 @@ else
 end
 Datos_struct.CpMolares = ...
     reshape(Datos_struct.CpMolares,1,numel(Datos_struct.CpMolares));
-if ~isscalar(Datos{strcmp(Datos,'rhoCp_a'),2})
+if ~isempty(Datos{strcmp(Datos,'rhoCp_a'),2})
     if ischar(Datos{strcmp(Datos,'rhoCp_a'),2})
         Datos_struct.rhoCp_a = ...
             eval(Datos{strcmp(Datos,'rhoCp_a'),2})*1000;
@@ -326,7 +326,7 @@ else
     Datos_struct.rhoCp_a = ...
         Datos{strcmp(Datos,'rhoCp_a'),2}*1000;
 end
-if ~isscalar(Datos{strcmp(Datos,'tiempo_tot'),2})
+if ~isempty(Datos{strcmp(Datos,'tiempo_tot'),2})
     if ischar(Datos{strcmp(Datos,'tiempo_tot'),2})
         Datos_struct.tiempo_tot = ...
             eval(Datos{strcmp(Datos,'tiempo_tot'),2});
@@ -337,7 +337,7 @@ else
 end
 Datos_struct.R = 8.3140;
 
-if ~isscalar(Datos{strcmp(Datos,'XMIN'),2})
+if ~isempty(Datos{strcmp(Datos,'XMIN'),2})
     if ischar(Datos{strcmp(Datos,'XMIN'),2})
         Datos_struct.XMIN = ...
             eval(Datos{strcmp(Datos,'XMIN'),2});
@@ -346,7 +346,7 @@ else
     Datos_struct.XMIN = ...
         Datos{strcmp(Datos,'XMIN'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'XMAX'),2})
+if ~isempty(Datos{strcmp(Datos,'XMAX'),2})
     if ischar(Datos{strcmp(Datos,'XMAX'),2})
         Datos_struct.XMAX = ...
             eval(Datos{strcmp(Datos,'XMAX'),2});
@@ -355,7 +355,7 @@ else
     Datos_struct.XMAX = ...
         Datos{strcmp(Datos,'XMAX'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'YMIN'),2})
+if ~isempty(Datos{strcmp(Datos,'YMIN'),2})
     if ischar(Datos{strcmp(Datos,'YMIN'),2})
         Datos_struct.YMIN = ...
             eval(Datos{strcmp(Datos,'YMIN'),2});
@@ -364,7 +364,7 @@ else
     Datos_struct.YMIN = ...
         Datos{strcmp(Datos,'YMIN'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'YMAX'),2})
+if ~isempty(Datos{strcmp(Datos,'YMAX'),2})
     if ischar(Datos{strcmp(Datos,'YMAX'),2})
         Datos_struct.YMAX = ...
             eval(Datos{strcmp(Datos,'YMAX'),2});
@@ -373,7 +373,7 @@ else
     Datos_struct.YMAX = ...
         Datos{strcmp(Datos,'YMAX'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'ZMIN'),2})
+if ~isempty(Datos{strcmp(Datos,'ZMIN'),2})
     if ischar(Datos{strcmp(Datos,'ZMIN'),2})
         Datos_struct.ZMIN = ...
             eval(Datos{strcmp(Datos,'ZMIN'),2});
@@ -382,7 +382,7 @@ else
     Datos_struct.ZMIN = ...
         Datos{strcmp(Datos,'ZMIN'),2};
 end
-if ~isscalar(Datos{strcmp(Datos,'ZMAX'),2})
+if ~isempty(Datos{strcmp(Datos,'ZMAX'),2})
     if ischar(Datos{strcmp(Datos,'ZMAX'),2})
         Datos_struct.ZMAX = ...
             eval(Datos{strcmp(Datos,'ZMAX'),2});
