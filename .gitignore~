@@ -4,7 +4,7 @@
 *.tmp
 *~$.*
 PROBLEMASIR
-PROBLEMASIR_MAC_LINUX
+
 matlab_exts/afemmatlab/
 matlab_exts/unit_conversions/
 matlab_exts/gaffe/
