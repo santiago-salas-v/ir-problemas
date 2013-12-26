@@ -7,7 +7,7 @@ if strcmp(Datos_struct.Tipo,'PFR')||...
         strcmp(Datos_struct.Tipo,'CSTR')
     Datos_struct.Estacionario = Datos{strcmp(Datos,'Estacionario'),2};
     if isempty(Datos_struct.Estacionario) 
-        Datos_struct.Estacionario=false;
+        Datos_struct.Estacionario=true;
         Datos{strcmp(Datos,'Estacionario'),2}=Datos_struct.Estacionario;
     end
 else
@@ -56,6 +56,10 @@ Datos_struct.uza = Datos_struct.Qa0*1000/...
     (pi/4*(Datos_struct.Diam_a^2-Datos_struct.Diam^2));
 if strcmp(Datos_struct.Tipo,'PFR')    
     Datos_struct.Co_Corriente = Datos{strcmp(Datos,'Co_Corriente'),2};
+    if isempty(Datos_struct.Co_Corriente)
+       Datos_struct.Co_Corriente=true;
+       Datos{strcmp(Datos,'Co_Corriente'),2}=Datos_struct.Co_Corriente;
+    end
     if Datos_struct.Co_Corriente
         Datos_struct.factorCoContraCorriente = +1;
     else
