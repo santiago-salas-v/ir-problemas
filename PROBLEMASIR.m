@@ -22,18 +22,6 @@ end
 %
 function codigoDeArranque(hObject, eventdata, handles, varargin)
 path(path,genpath('matlab_exts'));
-javaaddpath(['./matlab_exts/20130227_xlwrite/poi_library/',...
-    'poi-3.8-20120326.jar']);
-javaaddpath(['./matlab_exts/20130227_xlwrite/poi_library/',...
-    'poi-ooxml-3.8-20120326.jar']);
-javaaddpath(['./matlab_exts/20130227_xlwrite/poi_library/',...
-    'poi-ooxml-schemas-3.8-20120326.jar']);
-javaaddpath(['./matlab_exts/20130227_xlwrite/poi_library/',...
-    'xmlbeans-2.3.0.jar']);
-javaaddpath(['./matlab_exts/20130227_xlwrite/poi_library/',...
-    'dom4j-1.6.1.jar']);
-javaaddpath(['./matlab_exts/20130227_xlwrite/poi_library/',...
-    'stax-api-1.0.1.jar']);
 handles.Datos=get(handles.uitable1,'Data');
 set(handles.uitable1,'Data',handles.Datos);
 set(handles.uitable1,'Rowname',[]);
@@ -675,28 +663,35 @@ solucionAnalisisEstacionario={};
 solucionAnalisisNoEstacionario={};
 [success,~] = mkdir('DATA');
 if success 
-    [FileName,PathName,~]=uigetfile('./DATA/*.mat;*.xlsx;*.xls');    
+    [FileName,PathName,~]=uigetfile('./DATA/*.mat;*.xlsx;*.xls;*.csv');    
 else
-    [FileName,PathName,~]=uigetfile('./*.mat;*.xlsx;*.xls');
+    [FileName,PathName,~]=uigetfile('./*.mat;*.xlsx;*.xls;*.csv');
 end
 Datos={};
-if FileName~=0
-    extension=regexp(FileName,'.mat$|.xls$|.xlsx$','match');
-    if strcmp('.mat',extension)
-        load([PathName filesep FileName],'Datos');
-    elseif strcmp(extension,'.xls') ||...
-            strcmp(extension,'.xlsx')
-        [~,~,Datos]=xlsread([PathName filesep FileName]);
-        Datos=quitarNaN(Datos);
+try
+    if FileName~=0
+        extension=regexp(FileName,'.mat$|.xls$|.xlsx$|.csv$','match');        
+        if strcmp('.mat',extension)
+            load([PathName filesep FileName],'Datos');
+        elseif strcmp('.csv',extension)        
+            [~,Datos]=cargarCSV([PathName FileName]);
+        elseif strcmp(extension,'.xls') ||...
+                strcmp(extension,'.xlsx')
+            [~,~,Datos]=xlsread([PathName FileName]);
+            Datos=quitarNaN(Datos);
+        end
+        %
+        % Poner estos valores en la tabla uitable1 (a la izq.)}
+        handles=rmfield(handles,'Datos_struct');
+        set(handles.uitable1,'Data',Datos); %#ok<COLND>
+        %
+        % Correr el código para actualizar ( o generar en dado caso) la gráfica
+        % solicitada.
+        actualizar(hObject, eventdata, handles, {});
     end
-    %
-    % Poner estos valores en la tabla uitable1 (a la izq.)}
-    handles=rmfield(handles,'Datos_struct');
-    set(handles.uitable1,'Data',Datos); %#ok<COLND>
-    %
-    % Correr el código para actualizar ( o generar en dado caso) la gráfica
-    % solicitada.
-    actualizar(hObject, eventdata, handles, {});
+catch exception
+    msgbox([exception.identifier,'. ',...
+        exception.message],'ERROR','error');
 end
 end
 

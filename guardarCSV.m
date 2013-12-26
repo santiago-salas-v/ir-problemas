@@ -1,5 +1,4 @@
 function resultado=guardarCSV(nombreCompleto_csv,Datos)
-exito=false;   
 [filas,columnas]=size(Datos);
 fid=fopen(nombreCompleto_csv,'wt');
 fprintf(fid,'%s\n','sep=|');
@@ -15,7 +14,7 @@ for i=1:filas
         elseif isnumeric(Datos{i,j}) && ...
                 isscalar(Datos{i,j}) && ...
                 ~islogical(Datos{i,j})
-            fprintf(fid,'%f|',Datos{i,j});  
+            fprintf(fid,'%12.8G|',Datos{i,j});  
         elseif ~isnumeric(Datos{i,j}) && ...
                 isscalar(Datos{i,j}) && ...
                 islogical(Datos{i,j})
@@ -24,6 +23,7 @@ for i=1:filas
     end    
     fprintf(fid,'%s\n',Datos{i,columnas}); 
 end
-fclose(fid);
+output=fclose(fid);
+exito=~logical(output);
 resultado=exito;
 end
