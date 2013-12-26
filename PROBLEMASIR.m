@@ -849,11 +849,25 @@ function uipushtool9_ClickedCallback(hObject, eventdata, handles)
 % and user data (see GUIDATA)
 [success,MESSAGE,MESSAGEID] = mkdir('exports');
 success = success && fileattrib('./exports','+w');
+try
+    actxserver('Excel.Application');
+    ExcelInstalled = true;
+catch exception %#ok<NASGU>
+    ExcelInstalled = false;
+end
 if success
     fileName=['exported_',...
         datestr(now,'dd-mmm-yyyy-HH-MM-SS PM')];
-    xlswrite(['./exports/',fileName],get(handles.uitable1,'Data'));
-    msgbox(['Data written to: ',['./exports/',fileName],'.xls']);
+    if ExcelInstalled
+        fileName_ext=[fileName,'.xls'];
+        xlswrite(['./exports/',fileName],...
+            get(handles.uitable1,'Data'));
+    elseif ~ExcelInstalled
+        fileName_ext=[fileName,'.csv'];
+        guardarCSV(['./exports/',fileName_ext],...
+            get(handles.uitable1,'Data'));        
+    end        
+    msgbox(['Data written to: ',['./exports/',fileName_ext]]);
 else
     msgbox(['Falla en permisos al generar directorio: "./export" ',...
         '. Favor de exportar manualmente:',MESSAGEID,',',MESSAGE]);
