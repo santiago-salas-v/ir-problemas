@@ -868,15 +868,26 @@ function uipushtool5_ClickedCallback(hObject, eventdata, handles)
 Datos = get(handles.uitable1,'Data');
 [success,~] = mkdir('DATA');
 success = success && fileattrib('./DATA','+w');
+try
+    actxserver('Excel.Application');
+    ExcelInstalled = true;
+catch exception %#ok<NASGU>
+    ExcelInstalled = false;
+end
+if ExcelInstalled 
+    defaultExtension='.xls';
+elseif ~ExcelInstalled
+    defaultExtension='.csv';
+end
 if success
-    [FileName,PathName,~]=uiputfile({'*.mat';'*.xls'},...
-        'Guardar estado de variables','./DATA/*.xls');
+    [FileName,PathName,~]=uiputfile({'*.mat';'*.xls';'*.csv'},...
+        'Guardar estado de variables',['./DATA/*',defaultExtension]);
 else
-    [FileName,PathName,~]=uiputfile({'*.mat';'*.xls'},...
-        'Guardar estado de variables','./*.xls');
+    [FileName,PathName,~]=uiputfile({'*.mat';'*.xls';'*.csv'},...
+        'Guardar estado de variables',['./*',defaultExtension]);
 end
 if FileName~=0
-    extension=regexp(FileName,'.mat$|.xls$|.xlsx$','match');
+    extension=regexp(FileName,'.mat$|.xls$|.xlsx$|.csv$','match');
     if isempty(extension)
         extension='.xls';
         FileName=[FileName,extension];
@@ -885,8 +896,19 @@ if FileName~=0
         save([PathName,FileName],nombreDeVariable(Datos));
     elseif strcmp(extension,'.xls') ||...
             strcmp(extension,'.xlsx')
+        try
         xlswrite([PathName,FileName],...
             get(handles.uitable1,'Data'));    
+        catch exception %#ok<NASGU>
+            warning('MATLAB:xlswrite:NoCOMServer',...
+            ['Could not start Excel server for export.\n' ...
+            'XLSWRITE will attempt to write file in CSV format.']);
+            guardarCSV([PathName,FileName],...
+            get(handles.uitable1,'Data'));
+        end
+    elseif strcmp(extension,'.csv')
+        guardarCSV([PathName,FileName],...
+            get(handles.uitable1,'Data'));
     end
 end
 end
