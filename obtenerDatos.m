@@ -6,8 +6,19 @@ Datos_struct.Isot = Datos{strcmp(Datos,'Isot'),2};
 if strcmp(Datos_struct.Tipo,'PFR')||...
         strcmp(Datos_struct.Tipo,'CSTR')
     Datos_struct.Estacionario = Datos{strcmp(Datos,'Estacionario'),2};
+    if isempty(Datos_struct.Estacionario) 
+        Datos_struct.Estacionario=false;
+        Datos{strcmp(Datos,'Estacionario'),2}=Datos_struct.Estacionario;
+    end
 else
-    Datos_struct.Estacionario = true;
+    Datos_struct.Estacionario = true;    
+end
+if isempty(Datos_struct.Incompresible) ||...
+        isempty(Datos_struct.Isot)
+   Datos_struct.Incompresible=true;
+   Datos{strcmp(Datos,'Incompresible'),2}=Datos_struct.Incompresible;
+   Datos_struct.Isot=false;   
+   Datos{strcmp(Datos,'Isot'),2}=Datos_struct.Isot;
 end
 Datos_struct.Coefs_esteq = eval(Datos{strcmp(Datos,'Coefs_esteq'),2});
 Datos_struct.nReacs=size(Datos_struct.Coefs_esteq,1);
@@ -103,7 +114,7 @@ for i=1:length(Datos_struct.labels_est)
 end
 
 %
-% Análisis reactivos - productos
+% Anï¿½lisis reactivos - productos
 encontrarReactivos = find(Datos_struct.Coefs_esteq<0);
 [~,reactivosSonCompsNo] = ind2sub(size(Datos_struct.Coefs_esteq),...
     encontrarReactivos);
@@ -214,7 +225,7 @@ end
 Row=Row+1;
 VariablesDep{Row,1}='[Y]';
 VariablesDep{Row,2}='[adim]';
-VariablesDep{Row,4}='RENDIMIENTO POR ALIMENTACIÓN';
+VariablesDep{Row,4}='RENDIMIENTO POR ALIMENTACIï¿½N';
 for i=1:length(Datos_struct.productosSonCompsNo)
     Row=Row+1;
     VariablesDep{Row,1}=['Y',...
@@ -317,7 +328,7 @@ if strcmp(Datos_struct.Tipo,'PFR') && ...
         ~Datos_struct.Estacionario && ~Datos_struct.Incompresible
     errRecord = MException('InputError:Conditions',...
         ['PFR, Flujo compresible, estado no estacionario,',...
-        ' no implementado en esta versión']);
+        ' no implementado en esta versiï¿½n']);
     throw(errRecord);
 end
 
