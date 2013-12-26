@@ -34,9 +34,9 @@ Tmax=Datos_struct.Tmax;
 
 if Estacionario
     t=inf;
+    T=1e-4:(Tmax-1e-4)/70:Tmax;
     if Isot
-        T=1e-4:(Tmax-1e-4)/70:Tmax;
-        T0=T;        
+        T=T0*ones(size(T));
     elseif ~Isot
         T=1e-4:(Tmax-1e-4)/70:Tmax;           
     end
@@ -97,14 +97,22 @@ if Estacionario
         qgen_Edos_Est=interp1(T,qgen,T_Edos_Est);
     catch exception
         if strcmp(exception.message,...
-                'No zero crossings found in this sample for fzero')
-            T_Edos_Est=NaN;
-            C_Edos_Est=NaN;
-            Ta_Edos_Est=NaN;
-            r_Edos_Est=NaN;
-            k_Edos_Est=NaN;
-            qrem_Edos_Est=NaN;
-            qgen_Edos_Est=NaN;
+                'No zero crossings found in this sample for fzero') ||...
+                strcmp(exception.message,...
+                'The values of X should be distinct.')
+            T_Edos_Est=[];
+            C_Edos_Est=[];
+            Ta_Edos_Est=[];
+            r_Edos_Est=[];
+            k_Edos_Est=[];
+            qrem_Edos_Est=[];
+            qgen_Edos_Est=[];        
+            X_Edos_Est=[];
+            Y_Edos_Est=[];
+            Yconsumo_Edos_Est=[];
+            S_Edos_Est=[];
+            Qa_Edos_Est=[];
+            Q_Edos_Est=[];
         end
     end       
 elseif ~Estacionario
@@ -230,14 +238,14 @@ for j=1:size(C,1)
 end
 
 warning('off','all');
-if Estacionario    
+if Estacionario && ~Isot  
     Q_Edos_Est=interp1(T,Q,T_Edos_Est);
     Qa_Edos_Est=interp1(T,Qa,T_Edos_Est);
     X_Edos_Est=interp1(T,X',T_Edos_Est)';
     Y_Edos_Est=interp1(T,Y',T_Edos_Est)';
     Yconsumo_Edos_Est=interp1(T,Yconsumo',T_Edos_Est)';
     S_Edos_Est=interp1(T,S',T_Edos_Est)';
-elseif ~Estacionario    
+elseif ~Estacionario
     Q_Edos_Est=Datos_struct.Q_Edos_Est;
     Qa_Edos_Est=Datos_struct.Qa_Edos_Est;
     X_Edos_Est=Datos_struct.X_Edos_Est;

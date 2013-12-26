@@ -35,11 +35,11 @@ if strcmp(Datos_struct.Tipo,'PFR')||...
     Datos{strcmp(Datos,'Estacionario'),2}=Datos_struct.Estacionario;
     if isempty(Datos_struct.Estacionario) 
         Datos_struct.Estacionario=true;        
-    end
-    Datos{strcmp(Datos,'Estacionario'),2}=Datos_struct.Estacionario;
+    end    
 else
     Datos_struct.Estacionario = true;    
 end
+Datos{strcmp(Datos,'Estacionario'),2}=Datos_struct.Estacionario;
 if isempty(Datos_struct.Incompresible) ||...
         isempty(Datos_struct.Isot)
    Datos_struct.Incompresible=true;

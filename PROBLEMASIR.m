@@ -297,7 +297,9 @@ switch VarIndep2
         Z=squeeze(Z(index,:,:));
         if strcmp(Datos_struct.Tipo,'CSTR')
             Z_Edos_Est=Datos_struct.([VarIndep2,'_Edos_Est']);
-            Z_Edos_Est=squeeze(Z_Edos_Est(index,:,:));
+            if ~isempty(Z_Edos_Est)
+                Z_Edos_Est=squeeze(Z_Edos_Est(index,:,:));
+            end
         end
     case 'T'
         Z = Datos_struct.(VariableIndep2String);
@@ -360,7 +362,8 @@ for i=1:size(VariablesDepGraficadas,1)
                     if strcmp(Datos_struct.Tipo,'CSTR')
                         Y=Datos_struct.(Var);
                         Y_Edos_Est=Datos_struct.([Var,'_Edos_Est']);
-                        if ~all(all(arrayfun(@isnan,Y)))
+                        if ~all(all(arrayfun(@isnan,Y))) ...
+                                && ~isempty(Y_Edos_Est)
                             Y_Edos_Est=Y_Edos_Est(index,:);
                         end
                     else
@@ -479,7 +482,8 @@ for i=1:size(VariablesDepGraficadas,1)
                         VariablesDepGraficadas{i,2}]);
                     set(h(end),'ButtonDownFcn',@inspeccionarLinea);
                     if strcmp(Datos_struct.Tipo,'CSTR')...
-                            && Datos_struct.MostrarEstadosEstacionarios
+                            && Datos_struct.MostrarEstadosEstacionarios ...
+                            && ~isempty(Y_Edos_Est)
                         h=plot(handles.axes1,X_Edos_Est,Y_Edos_Est,...
                             Datos_struct.linestyles{linestylesIndex},...
                             'Color',Datos_struct.colors(colorsIndex,:),...                            
