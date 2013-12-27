@@ -26,6 +26,8 @@ handles.Datos=get(handles.uitable1,'Data');
 set(handles.uitable1,'Data',handles.Datos);
 set(handles.uitable1,'Rowname',[]);
 set(handles.uitable1,'Columneditable',[false true false]);
+set(handles.figure1,'InvertHardcopy','off');
+set(handles.figure1,'PaperPositionMode','auto');
 
 actualizar(hObject, eventdata, handles, varargin)
 end
@@ -776,7 +778,12 @@ if ispc
     hgexport(handles.figure1,'-clipboard');
     informarAlUsuario('Se copió imagen al portapapeles',5);
 elseif ~ispc
-    
+    print(handles.figure1,'-loose','-painters','-dtiff',...
+        [pwd,filesep,'exports',filesep,...
+        'completa','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif']);
+    informarAlUsuario(['Se guardó imagen en carpeta: ',...
+        pwd,filesep,'exports',filesep,...
+        'completa','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif'],5);
 end
 end
 
@@ -839,12 +846,17 @@ if isfield(handles,'annotations')
 end
 set(figure2,'PaperPositionMode','auto');
 set(figure2,'InvertHardcopy','off');
-set(figure2,'Color','blue');
+set(figure2,'Color','white');
 if ispc
     hgexport(figure2,'-clipboard');
     informarAlUsuario('Se copió imagen al portapapeles',5);
 elseif ~ispc
-    
+    print(figure2,'-loose','-painters','-dtiff',...
+        [pwd,filesep,'exports',filesep,...
+        'solo_grafica','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif']);
+    informarAlUsuario(['Se guardó imagen en carpeta: ',...
+        pwd,filesep,'exports',filesep,...
+        'solo_grafica','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif'],5);
 end
 delete(axes2);
 delete(figure2);
