@@ -772,7 +772,12 @@ function uipushtool6_ClickedCallback(hObject, eventdata, handles)
 % hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
-hgexport(handles.figure1,'-clipboard');
+if ispc
+    hgexport(handles.figure1,'-clipboard');
+    informarAlUsuario('Se copió imagen al portapapeles',5);
+elseif ~ispc
+    
+end
 end
 
 % --------------------------------------------------------------------
@@ -835,7 +840,12 @@ end
 set(figure2,'PaperPositionMode','auto');
 set(figure2,'InvertHardcopy','off');
 set(figure2,'Color','blue');
-hgexport(figure2,'-clipboard');
+if ispc
+    hgexport(figure2,'-clipboard');
+    informarAlUsuario('Se copió imagen al portapapeles',5);
+elseif ~ispc
+    
+end
 delete(axes2);
 delete(figure2);
 end
@@ -859,14 +869,16 @@ if success
         datestr(now,'dd-mmm-yyyy-HH-MM-SS PM')];
     if ExcelInstalled
         fileName_ext=[fileName,'.xls'];
-        xlswrite(['./exports/',fileName],...
+        xlswrite([pwd,filesep,'exports',filesep,fileName],...
             get(handles.uitable1,'Data'));
     elseif ~ExcelInstalled
         fileName_ext=[fileName,'.csv'];
-        guardarCSV(['./exports/',fileName_ext],...
+        guardarCSV([pwd,filesep,'exports',filesep,fileName_ext],...
             get(handles.uitable1,'Data'));        
     end        
-    msgbox(['Data written to: ',['./exports/',fileName_ext]]);
+    informarAlUsuario(...
+        ['Datos exportados a: ',...
+        [pwd,filesep,'exports',filesep,fileName_ext]],5);
 else
     msgbox(['Falla en permisos al generar directorio: "./export" ',...
         '. Favor de exportar manualmente:',MESSAGEID,',',MESSAGE]);

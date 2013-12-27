@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project>
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="3076081690" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="2523737730" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
     <param.project.name>C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR</param.appname>
@@ -74,6 +74,7 @@
     </fileset.resources>
     <fileset.package>
       <file>${PROJECT_ROOT}\DATA</file>
+      <file>${PROJECT_ROOT}\LICENSE.txt</file>
       <file>${PROJECT_ROOT}\utils</file>
     </fileset.package>
     <build-deliverables>
@@ -307,14 +308,6 @@
         <directory>${MATLAB_ROOT}\toolbox\target\extensions\operatingsystem\windows\blks\masks</directory>
         <directory>${MATLAB_ROOT}\toolbox\target\extensions\operatingsystem\windows\blks\mex</directory>
         <directory>${MATLAB_ROOT}\toolbox\matlab\timeseries</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\basicFunctions</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\cell2csv</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\crossing</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\hpde</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\hpde\examples</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\hpde\solver</directory>
-        <directory>${PROJECT_ROOT}\matlab_exts\odeabort</directory>
       </path>
     </matlab>
     <platform>
