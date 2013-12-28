@@ -774,16 +774,21 @@ function uipushtool6_ClickedCallback(hObject, eventdata, handles)
 % hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
-if ispc
+[success,MESSAGE,MESSAGEID] = mkdir('exports');
+success = success && fileattrib('./exports','+w');
+if success && ispc
     hgexport(handles.figure1,'-clipboard');
     informarAlUsuario('Se copió imagen al portapapeles',5);
-elseif ~ispc
+elseif success && ~ispc
     print(handles.figure1,'-loose','-painters','-dtiff',...
         [pwd,filesep,'exports',filesep,...
         'completa','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif']);
     informarAlUsuario(['Se guardó imagen en carpeta: ',...
         pwd,filesep,'exports',filesep,...
         'completa','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif'],5);
+elseif ~success
+    msgbox(['Falla en permisos al generar directorio: "./export" ',...
+        '. Favor de generar manualmente:',MESSAGEID,',',MESSAGE]);
 end
 end
 
@@ -847,16 +852,21 @@ end
 set(figure2,'PaperPositionMode','auto');
 set(figure2,'InvertHardcopy','off');
 set(figure2,'Color','white');
-if ispc
+[success,MESSAGE,MESSAGEID] = mkdir('exports');
+success = success && fileattrib('./exports','+w');
+if success && ispc
     hgexport(figure2,'-clipboard');
     informarAlUsuario('Se copió imagen al portapapeles',5);
-elseif ~ispc
+elseif success && ~ispc
     print(figure2,'-loose','-painters','-dtiff',...
         [pwd,filesep,'exports',filesep,...
         'solo_grafica','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif']);
     informarAlUsuario(['Se guardó imagen en carpeta: ',...
         pwd,filesep,'exports',filesep,...
         'solo_grafica','_',datestr(now,'dd-mmm-yyyy-HH-MM-SS_PM'),'.tif'],5);
+elseif ~success
+    msgbox(['Falla en permisos al generar directorio: "./export" ',...
+        '. Favor de generar manualmente:',MESSAGEID,',',MESSAGE]);
 end
 delete(axes2);
 delete(figure2);
