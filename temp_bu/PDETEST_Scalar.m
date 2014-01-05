@@ -16,6 +16,7 @@ gd=decsg(geom,sf,ns);
 
 % View geometry
 fig3=figure;
+set(fig3,'WindowStyle','docked');
 h=axes('Parent',fig3);
 pdegplot(gd);
 set(h,'DataAspectRatio',[1,1,1]);
@@ -42,7 +43,9 @@ c = '1+x.^2+y.^2';
 u = parabolic(u0,tlist,b,p,e,t,c,a,f,d);
 
 for tt = 1:size(u,2) % number of steps
-    pdeplot(p,e,t,'xydata',u(:,tt),'zdata',u(:,tt),'colormap','jet');
+    pdeplot(p,e,t,'xydata',u(:,tt),'zdata',u(:,tt),...
+        'colormap','jet','mesh','on');
+    set(findobj(h,'Type','patch'),'EdgeAlpha',0.1);
     axis([-1 1 -1/2 1/2 -1.5 1.5 -1.5 1.5]); % use fixed axis
     title(['Step ' num2str(tt)]);
     view(-45,22);
@@ -64,9 +67,6 @@ else
     f = 10-10*time;    
 end
 f=10*f;
-if isnan(time)
-    f='NaN';
-end
 end
 
 function [qmatrix,gmatrix,hmatrix,rmatrix] = pdebound(p,e,u,time)

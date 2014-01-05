@@ -16,6 +16,7 @@ gd=decsg(geom,sf,ns);
 
 % View geometry
 fig3=figure;
+set(fig3,'WindowStyle','docked');
 h=axes('Parent',fig3);
 pdegplot(gd);
 set(h,'DataAspectRatio',[1,1,1]);
@@ -31,7 +32,7 @@ N=3 % 3 Eqs.
 p = jigglemesh(p,e,t);
 pdemesh(p,e,t);
 np = size(p,2); % number of points
-u0 = zeros(np,N); % initial guess
+u0 = zeros(np*N,1); % initial guess
 
 tlist = linspace(0,1,50);
 
@@ -39,11 +40,35 @@ b = @pdebound;
 d = [1 2 3]';
 a = [1 2 3]';
 f = @fcoeffunction;
-c = (char('1+x.^2+y.^2','1+x.^2+y.^2','1+x.^2+y.^2')');
+c = char('1+x.^2+y.^2','1+x.^2+y.^2','1+x.^2+y.^2');
+% c = 0;
 u = parabolic(u0,tlist,b,p,e,t,c,a,f,d);
 
-for tt = 1:size(u,2) % number of steps
-    pdeplot(p,e,t,'xydata',u(:,tt),'zdata',u(:,tt),'colormap','jet');
+pdeplot(p,e,t,...
+    'xydata',u(1+size(u,1)/3*0:size(u,1)/3*1,1),...
+    'zdata',u(1+size(u,1)/3*0:size(u,1)/3*1,1),'colormap','jet');
+hold on;
+pdeplot(p,e,t,...
+    'xydata',u(1+size(u,1)/3*1:size(u,1)/3*2,1),...
+    'zdata',u(1+size(u,1)/3*1:size(u,1)/3*2,1),'colormap','jet');
+hold on;
+pdeplot(p,e,t,...
+    'xydata',u(1+size(u,1)/3*2:size(u,1)/3*3,1),...
+    'zdata',u(1+size(u,1)/3*2:size(u,1)/3*3,1),'colormap','jet');
+hold on;
+for tt = 2:size(u,2) % number of steps
+    pdeplot(p,e,t,...
+        'xydata',u(1+size(u,1)/3*0:size(u,1)/3*1,tt),...
+        'zdata',u(1+size(u,1)/3*0:size(u,1)/3*1,tt),'colormap','jet');    
+    hold on;
+    pdeplot(p,e,t,...
+        'xydata',u(1+size(u,1)/3*1:size(u,1)/3*2,tt),...
+        'zdata',u(1+size(u,1)/3*1:size(u,1)/3*2,tt),'colormap','jet');
+    hold on;
+    pdeplot(p,e,t,...
+        'xydata',u(1+size(u,1)/3*2:size(u,1)/3*3,tt),...
+        'zdata',u(1+size(u,1)/3*2:size(u,1)/3*3,tt),'colormap','jet');
+    hold on;
     axis([-1 1 -1/2 1/2 -1.5 1.5 -1.5 1.5]); % use fixed axis
     title(['Step ' num2str(tt)]);
     view(-45,22);
@@ -51,7 +76,12 @@ for tt = 1:size(u,2) % number of steps
     pause(.1);
 end
 
-delete(fig3);
+msgbox1=msgbox('Fertig','Fertig','warn');
+set(findobj(msgbox1,'Type','uicontrol'),...
+    'Callback',...
+    {@OKFcn,fig3});
+
+hold off;
 
 end
 
@@ -71,7 +101,7 @@ f = zeros(N,nt); % Allocate f
 % Now the particular functional form of f
 f(1,:) = xpts - ypts + uintrp(1,:);
 f(2,:) = 1 + tanh(ux(1,:)) + tanh(uy(3,:));
-f(3,:) = (5+uintrp(3,:)).*sqrt(xpts.^2+ypts.^2);
+f(3,:) = (5+uintrp(3,:)).*sqrt(xpts.^2+ypts.^2);%.*ux(3,:);
 end
 
 function [qmatrix,gmatrix,hmatrix,rmatrix] = pdebound(p,e,u,time)
@@ -131,4 +161,11 @@ for k = 1:ne
             gmatrix(:,k) = gk;
     end
 end
+end
+
+function OKFcn(hObject,~,fig3)
+    if ishandle(fig3)
+        delete(fig3);
+    end
+    delete(hObject);
 end
