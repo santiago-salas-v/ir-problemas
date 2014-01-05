@@ -53,7 +53,10 @@ for tt = 1:size(u,2) % number of steps
     pause(.1);
 end
 
-delete(fig3);
+msgbox1=msgbox('Fertig','Fertig','warn');
+set(findobj(msgbox1,'Type','uicontrol'),...
+    'Callback',...
+    {@OKFcn,fig3});
 
 end
 
@@ -95,4 +98,11 @@ for k = 1:ne
             gmatrix(k) = xm^2 + ym^2;
     end
 end
+end
+
+function OKFcn(hObject,~,fig3)
+    if ishandle(fig3)
+        delete(fig3);
+    end
+    delete(get(hObject,'Parent'));
 end

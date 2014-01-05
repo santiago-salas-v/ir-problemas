@@ -25,7 +25,7 @@ xlim(h,[-1.1 1.1]);
 % The initial condition is u(x,y) = 0 at t = 0.
 % After running the code for creating the geometry, create the mesh, refine
 % it twice, and jiggle it once.
-N=3 % 3 Eqs.
+N=3; % 3 Eqs.
 [p,e,t] = initmesh(gd);
 [p,e,t] = refinemesh(gd,p,e,t);
 [p,e,t] = refinemesh(gd,p,e,t);
@@ -69,10 +69,11 @@ for tt = 2:size(u,2) % number of steps
         'xydata',u(1+size(u,1)/3*2:size(u,1)/3*3,tt),...
         'zdata',u(1+size(u,1)/3*2:size(u,1)/3*3,tt),'colormap','jet');
     hold on;
+    set(findobj(h,'Type','patch'),'EdgeAlpha',0.1);
     axis([-1 1 -1/2 1/2 -1.5 1.5 -1.5 1.5]); % use fixed axis
     title(['Step ' num2str(tt)]);
     view(-45,22);
-    drawnow;
+    drawnow;    
     pause(.1);
 end
 
@@ -167,5 +168,5 @@ function OKFcn(hObject,~,fig3)
     if ishandle(fig3)
         delete(fig3);
     end
-    delete(hObject);
+    delete(get(hObject,'Parent'));
 end
