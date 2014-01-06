@@ -59,7 +59,7 @@ hold on;
 for tt = 2:size(u,2) % number of steps
     pdeplot(p,e,t,...
         'xydata',u(1+size(u,1)/3*0:size(u,1)/3*1,tt),...
-        'zdata',u(1+size(u,1)/3*0:size(u,1)/3*1,tt),'colormap','jet');    
+        'zdata',u(1+size(u,1)/3*0:size(u,1)/3*1,tt),'colormap','jet');
     hold on;
     pdeplot(p,e,t,...
         'xydata',u(1+size(u,1)/3*1:size(u,1)/3*2,tt),...
@@ -73,7 +73,7 @@ for tt = 2:size(u,2) % number of steps
     axis([-1 1 -1/2 1/2 -1.5 1.5 -1.5 1.5]); % use fixed axis
     title(['Step ' num2str(tt)]);
     view(-45,22);
-    drawnow;    
+    drawnow;
     pause(.1);
 end
 
@@ -165,8 +165,8 @@ end
 end
 
 function OKFcn(hObject,~,fig3)
-    if ishandle(fig3)
-        delete(fig3);
-    end
-    delete(get(hObject,'Parent'));
+if ishandle(fig3)
+    delete(fig3);
+end
+delete(get(hObject,'Parent'));
 end
