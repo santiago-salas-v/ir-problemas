@@ -2,14 +2,17 @@ function PDETEST_System_1D
 %Simplified Problem in time and 1-D
 %   c(x,t,u,Du/Dx) * Du/Dt = x^(-m) * D(x^m * f(x,t,u,Du/Dx))/Dx + s(x,t,u,Du/Dx)
 %   c=I, f=0, s=s(x,t,u,Du/Dx)
-POINTFACTOR=50;
+POINTFACTOR=10;
 nt=9*POINTFACTOR;
 np=13*POINTFACTOR;
 m = 0;
 x = linspace(0,1,np);
 t = linspace(0,2,nt);
 
-wb=waitbar(0,'message','CreateCancelBtn',@cancelOperation);
+wb=waitbar(0,'Solving...','CreateCancelBtn',@cancelOperation);
+wbMessageText=findall(wb,'type','text');
+set(wbMessageText,'Interpreter','none');
+set(wb,'Name','Solving...');
 
 options=odeset('Events'...
     ...
@@ -21,25 +24,35 @@ options=odeset('Events'...
 u1 = sol(:,:,1);
 u2 = sol(:,:,2);
 
-figure
-surf(x,tsol,u1)
-title('u1(x,t)')
-xlabel('Distance x')
-ylabel('Time t')
-zLimits=get(findobj(gcf,'Type','axes'),'ZLim');
+fig3=figure('WindowStyle','docked');
+axes3=axes('Parent',fig3);
+surf(axes3,x,tsol,u1);
+hold on;
+surf(axes3,x,tsol,u2);
+zLimits=get(findobj(fig3,'Type','axes'),'ZLim');
+xlabel('Distance x');
+ylabel('Time t');
+legend('u1(x,t)','u2(x,t)');
 zlim([0,zLimits(2)])
-set(gcf,'WindowStyle','docked');
+set(findobj(fig3,'Type','surface'),'EdgeAlpha',0.1);
+for i=1:length(te)
+    plot3(axes3,x,te(i)*ones(size(x)),sole(i,:,1),...
+        'marker','none','Color',[1,1,1]*.3);
+    plot3(axes3,x,te(i)*ones(size(x)),sole(i,:,2),...
+        'marker','none','Color',[1,1,1]*.3);
+end
+hold off
 
-figure
-surf(x,tsol,u2)
-title('u2(x,t)')
-xlabel('Distance x')
-ylabel('Time t')
-zLimits=get(findobj(gcf,'Type','axes'),'ZLim');
-zlim([0,zLimits(2)])
-set(gcf,'WindowStyle','docked');
+rotate3d on;
+set(get(axes3,'Parent'),'currentaxes',axes3);
 
-delete(wb);
+if ishandle(wb)
+    set(wbMessageText,'String',...
+    ['Steady state reached at t=',...
+    sprintf('%02.2f',te(length(te)))]);
+    uiwait(wb,3);
+    if ishandle(wb),delete(wb);end
+end
 end
 % --------------------------------------------------------------
 function [c,f,s] = pdex4pde(x,t,u,DuDx,varargin)
@@ -73,12 +86,17 @@ if nargin==8 ...
         && isreal(varargin{4})
     wb=varargin{2};
     totalTime=varargin{4};
-    waitbar(t(length(t))/totalTime,wb);
+    fraction=t(length(t))/totalTime;
+    if ishandle(wb),messageText=findall(wb,'type','text');end
+    estatus=['Will stop once steady state is reached or ',...
+        't= ',sprintf('%02.2f',totalTime),...
+        ' (',sprintf('%u',round(fraction*100)) '%)'];
+    if ishandle(wb),waitbar(fraction,wb);end
+    if ishandle(wb),set(messageText,'String',estatus);end
 end
 % Stop when steady condition crossed.
 value = umesh; % Detect u-u_steady = 0
-%isterminal = 1;   % FIXME: Stop the integration
-isterminal = 1*ones(size(value));   % BYPASSING: Stop the integration
+isterminal = 1*ones(size(value));   % T make terminal change 0 for 1
 direction = 0*ones(size(value));   % Negative or positive directions
 end
 
