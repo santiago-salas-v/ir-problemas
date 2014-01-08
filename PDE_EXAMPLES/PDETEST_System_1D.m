@@ -46,7 +46,7 @@ hold off
 rotate3d on;
 set(get(axes3,'Parent'),'currentaxes',axes3);
 
-if ishandle(wb)
+if ishandle(wb)    
     set(wbMessageText,'String',...
     ['Steady state reached at t=',...
     sprintf('%02.2f',te(length(te)))]);
@@ -107,4 +107,8 @@ if ishandle(parent) && strcmp(get(parent,'Type'),'figure')
 elseif ishandle(hObject) && strcmp(get(hObject,'Type'),'figure')
     delete(hObject);
 end
+end
+
+function change_current_figure(h)
+set(0,'CurrentFigure',h)
 end
