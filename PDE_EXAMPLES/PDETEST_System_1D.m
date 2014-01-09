@@ -56,6 +56,10 @@ end
 end
 % --------------------------------------------------------------
 function [c,f,s] = pdex4pde(x,t,u,DuDx,varargin)
+%  c(x,t,u,Du/Dx) * Du/Dt = x^(-m) * D(x^m * f(x,t,u,Du/Dx))/Dx + s(x,t,u,Du/Dx)
+%  f(x,t,u,Du/Dx) is a flux and s(x,t,u,Du/Dx) is a source term. m must
+%  be 0, 1, or 2, corresponding to slab, cylindrical, or spherical symmetry,
+%  respectively.
 c = [1; 1];
 %f = [0.024; 0.17] .* DuDx;
 f = [0; 0] .* DuDx;
@@ -69,6 +73,10 @@ u0 = [1; 0];
 end
 % --------------------------------------------------------------
 function [pl,ql,pr,qr] = pdex4bc(xl,ul,xr,ur,t,varargin)
+% p(x,t,u) + q(x,t) * f(x,t,u,Du/Dx) = 0 
+% In diesem Falle: 
+% Links,  [0;u_2]   + [1;0] .* [0;0] .* DuDx = 0
+% Rechts, [u_1-1;0] + [0;1] .* [0;0] .* DuDx = 0
 pl = [0; ul(2)];
 ql = [1; 0];
 pr = [ur(1)-1; 0];
