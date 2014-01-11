@@ -1,11 +1,15 @@
-function PDETEST_System_1D_parabolic
+function PDETEST_System_1D_pdepe2parabolic
 %Problem using parabolic system for special 1-D case,
 % where "y" is arbitrary (0.1), z[0,L] ==> "x"[0,L] and t[0,t]==>>"t"[0,t]
 %   d*du/dt-div(c*grad(u))+a*u=f
 %   d=1, c=0, a=0, f=f(x,y,u,ux,uy)
 % Rectangle is code 3, 4 sides,
 % followed by x-coordinates and then y-coordinates
-L=1;t_tot=2;yMAX=2;nt=13;
+L=1;
+t_tot=2;
+yMAX=2;
+nt=13;
+nGridPoints=70;
 R1=[3,4,0,L,L,0,0,0,yMAX,yMAX]';
 geom=R1;
 
@@ -20,7 +24,7 @@ gd=decsg(geom,sf,ns);
 fig3=figure;
 set(fig3,'WindowStyle','docked');
 h=axes('Parent',fig3);
-%pdegplot(gd);
+pdegplot(gd);
 pdegplot(gd,'edgeLabels','on');
 set(h,'DataAspectRatio',[1,1,1]);
 xlim([-0.1*L,+1.1*L]);
@@ -44,30 +48,53 @@ b = @pdebound;
 d = [1 1]';
 a = [0 0]';
 f = @fcoeffunction;
-c = [0 0]';
+c = [0.024,0,0,0.17,0,0]*0'; % 3N-row form [c1;0;c2;c3;0;c4]
 % c = 0;
 u = parabolic(u0,tlist,b,p,e,t,c,a,f,d);
 
-pdeplot(p,e,t,...
-    'xydata',u(1+size(u,1)/2*0:size(u,1)/2*1,1),...
-    'zdata',u(1+size(u,1)/2*0:size(u,1)/2*1,1),'colormap','jet');
-hold on;
-pdeplot(p,e,t,...
-    'xydata',u(1+size(u,1)/2*1:size(u,1)/2*2,1),...
-    'zdata',u(1+size(u,1)/2*1:size(u,1)/2*2,1),'colormap','jet');
-hold on;
-for tt = 2:size(u,2) % number of steps
-    pdeplot(p,e,t,...
-        'xydata',u(1+size(u,1)/2*0:size(u,1)/2*1,tt),...
-        'zdata',u(1+size(u,1)/2*0:size(u,1)/2*1,tt),'colormap','jet');
-    hold on;
-    pdeplot(p,e,t,...
-        'xydata',u(1+size(u,1)/2*1:size(u,1)/2*2,tt),...
-        'zdata',u(1+size(u,1)/2*1:size(u,1)/2*2,tt),'colormap','jet');
-    hold on;
+uxy=zeros(N,length(tlist),size(t,2));
+
+for i=1:N
+    uxy(i,:,:)=pdeintrp(p,t,u(size(u,1)/2*(i-1)+1:size(u,1)/2*(i-0),:));
+end
+
+uxya=zeros(N,nGridPoints+1,length(tlist));
+
+for i=1:N
+    for j=1:length(tlist)
+        uxya(i,:,j)=...
+            tri2grid(p,t,squeeze(uxy(i,j,:)),...
+            (0:L/(nGridPoints):L),0);
+    end
+end
+
+% pdeplot(p,e,t,...
+%     'xydata',u(1+size(u,1)/2*0:size(u,1)/2*1,1),...
+%     'zdata',u(1+size(u,1)/2*0:size(u,1)/2*1,1),'colormap','jet');
+% hold on;
+% pdeplot(p,e,t,...
+%     'xydata',u(1+size(u,1)/2*1:size(u,1)/2*2,1),...
+%     'zdata',u(1+size(u,1)/2*1:size(u,1)/2*2,1),'colormap','jet');
+% hold on;
+h=-1*ones(1,N);
+for i=1:N
+    h(i)=subplot(1,N,i);
+end
+
+for i = 1:N % number of steps
+%     pdeplot(p,e,t,...
+%         'xydata',u(1+size(u,1)/2*0:size(u,1)/2*1,tt),...
+%         'zdata',u(1+size(u,1)/2*0:size(u,1)/2*1,tt),'colormap','jet');
+%     hold on;
+%     pdeplot(p,e,t,...
+%         'xydata',u(1+size(u,1)/2*1:size(u,1)/2*2,tt),...
+%         'zdata',u(1+size(u,1)/2*1:size(u,1)/2*2,tt),'colormap','jet');
+%     hold on;
+    subplot(h(i));
+    surf(tlist,(0:L/(nGridPoints):L),squeeze(uxya(i,:,:)));
     set(findobj(h,'Type','patch'),'EdgeAlpha',0.1);
-    axis([0 L 0 yMAX]); % use fixed axis
-    title(['Step ' num2str(tt)]);
+    %axis([0 L 0 yMAX]); % use fixed axis
+    title(['u' num2str(i),'(t,z)']);
     view(-45,22);
     drawnow;
     pause(.1);
@@ -99,8 +126,8 @@ y = uintrp(1,:) - uintrp(2,:);
 F = exp(5.73*y)-exp(-11.47*y);
 % Now the particular functional form of f
 %f(1,:) = xpts - ypts + uintrp(1,:);
-f(1,:) = -F+ux(1,:);
-f(2,:) = +F+ux(2,:);
+f(1,:) = -F;
+f(2,:) = +F;
 end
 
 function [qmatrix,gmatrix,hmatrix,rmatrix] = pdebound(p,e,u,time)
@@ -124,14 +151,22 @@ for k = 1:ne
     u1 = uvector(:,e(1,k));      % u at first point in segment
     u2 = uvector(:,e(2,k));      % u at second point in segment
     um = (u1 + u2)/2;            % u at segment midpoint
-    switch e(5,k)
-        % hu=r
+    
+    switch e(5,k)        
         % Sides:
         % 1 (x=L),      bc, right    3 (x=0)     bc, left
         % 2 (y=yMAX),   end y        4 (y=0)     beg y
+        % hu=r                          (Neumann M=0)
         % Links,  [0,0;0,1][u1;u2]   = [0;0]
         % Rechts, [1,0;0,0][u1;u2]   = [+1;0]
+        % n.div(c*grad(u))+qu=g+h'u     (Dirchlet M=N)
+        % Links,  n.div(c*grad(u)) = [0;0] +0
+        % Rechts, n.div(c*grad(u)) = [0;ux2] +0
         case {4} % (x=0)
+            gk = zeros(N,1);
+            g(1)=1e-4;
+            g(2)=0;
+            gmatrix(:,k) = gk;
             hk = zeros(N);
             hk(1,1) = 0;
             hk(2,2) = 1;
@@ -144,6 +179,10 @@ for k = 1:ne
             rmatrix(:,k) = rk;
             rmatrix(:,k+ne) = rk;
         case {2} % (x=L)
+            gk = zeros(N,1);
+            g(1)=0;
+            g(2)=1e-4;
+            gmatrix(:,k) = gk;
             hk = zeros(N);
             hk(1,1) = 1;
             hk(2,2) = 0;

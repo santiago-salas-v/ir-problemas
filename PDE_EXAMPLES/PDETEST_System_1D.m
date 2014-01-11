@@ -75,6 +75,7 @@ end
 function [pl,ql,pr,qr] = pdex4bc(xl,ul,xr,ur,t,varargin)
 % p(x,t,u) + q(x,t) * f(x,t,u,Du/Dx) = 0 
 % In diesem Falle: 
+% f = [0;0] .* DuDx;
 % Links,  [0;u_2]   + [1;0] .* [0;0] .* DuDx = 0
 % Rechts, [u_1-1;0] + [0;1] .* [0;0] .* DuDx = 0
 pl = [0; ul(2)];
