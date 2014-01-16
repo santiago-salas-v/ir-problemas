@@ -2,6 +2,7 @@ function PDETEST_System_1D
 %Simplified Problem in time and 1-D
 %   c(x,t,u,Du/Dx) * Du/Dt = x^(-m) * D(x^m * f(x,t,u,Du/Dx))/Dx + s(x,t,u,Du/Dx)
 %   c=I, f=0, s=s(x,t,u,Du/Dx)
+N=2; % Order
 POINTFACTOR=10;
 nt=9*POINTFACTOR;
 np=13*POINTFACTOR;
@@ -14,17 +15,25 @@ wbMessageText=findall(wb,'type','text');
 set(wbMessageText,'Interpreter','none');
 set(wb,'Name','Solving...');
 
+fig3=figure('WindowStyle','docked');
+
+h=-1*ones(1,N);
+for i=1:N
+    h(i)=subplot(1,N,i);
+end
+
 options=odeset('Events'...
     ...
     ,@events,'Stats','on');
-%,@events,'Stats','on');
 [sol,tsol,sole,te,ie] = pdepe(m,@pdex4pde,@pdex4ic,@pdex4bc,...
-    x,t,options,'WaitBar',wb,'TotalTime',t(length(t)));
-%sol = pdepe(m,@pdex4pde,@pdex4ic,@pdex4bc,x,t);
+    x,t,options,'WaitBar',wb,'TotalTime',t(length(t)),...
+    'AxesToPlotOn',h);
+
+delete(h);
+
 u1 = sol(:,:,1);
 u2 = sol(:,:,2);
 
-fig3=figure('WindowStyle','docked');
 axes3=axes('Parent',fig3);
 surf(axes3,x,tsol,u1);
 hold on;
@@ -85,7 +94,7 @@ qr = [0; 1];
 end
 
 function [value,isterminal,direction] = events(m,t,xmesh,umesh,varargin)
-if nargin==8 ...
+if nargin >= 8 ...
         && strcmp(varargin{1},'WaitBar')...
         && ishandle(varargin{2})...
         && strcmp(get(varargin{2},'Type'),'figure')...
@@ -102,6 +111,20 @@ if nargin==8 ...
         ' (',sprintf('%u',round(fraction*100)) '%)'];
     if ishandle(wb),waitbar(fraction,wb);end
     if ishandle(wb),set(messageText,'String',estatus);end
+    
+    if nargin >= 10 ...
+            && strcmp(varargin{5},'AxesToPlotOn')...
+            && all(ishandle(varargin{6}))
+        axesArray  = varargin{6};
+        uVarNo = size(umesh,1)/size(xmesh,1);
+        for i=1:uVarNo
+           subplot(axesArray(i));
+           plot(axesArray(i),...
+               xmesh,umesh(1+(i-1)*size(xmesh,1):i*size(xmesh,1))); 
+           title(axesArray(i),...
+               ['u',num2str(i),'(x,t=',sprintf('%0.3f',t),')']);
+        end        
+    end
 end
 % Stop when steady condition crossed.
 value = umesh; % Detect u-u_steady = 0

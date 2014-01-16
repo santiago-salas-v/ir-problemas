@@ -8,7 +8,7 @@ function PDETEST_System_1D_pdepe2parabolic
 L=1;
 t_tot=2;
 yMAX=2;
-nt=13;
+nt=20;
 nGridPoints=70;
 R1=[3,4,0,L,L,0,0,0,yMAX,yMAX]';
 geom=R1;
@@ -48,7 +48,7 @@ b = @pdebound;
 d = [1 1]';
 a = [0 0]';
 f = @fcoeffunction;
-c = [0.024,0,0,0.17,0,0]*0'; % 3N-row form [c1;0;c2;c3;0;c4]
+c = [0.024,0,0.17,0.024,0,0.17]'; % 3N-row form [c1;0;c2;c3;0;c4]
 % c = 0;
 u = parabolic(u0,tlist,b,p,e,t,c,a,f,d);
 
@@ -100,6 +100,8 @@ for i = 1:N % number of steps
     pause(.1);
 end
 
+rotate3d on;
+
 msgbox1=msgbox('Fertig','Fertig','warn');
 set(findobj(msgbox1,'Type','uicontrol'),...
     'Callback',...
@@ -126,8 +128,8 @@ y = uintrp(1,:) - uintrp(2,:);
 F = exp(5.73*y)-exp(-11.47*y);
 % Now the particular functional form of f
 %f(1,:) = xpts - ypts + uintrp(1,:);
-f(1,:) = -F;
-f(2,:) = +F;
+f(1,:) = -F+ux(1,:)*0;
+f(2,:) = +F+ux(2,:)*0;
 end
 
 function [qmatrix,gmatrix,hmatrix,rmatrix] = pdebound(p,e,u,time)
@@ -163,10 +165,10 @@ for k = 1:ne
         % Links,  n.div(c*grad(u)) = [0;0] +0
         % Rechts, n.div(c*grad(u)) = [0;ux2] +0
         case {4} % (x=0)
-            gk = zeros(N,1);
-            g(1)=1e-4;
-            g(2)=0;
-            gmatrix(:,k) = gk;
+%             gk = zeros(N,1);
+%             g(1)=0;
+%             g(2)=0;
+%             gmatrix(:,k) = gk;
             hk = zeros(N);
             hk(1,1) = 0;
             hk(2,2) = 1;
@@ -179,10 +181,10 @@ for k = 1:ne
             rmatrix(:,k) = rk;
             rmatrix(:,k+ne) = rk;
         case {2} % (x=L)
-            gk = zeros(N,1);
-            g(1)=0;
-            g(2)=1e-4;
-            gmatrix(:,k) = gk;
+%             gk = zeros(N,1);
+%             g(1)=0;
+%             g(2)=0;
+%             gmatrix(:,k) = gk;
             hk = zeros(N);
             hk(1,1) = 1;
             hk(2,2) = 0;
