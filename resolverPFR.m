@@ -34,6 +34,8 @@ timestep_factor=Datos_struct.timestep_factor;
 Az=pi/4*(Diam)^2;%cm^2
 Aza=pi/4*(Diam_a^2-Diam^2);%cm^2
 F0=C0*Q0/1000;%mol/min
+nPuntos=100;
+nTiempos=70;
 stop_sign_icon =imread(fullfile(...
     ['.',filesep,'utils',filesep,'Stop_sign.png']));
 stop_sign_icon(stop_sign_icon==0)=255;
@@ -348,8 +350,6 @@ if Estacionario
         Qa=Qa0*ones(size(T));
     end
 elseif ~Estacionario
-    nPuntos=80;
-    nTiempos=70;
     z=linspace(0,Longitud,nPuntos);
     t=linspace(0,tiempo_tot,nTiempos);
     C=NaN*zeros(length(C0),nPuntos,nTiempos);
