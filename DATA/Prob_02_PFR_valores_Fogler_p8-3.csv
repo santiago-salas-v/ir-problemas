@@ -33,7 +33,7 @@ PROPIEDADES||
 Cp_Molares|[0.141,0.161,0,0,0,0]|kJ/(gmol K)
 rhoCp_a|       4.182|kJ/(L K)
 INTEGRACIÓN||
-tiempo_tot|5|min
+tiempo_tot|50|min
 timestep_factor|.5|
 EJES||
 XMIN|           0|

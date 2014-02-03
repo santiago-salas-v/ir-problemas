@@ -2,7 +2,7 @@ sep=|
 VARIABLE|VALOR|UNIDADES
 OPERACIÓN||
 Tipo|PFR|
-Estacionario|1|
+Estacionario|0|
 Isot|0|
 Co_Corriente|1|
 Incompresible|1|
@@ -34,11 +34,11 @@ Cp_Molares|[0.141,0.161,0,0,0,0]|kJ/(gmol K)
 rhoCp_a|       41820|kJ/(L K)
 INTEGRACIÓN||
 tiempo_tot|         250|min
-timestep_factor|9.000000000000001E-005|
+timestep_factor|1|
 EJES||
 XMIN|           0|
 XMAX|      400000|
 YMIN|           0|
-YMAX|          10|
-ZMIN|          -1|
-ZMAX|           1|
+YMAX|         400|
+ZMIN|           0|
+ZMAX|          10|
