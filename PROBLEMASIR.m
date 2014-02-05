@@ -771,7 +771,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool6_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 [success,MESSAGE,MESSAGEID] = mkdir('exports');
@@ -794,7 +794,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool7_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 figure2=figure('MenuBar','none','ToolBar','none','Resize','off');
@@ -875,7 +875,7 @@ end
 % --------------------------------------------------------------------
 function uipushtool9_ClickedCallback(hObject, eventdata, handles)
 % Write to Excel
-% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 [success,MESSAGE,MESSAGEID] = mkdir('exports');
@@ -909,7 +909,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool5_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 Datos = get(handles.uitable1,'Data');
@@ -1163,6 +1163,13 @@ end
 end
 
 % --------------------------------------------------------------------
+function Untitled_11_Callback(hObject, eventdata, handles)
+% hObject    handle to Untitled_11 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+end
+
+% --------------------------------------------------------------------
 function Untitled_2_Callback(hObject, eventdata, handles)
 % hObject    handle to Untitled_6 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
@@ -1181,6 +1188,7 @@ function Untitled_7_Callback(hObject, eventdata, handles)
 % hObject    handle to Untitled_7 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
+PROBLEMASIR;
 end
 
 % --------------------------------------------------------------------
@@ -1204,7 +1212,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool10_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool10 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
     [X,Y]=ginput(1);
@@ -1234,4 +1242,11 @@ function uipushtool10_ClickedCallback(hObject, eventdata, handles)
         set(b,'UserData',...
             [X Y posicionCorregida(3) posicionCorregida(4)]);
     end
+end
+
+function uipushtool11_ClickedCallback(hObject, eventdata, handles)
+% NEW / Wizard
+% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
 end
