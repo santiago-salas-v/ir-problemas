@@ -1097,6 +1097,90 @@ elseif factorCoContraCorriente ==-1
 end
 end
 
+function Dy_Dt = EDP_NoEst_NoIsot_NoIncomp(t,z,y,Dy_Dz,...
+    Az,...
+    Coefs_esteq,Exponentes_r,...
+    k0,E,R,T0ref,...
+    delta_Hf,CpMolares,...
+    U,a,...
+    Qa0,Aza,factorCoContraCorriente,rhoCp_a,...
+    C0,T0)%#ok
+nComps  = size(Coefs_esteq,2);
+CT_0    = sum(C0);
+
+DF_Dz   = Dy_Dz(nComps+1:2*nComps,:);
+DT_Dz   = Dy_Dz(end-1,:);
+DTa_Dz  = Dy_Dz(end,:);
+
+C	= y(1:nComps,:);
+F	= y(nComps+1:2*nComps,:);
+Q   = sum(F)./sum(C);
+F_T = sum(F);
+T   = y(end-1,:);
+Ta  = y(end,:);
+
+DC_Dt = ...
+    -1/Az*DF_Dz+...
+    Coefs_esteq'*rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
+
+DT_Dt = ...
+    -Q/Az.*DT_Dz+...
+    (1./(CpMolares*C)).*...
+    sum(...
+    (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares)'.*...
+    rapideces(C,T,Exponentes_r,k0,E,R,T0ref))...
+    ,1)+...
+    U*a./(CpMolares*C).*(Ta-T);
+
+DTa_Dt = ...
+    -Qa0/Aza*DTa_Dz*factorCoContraCorriente+...
+    -U*a./(rhoCp_a).*(Ta-T);
+
+DF_Dt   = zeros(size(DC_Dt));
+
+% (I + M1)  *   DF_Dt   = M2 * DT_Dt + M3 * DC_Dt
+% LHS       *   DF_Dt   = RHS
+I       = repmat(eye(nComps),[1,1,size(y,2)]);
+M1      = zeros(nComps,nComps,size(y,2));
+M2      = ...
+    repmat(F_T,nComps,1).*C/CT_0.*1/T0;
+M3      = ...
+    repmat(F_T,nComps,1).*1/CT_0.*repmat(T,nComps,1)/T0;
+
+for i=1:nComps
+    M1(i,:,:)       =(-(C(i,:).*T/(CT_0*T0))'*ones(1,nComps))';
+end
+
+RHS     = M2.*repmat(DT_Dt,nComps,1)+M3.*DC_Dt;
+LHS     = (I+M1);
+for i=1:size(y,2)
+    DF_Dt(:,i) = LHS(:,:,i) \ RHS(:,i);
+end
+
+Dy_Dt = ...
+    [...
+    DC_Dt;...
+    DF_Dt;...
+    DT_Dt;...
+    DTa_Dt...
+    ];
+end
+
+function slider_callback1(src,~,arg1)
+val = get(src,'Value');
+currentPos = get(arg1,'Position');
+set(arg1,'Position',[0 1-val*currentPos(4) 1 currentPos(4)]);
+end
+
+function cancelOperation(hObject,~)
+parent=get(hObject,'Parent');
+if ishandle(parent) && strcmp(get(parent,'Type'),'figure')
+    delete(parent);
+elseif ishandle(hObject) && strcmp(get(hObject,'Type'),'figure')
+    delete(hObject);
+end
+end
+
 function plotStep(~,t,xmesh,umesh,varargin)
 % Stop when steady condition crossed.
 umesh=umesh(:);
@@ -1181,88 +1265,4 @@ if nargin >= 10 ...
             [nombresDeVariables{i},'(x,t=',sprintf('%0.3f',t(end)),')']);
     end
 end
-end
-
-function cancelOperation(hObject,~)
-parent=get(hObject,'Parent');
-if ishandle(parent) && strcmp(get(parent,'Type'),'figure')
-    delete(parent);
-elseif ishandle(hObject) && strcmp(get(hObject,'Type'),'figure')
-    delete(hObject);
-end
-end
-
-function Dy_Dt = EDP_NoEst_NoIsot_NoIncomp(t,z,y,Dy_Dz,...
-    Az,...
-    Coefs_esteq,Exponentes_r,...
-    k0,E,R,T0ref,...
-    delta_Hf,CpMolares,...
-    U,a,...
-    Qa0,Aza,factorCoContraCorriente,rhoCp_a,...
-    C0,T0)%#ok
-nComps  = size(Coefs_esteq,2);
-CT_0    = sum(C0);
-
-DF_Dz   = Dy_Dz(nComps+1:2*nComps,:);
-DT_Dz   = Dy_Dz(end-1,:);
-DTa_Dz  = Dy_Dz(end,:);
-
-C	= y(1:nComps,:);
-F	= y(nComps+1:2*nComps,:);
-Q   = sum(F)./sum(C);
-F_T = sum(F);
-T   = y(end-1,:);
-Ta  = y(end,:);
-
-DC_Dt = ...
-    -1/Az*DF_Dz+...
-    Coefs_esteq'*rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
-
-DT_Dt = ...
-    -Q/Az.*DT_Dz+...
-    (1./(CpMolares*C)).*...
-    sum(...
-    (-delta_Hr(T,delta_Hf,Coefs_esteq,CpMolares)'.*...
-    rapideces(C,T,Exponentes_r,k0,E,R,T0ref))...
-    ,1)+...
-    U*a./(CpMolares*C).*(Ta-T);
-
-DTa_Dt = ...
-    -Qa0/Aza*DTa_Dz*factorCoContraCorriente+...
-    -U*a./(rhoCp_a).*(Ta-T);
-
-DF_Dt   = zeros(size(DC_Dt));
-
-% (I + M1)  *   DF_Dt   = M2 * DT_Dt + M3 * DC_Dt
-% LHS       *   DF_Dt   = RHS
-I       = repmat(eye(nComps),[1,1,size(y,2)]);
-M1      = zeros(nComps,nComps,size(y,2));
-M2      = ...
-    repmat(F_T,nComps,1).*C/CT_0.*1/T0;
-M3      = ...
-    repmat(F_T,nComps,1).*1/CT_0.*repmat(T,nComps,1)/T0;
-
-for i=1:nComps
-    M1(i,:,:)       =(-(C(i,:).*T/(CT_0*T0))'*ones(1,nComps))';
-end
-
-RHS     = M2.*repmat(DT_Dt,nComps,1)+M3.*DC_Dt;
-LHS     = (I+M1);
-for i=1:size(y,2)
-    DF_Dt(:,i) = LHS(:,:,i) \ RHS(:,i);
-end
-
-Dy_Dt = ...
-    [...
-    DC_Dt;...
-    DF_Dt;...
-    DT_Dt;...
-    DTa_Dt...
-    ];
-end
-
-function slider_callback1(src,~,arg1)
-val = get(src,'Value');
-currentPos = get(arg1,'Position');
-set(arg1,'Position',[0 1-val*currentPos(4) 1 currentPos(4)]);
 end
