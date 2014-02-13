@@ -1254,7 +1254,9 @@ uiwait(asist);
 if ishandle(asist)
     % No cancelado
     set(asist,'Visible','off');
-    
+    Datos=get(asist,'UserData');
+    set(handles.uitable1,'Data',Datos);    
     delete(asist);
+    actualizar(hObject, eventdata, handles, {});
 end
 end
