@@ -22,7 +22,7 @@ function varargout = ASISTENTE(varargin)
 
 % Edit the above text to modify the response to help ASISTENTE
 
-% Last Modified by GUIDE v2.5 14-Feb-2014 20:35:03
+% Last Modified by GUIDE v2.5 15-Feb-2014 14:21:04
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -57,7 +57,12 @@ function ASISTENTE_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.output = hObject;
 
 im = image('Parent',handles.axes1,'CData',...
-    imread([pwd,filesep,'utils',filesep,'TANQUE.png']));
+    imread([pwd,filesep,'utils',filesep,'TANQUE.png']),...
+    'HitTest','off');
+
+set(handles.axes1,...
+    'ButtonDownFcn',@(hObject,eventData)...
+    {@zoomAImagen,handles});
 
 set(handles.axes1,'YDir','reverse');
 set(handles.axes1,...
@@ -811,4 +816,16 @@ set(handles.uitable1,'Data',datosDeOperacion);
 set(handles.uitable2,'Data',datosDeComponentes);
 set(handles.uitable3,'Data',datosDeReacciones);
 set(handles.uitable4,'Data',datosDeCondiciones);
+end
+
+% --- Executes on button press in pushbutton7.
+function pushbutton7_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton7 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+end
+
+
+function zoomAImagen(hObject,eventData,handles)
+pan on;
 end
