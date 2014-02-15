@@ -1249,14 +1249,19 @@ function uipushtool11_ClickedCallback(hObject, eventdata, handles)
 % hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
-asist=ASISTENTE('WindowStyle','modal');
-uiwait(asist);
-if ishandle(asist)
-    % No cancelado
-    set(asist,'Visible','off');
-    Datos=get(asist,'UserData');
-    set(handles.uitable1,'Data',Datos);    
-    delete(asist);
-    actualizar(hObject, eventdata, handles, {});
+asist=findobj(0,'Name','ASISTENTE');
+if isempty(asist)    
+    asist=ASISTENTE('WindowStyle','normal');
+    uiwait(asist);
+    if ishandle(asist) && ~isempty(get(asist,'UserData'))
+        % No cancelado
+        set(asist,'Visible','off');
+        Datos=get(asist,'UserData');
+        set(handles.uitable1,'Data',Datos);
+        delete(asist);
+        actualizar(hObject, eventdata, handles, {});
+    end    
+else
+    figure(asist);
 end
 end
