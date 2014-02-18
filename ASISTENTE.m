@@ -898,11 +898,11 @@ if Nr > 1
     set(handles.uitable2,'Data',datosDeComponentes_nuevo);
     set(handles.uitable3,'Data',datosDeReacciones_nuevo);
     set(handles.uitable4,'Data',datosDeCondiciones_nuevo);
-    set(hObject,'UserData',sprintf('%u',n));
+    set(hObject,'UserData',sprintf('%u',Nr));
     guidata(hObject,handles);
 else
-    n       =   n_previo;
-    set(hObject,'String',sprintf('%u',n));
+    Nr       =   Nr_previo;
+    set(hObject,'String',sprintf('%u',Nr));
 end
 end
 
