@@ -60,10 +60,6 @@ im = image('Parent',handles.axes1,'CData',...
     imread([pwd,filesep,'utils',filesep,'TANQUE.png']),...
     'HitTest','off');
 
-set(handles.axes1,...
-    'ButtonDownFcn',@(hObject,eventData)...
-    {@zoomAImagen,handles});
-
 set(handles.axes1,'YDir','reverse');
 set(handles.axes1,...
     'XLimMode','auto',...
@@ -278,16 +274,20 @@ if isempty(parametrosFaltantes)
                 Datos{i,2} = eval(Datos{i,1});
             elseif any(strcmp(datosDeOperacion(:,1),Datos{i,1}))
                 Datos{i,2} = ...
-                    datosDeOperacion{strcmp(datosDeOperacion,Datos{i,1}),2};
+                    datosDeOperacion{...
+                    strcmp(datosDeOperacion,Datos{i,1}),2};
             elseif any(strcmp(datosDeReacciones(:,1),Datos{i,1}))
                 Datos{i,2} = ...
-                    datosDeReacciones{strcmp(datosDeReacciones,Datos{i,1}),2};
+                    datosDeReacciones{...
+                    strcmp(datosDeReacciones,Datos{i,1}),2};
             elseif any(strcmp(datosDeComponentes(:,1),Datos{i,1}))
                 Datos{i,2} = ...
-                    datosDeComponentes{strcmp(datosDeComponentes,Datos{i,1}),2};
+                    datosDeComponentes{...
+                    strcmp(datosDeComponentes,Datos{i,1}),2};
             elseif any(strcmp(datosDeCondiciones(:,1),Datos{i,1}))
                 Datos{i,2} = ...
-                    datosDeCondiciones{strcmp(datosDeCondiciones,Datos{i,1}),2};
+                    datosDeCondiciones{...
+                    strcmp(datosDeCondiciones,Datos{i,1}),2};
             end
             if ~isempty(Datos{i,2}) ...
                     && ~isscalar(Datos{i,2}) ...
@@ -310,12 +310,15 @@ if isempty(parametrosFaltantes)
             
         case 'CSTR'
             Datos{strcmp(Datos,'Estacionario'),2}   = ...
-                datosDeOperacion{strcmp(datosDeOperacion,'Estacionario'),2};
+                datosDeOperacion{...
+                strcmp(datosDeOperacion,'Estacionario'),2};
         case 'PFR'
             Datos{strcmp(Datos,'Estacionario'),2}   = ...
-                datosDeOperacion{strcmp(datosDeOperacion,'Estacionario'),2};
+                datosDeOperacion{...
+                strcmp(datosDeOperacion,'Estacionario'),2};
             Datos{strcmp(Datos,'Co_Corriente'),2}   = ...
-                datosDeOperacion{strcmp(datosDeOperacion,'Co_Corriente'),2};
+                datosDeOperacion{...
+                strcmp(datosDeOperacion,'Co_Corriente'),2};
     end
     
     set(get(hObject,'Parent'),'UserData',Datos);
@@ -531,7 +534,8 @@ set(handles.axes1,...
 datosDeCondiciones_nuevo    = get(handles.uitable4,'Data');
 
 for i=1:size(datosDeCondiciones_nuevo,1)
-    if any(strcmp(datosDeCondiciones(:,1),datosDeCondiciones_nuevo{i,1}))
+    if any(strcmp(datosDeCondiciones(:,1),...
+            datosDeCondiciones_nuevo{i,1}))
         datosDeCondiciones_nuevo{i,2} = ...
             datosDeCondiciones{...
             strcmp(...
@@ -676,12 +680,12 @@ if n > 1
                 Coefs_esteq{(i-1)*n+j,2}          = ...
                     datosDeReacciones{...
                     strcmp(datosDeReacciones(:,1),...
-                    Coefs_esteq(j,1))...
+                    Coefs_esteq((i-1)*n+j,1))...
                     ,2};
                 Exponentes_r{(i-1)*n+j,2}          = ...
                     datosDeReacciones{...
                     strcmp(datosDeReacciones(:,1),...
-                    Exponentes_r(j,1))...
+                    Exponentes_r((i-1)*n+j,1))...
                     ,2};
             end
         end
@@ -731,7 +735,9 @@ function edit1_CreateFcn(hObject, eventdata, handles)
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+if ispc && ...
+        isequal(get(hObject,'BackgroundColor'), ...
+        get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 end
@@ -739,7 +745,7 @@ end
 
 % --- Executes on button press in pushbutton3.
 function pushbutton3_Callback(hObject, eventdata, handles)
-% n ==>> n + 1 (componente)
+% n <<== n + 1 (componente)
 % hObject    handle to pushbutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -750,7 +756,7 @@ end
 
 % --- Executes on button press in pushbutton4.
 function pushbutton4_Callback(hObject, eventdata, handles)
-% n ==>> n - 1 (componente)
+% n <<== n - 1 (componente)
 % hObject    handle to pushbutton4 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
@@ -762,12 +768,144 @@ end
 end
 
 function edit2_Callback(hObject, eventdata, handles)
+% Nr (Reacciones)
 % hObject    handle to edit2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
 % Hints: get(hObject,'String') returns contents of edit2 as text
 %        str2double(get(hObject,'String')) returns contents of edit2 as a double
+n           =   str2double(get(handles.edit1,'String'));
+Nr          =   str2double(get(hObject,'String'));
+Nr_previo   =   str2double(get(hObject,'UserData'));
+
+menu        =   get(handles.popupmenu1,'String');
+tipo        =   menu{get(handles.popupmenu1,'Value')};
+
+if ~isreal(Nr) || rem(Nr,1) ~= 0
+    Nr       = round(real(Nr));
+    set(hObject,'String',sprintf('%u',Nr));
+end
+if Nr > 1
+    datosDeComponentes      = get(handles.uitable2,'Data');
+    datosDeReacciones       = get(handles.uitable3,'Data');
+    datosDeCondiciones      = get(handles.uitable4,'Data');
+    
+    C0              = cell(n,3);
+    C_t0            = cell(n,3);
+    
+    delta_Hf        = cell(n,3);
+    Cp_Molares      = cell(n,3);
+    E               = cell(Nr,3);
+    k0              = cell(Nr,3);
+    Coefs_esteq     = cell(Nr*n,3);
+    Exponentes_r    = cell(Nr*n,3);
+    
+    for i=1:n
+        delta_Hf{i,1}   = ['delta_Hf_',num2str(i)];
+        Cp_Molares{i,1} = ['Cp_Molares_',num2str(i)];
+        C0{i,1}         = ['C0_',num2str(i)];
+        C_t0{i,1}       = ['C_t0_',num2str(i)];
+        delta_Hf{i,3}   = 'kJ/gmol';
+        Cp_Molares{i,3} = 'kJ/(gmol K)';
+        C0{i,3}         = 'gmol/L';
+        C_t0{i,3}       = 'gmol/L';
+        if true
+            delta_Hf{i,2}   = ...
+                datosDeComponentes{...
+                strcmp(datosDeComponentes(:,1),delta_Hf(i,1))...
+                ,2};
+            Cp_Molares{i,2} = ...
+                datosDeComponentes{...
+                strcmp(datosDeComponentes(:,1),Cp_Molares(i,1))...
+                ,2};
+            C0{i,2}         = ...
+                datosDeCondiciones{...
+                strcmp(datosDeCondiciones(:,1),C0(i,1))...
+                ,2};
+            if strcmp(tipo,'CSTR') ||...
+                    strcmp(tipo,'SEMIBR')
+                C_t0{i,2}       = ...
+                    datosDeCondiciones{...
+                    strcmp(datosDeCondiciones(:,1),C_t0(i,1))...
+                    ,2};
+            end
+        end
+    end
+    for i=1:Nr
+        k0{i,1}         = ['k0_',num2str(i)];
+        E{i,1}          = ['E_',num2str(i)];
+        k0{i,3}         = '(1/min)(gmol/L)^(1-Sum_j(alpha_ij))';
+        E{i,3}          = 'J/gmol';
+        if i<= Nr_previo
+            k0{i,2}         = ...
+                datosDeReacciones{...
+                strcmp(datosDeReacciones(:,1),k0(i,1))...
+                ,2};
+            E{i,2}          = ...
+                datosDeReacciones{...
+                strcmp(datosDeReacciones(:,1),E(i,1))...
+                ,2};
+        end
+        for j=1:n
+            Coefs_esteq{(i-1)*n+j,1}          = ...
+                ['Coefs_esteq_',num2str(i),',',num2str(j)];
+            Exponentes_r{(i-1)*n+j,1}         = ...
+                ['Exponentes_r_',num2str(i),',',num2str(j)];
+            Coefs_esteq{(i-1)*n+j,3}          = '[adim]';
+            Exponentes_r{(i-1)*n+j,3}         = '[adim]';
+            if ...
+                    (Nr_previo < Nr && ...
+                    (i-1)*n+j < Nr_previo) ||...
+                    (Nr_previo >= Nr )
+                Coefs_esteq{(i-1)*n+j,2}          = ...
+                    datosDeReacciones{...
+                    strcmp(datosDeReacciones(:,1),...
+                    Coefs_esteq((i-1)*n+j,1))...
+                    ,2};
+                Exponentes_r{(i-1)*n+j,2}          = ...
+                    datosDeReacciones{...
+                    strcmp(datosDeReacciones(:,1),...
+                    Exponentes_r((i-1)*n+j,1))...
+                    ,2};
+            end
+        end
+    end
+    rhoCp_a             = datosDeComponentes(...
+        strcmp(datosDeComponentes(:,1),'rhoCp_a'),:);
+    T0ref               = datosDeReacciones(...
+        strcmp(datosDeReacciones(:,1),'T0ref'),:);
+    Ref_Selectividad    = datosDeReacciones(...
+        strcmp(datosDeReacciones(:,1),'Ref_Selectividad'),:);
+    Ref_Rendimiento    = datosDeReacciones(...
+        strcmp(datosDeReacciones(:,1),'Ref_Rendimiento'),:);
+    datosDeComponentes_nuevo    = ...
+        [delta_Hf;Cp_Molares;rhoCp_a];
+    datosDeReacciones_nuevo     = ...
+        [...
+        T0ref;k0;E;Coefs_esteq;Exponentes_r;...
+        Ref_Selectividad;Ref_Rendimiento...
+        ];
+    if ~strcmp(tipo,'CSTR') &&...
+            ~strcmp(tipo,'SEMIBR')
+        C_t0 = {};
+    end
+    datosDeCondiciones_nuevo    = ...
+        [...
+        datosDeCondiciones(1,:);...
+        C0;C_t0;
+        datosDeCondiciones(find(...
+        strcmp(datosDeCondiciones(:,1),'T0'),1):end,:)...
+        ];
+    set(handles.uitable2,'Data',datosDeComponentes_nuevo);
+    set(handles.uitable3,'Data',datosDeReacciones_nuevo);
+    set(handles.uitable4,'Data',datosDeCondiciones_nuevo);
+    set(hObject,'UserData',sprintf('%u',n));
+    guidata(hObject,handles);
+else
+    n       =   n_previo;
+    set(hObject,'String',sprintf('%u',n));
+end
 end
 
 % --- Executes during object creation, after setting all properties.
@@ -778,7 +916,9 @@ function edit2_CreateFcn(hObject, eventdata, handles)
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+if ispc && ...
+        isequal(get(hObject,'BackgroundColor'),...
+        get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 end
@@ -786,17 +926,27 @@ end
 
 % --- Executes on button press in pushbutton5.
 function pushbutton5_Callback(hObject, eventdata, handles)
+% Nr <<== Nr + 1 (Reacciones)
 % hObject    handle to pushbutton5 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+Nr=str2double(get(handles.edit2,'String'));
+set(handles.edit2,'String',Nr+1);
+edit2_Callback(handles.edit2, eventdata, handles);
 end
 
 
 % --- Executes on button press in pushbutton6.
 function pushbutton6_Callback(hObject, eventdata, handles)
+% Nr <<== Nr - 1 (Reacciones)
 % hObject    handle to pushbutton6 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+Nr=str2double(get(handles.edit2,'String'));
+if Nr > 2
+    set(handles.edit2,'String',Nr-1);
+    edit2_Callback(handles.edit2, eventdata, handles);
+end
 end
 
 
@@ -811,7 +961,7 @@ datosDeComponentes      = get(handles.uitable2,'Data');
 datosDeReacciones       = get(handles.uitable3,'Data');
 datosDeCondiciones      = get(handles.uitable4,'Data');
 
-datosDeOperacion(:,2)   ={''};
+datosDeOperacion(:,2)   ={false};
 datosDeComponentes(:,2) ={''};
 datosDeReacciones(:,2)  ={''};
 datosDeCondiciones(:,2) ={''};
@@ -844,10 +994,13 @@ if isempty(fig1) || ~ishandle(fig1) || ~isscalar(fig1)
         'DockControls','off',...
         'MenuBar','none',...
         'Color','white',...
+        'NumberTitle','off',...
         'Name',tipo,...
         'Toolbar','none',...
         'Visible','off',...
         'Tag','ModelPicture');
+else
+    set(fig1,'Name',tipo);
 end
 
 axes2   = axes('Parent',fig1);
@@ -885,9 +1038,4 @@ set(axes2,...
     YData(2)
     ]);
 set(fig1,'Visible','on');
-end
-
-
-function zoomAImagen(hObject,eventData,handles)
-pan on;
 end
