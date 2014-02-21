@@ -1251,7 +1251,9 @@ function uipushtool11_ClickedCallback(hObject, eventdata, handles)
 % and user data (see GUIDATA)
 asist=findobj(0,'Name','ASISTENTE');
 if isempty(asist)    
-    asist=ASISTENTE('WindowStyle','normal');
+    asist=ASISTENTE(...
+        'WindowStyle','normal',...
+        'Data',get(handles.uitable1,'Data'));
     uiwait(asist);
     if ishandle(asist) && ~isempty(get(asist,'UserData'))
         % No cancelado
