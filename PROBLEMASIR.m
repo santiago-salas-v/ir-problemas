@@ -43,6 +43,11 @@ try
     if ~isequal(Datos,Datos_struct.DatosCalc)
         Datos=Datos_struct.DatosCalc;
         set(handles.uitable1,'Data',Datos);
+        fig2            = findobj('Tag','ModelPicture');
+        if ~isempty(fig2) && ishandle(fig2) && isscalar(fig2)
+            uipushtool12_ClickedCallback(...
+                hObject, eventdata, handles);
+        end
     end
     
     if ~isfield(handles,'Datos_struct')...
@@ -771,7 +776,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool6_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool12 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 [success,MESSAGE,MESSAGEID] = mkdir('exports');
@@ -794,7 +799,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool7_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool12 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 figure2=figure('MenuBar','none','ToolBar','none','Resize','off');
@@ -875,7 +880,7 @@ end
 % --------------------------------------------------------------------
 function uipushtool9_ClickedCallback(hObject, eventdata, handles)
 % Write to Excel
-% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool12 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 [success,MESSAGE,MESSAGEID] = mkdir('exports');
@@ -909,7 +914,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool5_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool12 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 Datos = get(handles.uitable1,'Data');
@@ -1212,7 +1217,7 @@ end
 
 % --------------------------------------------------------------------
 function uipushtool10_ClickedCallback(hObject, eventdata, handles)
-% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool12 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
     [X,Y]=ginput(1);
@@ -1246,7 +1251,7 @@ end
 
 function uipushtool11_ClickedCallback(hObject, eventdata, handles)
 % NEW / Wizard
-% hObject    handle to uipushtool11 (see GCBO) eventdata  reserved - to be
+% hObject    handle to uipushtool12 (see GCBO) eventdata  reserved - to be
 % defined in a future version of MATLAB handles    structure with handles
 % and user data (see GUIDATA)
 asist=findobj(0,'Name','ASISTENTE');
@@ -1266,4 +1271,79 @@ if isempty(asist)
 else
     figure(asist);
 end
+end
+
+function uipushtool12_ClickedCallback(hObject, eventdata, handles)
+% DIAGRAMA
+% hObject    handle to uipushtool12 (see GCBO) eventdata  reserved - to be
+% defined in a future version of MATLAB handles    structure with handles
+% and user data (see GUIDATA)
+Datos           = get(handles.uitable1,'Data');
+tipo            = Datos{strcmp('Tipo',Datos(:,1)),2};
+DimsDePantalla  = get(0,'MonitorPositions');
+fig2            = findobj('Tag','ModelPicture');
+
+if isempty(fig2) || ~ishandle(fig2) || ~isscalar(fig2)
+    fig2    = figure(...
+        'WindowStyle','normal',...
+        'Resize','off',...
+        'DockControls','off',...
+        'MenuBar','none',...
+        'Color','white',...
+        'NumberTitle','off',...
+        'Name',tipo,...
+        'Toolbar','none',...
+        'Visible','off',...
+        'Tag','ModelPicture');
+else
+    set(fig2,'Name',tipo);
+end
+axes2   = axes('Parent',fig2);
+switch tipo
+    case {'BR', 'CSTR' , 'SEMIBR'}
+        im = image('Parent',axes2,'CData',...
+            imread([pwd,filesep,'utils',filesep,'TANQUE.png']),...
+            'HitTest','off');
+    case 'PFR'
+        im = image('Parent',axes2,'CData',...
+            imread([pwd,filesep,'utils',filesep,'TUBULAR.png']),...
+            'HitTest','off');
+end
+XData   = get(im,'XData');
+YData   = get(im,'YData');
+set(fig2,'Position',...
+    [...
+    DimsDePantalla(3) - XData(2),...
+    DimsDePantalla(4)/2 - YData(2)/2,...
+    XData(2),...
+    YData(2)
+    ]...
+    );
+set(axes2,...    
+    'DataAspectRatio',[1,1,1],...
+    'PlotBoxAspectRatio',[1,1,1],...
+    'YDir','reverse',...
+    'XLimMode','auto',...
+    'YLimMode','auto',...
+    'ZLimMode','auto',...
+    'YLim',YData,...
+    'XLim',XData,...
+    'Box','off','Layer','bottom',...
+    'XTick',[],'YTick',[],...
+    'Units','pixels',...
+    'Position',...
+    [...
+    0,...
+    0,...
+    XData(2),...
+    YData(2)
+    ]);
+set(handles.figure1,'Units','Pixels');
+figure1Position     = get(handles.figure1,'OuterPosition');
+fig2OuterPosition   = get(fig2,'OuterPosition');
+movegui(handles.figure1,...
+    [DimsDePantalla(3) ...
+    - fig2OuterPosition(3) ...
+    - figure1Position(3),DimsDePantalla(4)/2 - YData(2)/2]);
+set(fig2,'Visible','on');
 end
