@@ -1,6 +1,6 @@
 sep=|
 OPERACIÓN||
-Tipo|SEMIBR|
+Tipo|BR|
 Isot|0|
 Incompresible|1|
 REACCIÓN||
@@ -15,10 +15,7 @@ Ref_Selectividad|4|
 Ref_Rendimiento|1|
 REACTOR||
 C0|[3;0;6;0;0;0]|gmol/L
-C_t0|[0;0;6;0;0;0]|gmol/L
-T0|500|K
-T_t0|440|K
-Q0|1|L/min
+T0|440|K
 Longitud|75.4619|cm
 Diam|50.308|cm
 Vr|150.0003585475298|L
@@ -31,11 +28,11 @@ PROPIEDADES||
 Cp_Molares|[0.09517;0.0727;0.0362;0.114;0.114;0.0348]|kJ/(gmol K)
 rhoCp_a|0.0017|kJ/(L K)
 INTEGRACIÓN||
-tiempo_tot|800|min
+tiempo_tot|1e-2|min
 EJES||
 XMIN|           0|
-XMAX|         800|
-YMIN|         -50|
-YMAX|         250|
+XMAX|        0.01|
+YMIN|          -1|
+YMAX|           6|
 ZMIN|          -1|
 ZMAX|           1|
