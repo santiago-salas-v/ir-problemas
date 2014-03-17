@@ -17,15 +17,15 @@ Ref_Selectividad|4|
 Ref_Rendimiento|1|
 REACTOR||
 C0|[3;0;6;0;0;0]|gmol/L
-T0|500|K
+T0|440|K
 Q0|15000|L/min
-Longitud|6260.6408|cm
+Longitud|52627.3|cm
 Diam|1.905|cm
-Vr|17.84426353482905|L
+Vr|149.999886645231|L
 U|9|Btu/(h ft2 R)
 a|2.26013867017527|ft2/L
 Ta0|265|°K
-Diam_a|58.308|cm
+Diam_a|2.2098|cm
 Qa0|7000|L/min
 PROPIEDADES||
 Cp_Molares|[0.09517;0.0727;0.0362;0.114;0.114;0.0348]|kJ/(gmol K)
@@ -35,7 +35,7 @@ tiempo_tot|900|min
 timestep_factor|1e-4|min
 EJES||
 XMIN|           0|
-XMAX|        7000|
+XMAX|       60000|
 YMIN|           0|
 YMAX|        2500|
 ZMIN|          -1|
