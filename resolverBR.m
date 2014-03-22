@@ -61,9 +61,7 @@ if Isot
     Qa=Ta_t*Va./(Ta0-Ta)-U*A/(rhoCp_a)./log((Ta-T0)./(Ta0-T0));
 elseif ~Isot   
     Vr=Vr0;
-    M=eye(nComps+2);%cm/min
-    M(1:end-1,1:end-1)=M(1:end-1,1:end-1);
-    M(end,end)=M(end,end);
+    M=eye(nComps+2);%cm/min    
     odeOptions=odeset('Mass',M,'OutputFcn',@odeprog,...
         'Events',@odeabort);
     %Resolver IVP para sistema de EDO
