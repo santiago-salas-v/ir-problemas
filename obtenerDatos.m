@@ -227,6 +227,11 @@ VariablesDep{Row,2}=VariablesDep{Row-1,2};
 Row=Row+1;
 VariablesDep{Row,1}='Ta';
 VariablesDep{Row,2}=VariablesDep{Row-1,2};
+if strcmp(Vars.Tipo.Valor,'SEMIBR')
+    Row=Row+1;
+    VariablesDep{Row,1}='Ta0';
+    VariablesDep{Row,2}=VariablesDep{Row-1,2};
+end
 Row=Row+1;
 VariablesDep{Row,1}='[r]';
 VariablesDep{Row,2}='mol/(L*min)';
