@@ -22,7 +22,7 @@ T_t0=Datos_struct.T_t0;
 Q0=Datos_struct.Q0;
 C0=Datos_struct.C0;
 C_t0=Datos_struct.C_t0;
-Ta0=Datos_struct.Ta0;
+Ta0=Datos_struct.Ta0(1);
 Qa0=Datos_struct.Qa0;%L/min
 rhoCp_a=Datos_struct.rhoCp_a;
 Cp_Molares=Datos_struct.Cp_Molares;
@@ -80,11 +80,12 @@ if Estacionario
     [r,k]=rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
     rho_Cp=Cp_Molares*C;
     qgen=1./(rho_Cp).*(sum(...
-        (-delta_Hr(T,delta_Hf,Coefs_esteq,Cp_Molares))'.*r...
-        ,1));
+        (-delta_Hr(T,delta_Hf,...
+        Coefs_esteq,Cp_Molares))'.*r,1));
     qrem=-Q0/Vr*(Cp_Molares*C0'./(rho_Cp)).*...
         (T0-T)+...
-        -(Qa0*rhoCp_a)./(Vr*rho_Cp).*(Ta0-T)*(1-exp(-U*A./(Qa0*rhoCp_a)));
+        -(Qa0*rhoCp_a)./(Vr*rho_Cp).*(Ta0-T)*...
+        (1-exp(-U*A./(Qa0*rhoCp_a)));
     try
         % crossing.m
         % http://www.mathworks.com/matlabcentral/fileexchange/2432-crossing
@@ -179,9 +180,15 @@ elseif ~Estacionario
         Ta0 = sol.y(end,:);
         T   = T_t0*ones(size(t));        
     elseif ~Isot
+        % Obtener valor inicial de Ta, (dTa/dt)|t0 = 0
+        Ta_t0 = fsolve(@(Ta_t0Var)...
+            ...            
+            -U*A/(Va*rhoCp_a)*...
+            (Ta_t0Var-T_t0)+...
+            Qa0/Va*(Ta0-Ta_t0Var)...
+            ...
+            ,Ta0,optimset('Display','off','TolX',1e-4^2));
         M=eye(nComps+2);%cm/min
-        M(1:end-1,1:end-1)=M(1:end-1,1:end-1);
-        M(end,end)=M(end,end);
         odeOptions=odeset('Mass',M,'OutputFcn',@odeprog,...
             'Events',@odeabort);
         %Resolver IVP para sistema de EDO
@@ -211,11 +218,12 @@ elseif ~Estacionario
             ]...
             ...
             ,[0,tiempo_tot],...
-            [C_t0,T_t0,Ta0+1e-10],odeOptions);
+            [C_t0,T_t0,Ta_t0],odeOptions);
         t   = sol.x;
         C   = sol.y(1:end-2,:);
         T   = sol.y(end-1,:);
         Ta  = sol.y(end,:);
+        Ta0 = Ta0*ones(size(t));
     end
     [r,k]   = rapideces(C,T,Exponentes_r,k0,E,R,T0ref);
     rho_Cp  = Cp_Molares*C;
@@ -300,6 +308,7 @@ Datos_struct.Yconsumo=Yconsumo;
 Datos_struct.S=S;
 Datos_struct.T=T;
 Datos_struct.Ta=Ta;
+Datos_struct.Ta0=Ta0;
 Datos_struct.T_Edos_Est=T_Edos_Est;
 Datos_struct.r=r;
 Datos_struct.k=k;
