@@ -227,7 +227,8 @@ VariablesDep{Row,2}=VariablesDep{Row-1,2};
 Row=Row+1;
 VariablesDep{Row,1}='Ta';
 VariablesDep{Row,2}=VariablesDep{Row-1,2};
-if strcmp(Vars.Tipo.Valor,'SEMIBR')
+if strcmp(Vars.Tipo.Valor,'SEMIBR') ||...
+        strcmp(Vars.Tipo.Valor,'CSTR')
     Row=Row+1;
     VariablesDep{Row,1}='Ta0';
     VariablesDep{Row,2}=VariablesDep{Row-1,2};
