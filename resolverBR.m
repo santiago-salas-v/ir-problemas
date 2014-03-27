@@ -50,6 +50,7 @@ if Isot
         ...
         Ta_t0+1e-10,optimset('Display','off','TolX',1e-4^2));
     M=eye(nComps+2);
+    M(end-1:end,end-1:end)  = 0;
     odeOptions=odeset('Mass',M,'OutputFcn',@odeprog,...
         'Events',@odeabort);
     %Resolver IVP para sistema de EDO
