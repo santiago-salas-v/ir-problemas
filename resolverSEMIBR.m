@@ -30,9 +30,7 @@ tiempo_tot=Datos_struct.tiempo_tot;
 t=[0,tiempo_tot];
     
 if Isot
-   %Vr = Vr0 + Q0*t 
-    T_t0=T0;
-    C_t0=C0;
+    % Vr = Vr0 + Q0*t
     % Obtener valores iniciales de Ta y Ta0
     Ta_t0 = fsolve(@(Ta0_t0Var)...
         ...
