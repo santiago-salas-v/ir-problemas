@@ -92,5 +92,6 @@ function BorrarSerie(~,~,serie,fig_PropiedadesDeSerie)
 axes1=get(serie,'Parent');
 delete(serie);
 delete(fig_PropiedadesDeSerie);
-legend(axes1,get(get(axes1,'Children'),'DisplayName'));
+legend(axes1,...
+    flipdim(get(get(axes1,'Children'),'DisplayName'),1));
 end
