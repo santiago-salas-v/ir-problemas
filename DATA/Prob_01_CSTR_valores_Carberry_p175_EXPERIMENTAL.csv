@@ -1,7 +1,7 @@
 sep=|
 OPERACIÓN||
 Tipo|CSTR|
-Estacionario|1|
+Estacionario|0|
 Isot|0|
 Incompresible|1|
 REACCIÓN||
@@ -32,12 +32,12 @@ PROPIEDADES||
 Cp_Molares|[0.09517;0.0727;0.0362;0.114;0.114;0.0348]|kJ/(gmol K)
 rhoCp_a|0.0017|kJ/(L K)
 INTEGRACIÓN||
-tiempo_tot|         900|min
+tiempo_tot|1000|min
 Tmax|800|K
 EJES||
-XMIN|         300|
-XMAX|         550|
-YMIN|           2|
-YMAX|          12|
+XMIN|           0|
+XMAX|        1000|
+YMIN|           0|
+YMAX|         0.8|
 ZMIN|          -1|
 ZMAX|           1|

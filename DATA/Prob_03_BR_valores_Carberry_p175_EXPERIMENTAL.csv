@@ -23,7 +23,7 @@ U|9|Btu/(h ft2 R)
 A|12.83764349113421|ft2
 Ta0|265|K
 Diam_a|58.308|cm
-Qa0|7000|L/min
+Qa0|11000|L/min
 PROPIEDADES||
 Cp_Molares|[0.09517;0.0727;0.0362;0.114;0.114;0.0348]|kJ/(gmol K)
 rhoCp_a|0.0017|kJ/(L K)
@@ -32,7 +32,7 @@ tiempo_tot|1e-2|min
 EJES||
 XMIN|           0|
 XMAX|        0.01|
-YMIN|          -1|
-YMAX|           6|
+YMIN|           0|
+YMAX|       10000|
 ZMIN|          -1|
 ZMAX|           1|
