@@ -21,6 +21,14 @@ Pasos para correr la aplicación:
 
 ============
 
+ACKNOWLEDGMENTS (OPEN SOURCE):
+hdpe.m          Lawrence F. Shampine    http://faculty.smu.edu/shampine/current.html
+crossing.m      Steffen Brueckner       http://www.mathworks.com/matlabcentral/fileexchange/2432-crossing
+odeabort.m      Tim Franklin        http://www.mathworks.com/matlabcentral/fileexchange/9904-ode-progress-bar-and-interrupt
+dsxy2figxy.m    The MathWorks, Inc.     docroot/techdoc/creating_plots/examples
+
+============
+
 The MIT License (MIT)
 [OSI Approved License]
 The MIT License (MIT)
