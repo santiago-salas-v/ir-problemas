@@ -23,12 +23,12 @@ Pasos para correr la aplicación:
 
 ACKNOWLEDGMENTS (OPEN SOURCE):
 
-     m - file | Name                    | Link
+     Function | Author                  | Ref.
 ------------- | -------------           | -------------
 hdpe.m        | Lawrence F. Shampine    | http://faculty.smu.edu/shampine/current.html
 crossing.m    | Steffen Brueckner       | http://www.mathworks.com/matlabcentral/fileexchange/2432-crossing
 odeabort.m    | Tim Franklin            | http://www.mathworks.com/matlabcentral/fileexchange/9904-ode-progress-bar-and-interrupt
-dsxy2figxy.m  | The MathWorks, Inc.     | docroot/techdoc/creating_plots/examples
+dsxy2figxy.m  | The MathWorks, Inc.     | fullfile(docroot,'techdoc','creating_plots','examples','dsxy2figxy.m')
 
 ============
 
