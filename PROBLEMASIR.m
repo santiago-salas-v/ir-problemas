@@ -863,7 +863,10 @@ set(figure2,'Color','white');
 [success,MESSAGE,MESSAGEID] = mkdir('exports');
 success = success && fileattrib('./exports','+w');
 if success && ispc
-    hgexport(figure2,'-clipboard');
+    clipStyle = hgexport('factorystyle');
+    clipStyle.Format = 'emf';
+    clipStyle.Renderer = 'painters';
+    hgexport(figure2,'-clipboard',clipStyle);
     informarAlUsuario('Se copió imagen al portapapeles',5);
 elseif success && ~ispc
     print(figure2,'-loose','-painters','-dtiff',...
