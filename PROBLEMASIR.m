@@ -730,22 +730,30 @@ function output = nombreDeVariable(variable)
     output = inputname(1);
 end
 
-function cambiarTextoDeAnotacion(varargin)
+function cambiarTextoDeAnotacion(hObject,~,handles)
 %CAMBIARTEXTODEANOTACION para utilizar como ButtonDownFcn
 % de reemplazar texto en TextBox anotación de gráfica por el
 % deseado
 % CAMBIARTEXTODEANOTACION(varargin) toma el primer elemento
 % de varargin y si es handle a una anotación, cambia su 
 % valor de texto.
-if numel(varargin)>1
-    h=varargin{1};
-    if ishandle(h) && strcmp(get(h,'Type'),'hggroup')
-        respuesta=inputdlg('Nuevo valor','Cambiar valor',...
-            1,get(h,'String'));
+h=hObject;
+if ishandle(h) && strcmp(get(h,'Tag'),'NotaDeTextoEnGrafica')
+    respuesta=inputdlg('Nuevo valor','Cambiar valor',...
+        1,get(h,'String')); 
+    % respuesta debe ser cell(n,1), n filas de texto
+    if ~isempty(respuesta{1}) && size(respuesta,1)==1
         set(h,'String',respuesta);
+    elseif isempty(respuesta{1}) && size(respuesta,1)==1
+        delete(h);        
     end
+    handles.annotations = ...
+        num2cell(findall(...
+        handles.figure1,'Tag','NotaDeTextoEnGrafica'));
+    guidata(handles.figure1,handles);
 end
 end
+
 
 function inspeccionarLinea(varargin)
 %INSPECCIONARLINEA(varargin) Función para mostrar al usuario las 
@@ -1235,7 +1243,8 @@ function uipushtool10_ClickedCallback(hObject, eventdata, handles)
         [X Y WIDTH HEIGHT]);
     if posicionCorregida(1)>=0 && posicionCorregida(1)<=1 && ...
             posicionCorregida(2)>=0 && posicionCorregida(2)<=1        
-        b=annotation('textbox',posicionCorregida);
+        b=annotation('textbox',posicionCorregida,...
+            'Tag','NotaDeTextoEnGrafica');
         if isfield(handles,'annotations')
             handles.annotations=[handles.annotations;b];
         else
@@ -1246,12 +1255,16 @@ function uipushtool10_ClickedCallback(hObject, eventdata, handles)
             inputdlg('Agregar texto','Escriba una anotación',...
             1,{'[Cambiar texto]'});        
         set(b,'String',respuesta);
-        set(b,'ButtonDownFcn',{@cambiarTextoDeAnotacion});
+        set(b,'ButtonDownFcn',...
+            {@cambiarTextoDeAnotacion,handles});
         set(b,'FitBoxToText','on');
         set(b,'BackgroundColor','flat');
         posicionCorregida=get(b,'Position');
         set(b,'UserData',...
             [X Y posicionCorregida(3) posicionCorregida(4)]);
+        handles.annotations = ...
+            num2cell(findall(...
+            handles.figure1,'Tag','NotaDeTextoEnGrafica'));
     end
 end
 
