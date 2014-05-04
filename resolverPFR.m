@@ -148,9 +148,7 @@ if Estacionario
             -U*a./(rho_Cp).*(Ta-T);
         qrem_z= -U*a./(rho_Cp).*(Ta-T).*Az./(Q*1000);
         qgen_z= +qgen.*Az./(Q*1000);
-        Ta_z=interp1((z(1:end-1)+z(2:end))/2,diff(Ta)./diff(z),z);
-        Qa=1/factorCoContraCorriente*...
-            -U*a./(rhoCp_a).*(Ta-T0).*(1./Ta_z)*Aza;
+        Qa=Qa0*ones(size(T));
         Qa=1/1000*Qa;%L/min
     elseif ~Isot
         if factorCoContraCorriente==+1
@@ -344,6 +342,7 @@ if Estacionario
         qrem_z= -U*a./(rho_Cp).*(Ta-T).*Az./(Q*1000);
         qgen_z= +qgen.*Az./(Q*1000);
         Qa=Qa0*ones(size(T));
+        Qa=1/1000*Qa;%L/min
     end
 elseif ~Estacionario
     z=linspace(0,Longitud,nPuntos);
