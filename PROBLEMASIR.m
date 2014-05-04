@@ -879,8 +879,11 @@ set(figure2,'Color','white');
 success = success && fileattrib('./exports','+w');
 if success && ispc
     clipStyle = hgexport('factorystyle');
-    clipStyle.Format = 'emf';
-    clipStyle.Renderer = 'painters';
+    if isempty(findobj(handles.axes1,'Type','surface'))
+        % if surfaces present use the best available option.
+        clipStyle.Format = 'emf';
+        clipStyle.Renderer = 'painters';
+    end
     hgexport(figure2,'-clipboard',clipStyle);
     informarAlUsuario('Se copió imagen al portapapeles',5);
 elseif success && ~ispc
