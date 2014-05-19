@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="1989939391" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
+  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="337714326" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
     <param.project.name>/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj</param.project.name>
     <param.target.type>Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR_MAC_LINUX</param.appname>
@@ -65,6 +65,7 @@
       <file>${PROJECT_ROOT}/cargarCSV.m</file>
       <file>${PROJECT_ROOT}/delta_Hr.m</file>
       <file>${PROJECT_ROOT}/guardarCSV.m</file>
+      <file>${PROJECT_ROOT}/informarAlUsuario.m</file>
       <file>${PROJECT_ROOT}/matlab_exts</file>
       <file>${PROJECT_ROOT}/obtenerDatos.m</file>
       <file>${PROJECT_ROOT}/parar_Solucion_PFR_NoEst.m</file>
@@ -76,6 +77,7 @@
     </fileset.resources>
     <fileset.package>
       <file>${PROJECT_ROOT}/DATA</file>
+      <file>${PROJECT_ROOT}/LICENSE.txt</file>
       <file>${PROJECT_ROOT}/utils</file>
     </fileset.package>
     <build-deliverables>
@@ -364,13 +366,6 @@
         <directory>${MATLAB_ROOT}/toolbox/shared/etargets/etargets</directory>
         <directory>${MATLAB_ROOT}/toolbox/shared/etargets/etargets/demoutils</directory>
         <directory>${MATLAB_ROOT}/toolbox/fixedpoint/fixedpointtool</directory>
-        <directory>${PROJECT_ROOT}/matlab_exts</directory>
-        <directory>${PROJECT_ROOT}/matlab_exts/basicFunctions</directory>
-        <directory>${PROJECT_ROOT}/matlab_exts/crossing</directory>
-        <directory>${PROJECT_ROOT}/matlab_exts/hpde</directory>
-        <directory>${PROJECT_ROOT}/matlab_exts/hpde/examples</directory>
-        <directory>${PROJECT_ROOT}/matlab_exts/hpde/solver</directory>
-        <directory>${PROJECT_ROOT}/matlab_exts/odeabort</directory>
       </path>
     </matlab>
     <platform>
