@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="1165849214" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
+  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="3969593289" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
     <param.project.name>/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj</param.project.name>
     <param.target.type>Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR</param.appname>
@@ -58,7 +58,13 @@
     <fileset.main>
       <file>${PROJECT_ROOT}/PROBLEMASIR.m</file>
     </fileset.main>
-    <fileset.resources />
+    <fileset.resources>
+      <file>${PROJECT_ROOT}/matlab_exts</file>
+      <file>${PROJECT_ROOT}/matlab_exts/basicFunctions</file>
+      <file>${PROJECT_ROOT}/matlab_exts/crossing</file>
+      <file>${PROJECT_ROOT}/matlab_exts/hpde</file>
+      <file>${PROJECT_ROOT}/matlab_exts/odeabort</file>
+    </fileset.resources>
     <fileset.package>
       <file>${PROJECT_ROOT}/DATA</file>
       <file>${PROJECT_ROOT}/LICENSE.txt</file>
