@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="337714326" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
+  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="1165849214" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
     <param.project.name>/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj</param.project.name>
     <param.target.type>Standalone Application</param.target.type>
-    <param.appname>PROBLEMASIR_MAC_LINUX</param.appname>
-    <param.intermediate>${PROJECT_ROOT}/PROBLEMASIR_MAC_LINUX/src</param.intermediate>
-    <param.output>${PROJECT_ROOT}/PROBLEMASIR_MAC_LINUX/distrib</param.output>
+    <param.appname>PROBLEMASIR</param.appname>
+    <param.intermediate>${PROJECT_ROOT}/PROBLEMASIR/src</param.intermediate>
+    <param.output>${PROJECT_ROOT}/PROBLEMASIR/distrib</param.output>
     <param.embed.ctf>true</param.embed.ctf>
     <param.tbx_on_path>
       <item>optim</item>
@@ -35,7 +35,6 @@
     <unset>
       <param.project.name />
       <param.target.type />
-      <param.appname />
       <param.intermediate />
       <param.output />
       <param.embed.ctf />
@@ -59,37 +58,22 @@
     <fileset.main>
       <file>${PROJECT_ROOT}/PROBLEMASIR.m</file>
     </fileset.main>
-    <fileset.resources>
-      <file>${PROJECT_ROOT}/PROBLEMASIR.fig</file>
-      <file>${PROJECT_ROOT}/PropiedadesDeSerie.m</file>
-      <file>${PROJECT_ROOT}/cargarCSV.m</file>
-      <file>${PROJECT_ROOT}/delta_Hr.m</file>
-      <file>${PROJECT_ROOT}/guardarCSV.m</file>
-      <file>${PROJECT_ROOT}/informarAlUsuario.m</file>
-      <file>${PROJECT_ROOT}/matlab_exts</file>
-      <file>${PROJECT_ROOT}/obtenerDatos.m</file>
-      <file>${PROJECT_ROOT}/parar_Solucion_PFR_NoEst.m</file>
-      <file>${PROJECT_ROOT}/rapideces.m</file>
-      <file>${PROJECT_ROOT}/resolverBR.m</file>
-      <file>${PROJECT_ROOT}/resolverCSTR.m</file>
-      <file>${PROJECT_ROOT}/resolverPFR.m</file>
-      <file>${PROJECT_ROOT}/resolverSEMIBR.m</file>
-    </fileset.resources>
+    <fileset.resources />
     <fileset.package>
       <file>${PROJECT_ROOT}/DATA</file>
       <file>${PROJECT_ROOT}/LICENSE.txt</file>
       <file>${PROJECT_ROOT}/utils</file>
     </fileset.package>
     <build-deliverables>
-      <file name="readme.txt" location="${PROJECT_ROOT}/PROBLEMASIR_MAC_LINUX/distrib" optional="true">/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib/readme.txt</file>
-      <file name="run_PROBLEMASIR_MAC_LINUX.sh" location="${PROJECT_ROOT}/PROBLEMASIR_MAC_LINUX/distrib" optional="false">/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib/run_PROBLEMASIR_MAC_LINUX.sh</file>
-      <file name="PROBLEMASIR_MAC_LINUX" location="${PROJECT_ROOT}/PROBLEMASIR_MAC_LINUX/distrib" optional="false">/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib/PROBLEMASIR_MAC_LINUX</file>
+      <file name="PROBLEMASIR" location="${PROJECT_ROOT}/PROBLEMASIR/distrib" optional="false">/home/santiago/git/ir-problemas/PROBLEMASIR/distrib/PROBLEMASIR</file>
+      <file name="readme.txt" location="${PROJECT_ROOT}/PROBLEMASIR/distrib" optional="true">/home/santiago/git/ir-problemas/PROBLEMASIR/distrib/readme.txt</file>
+      <file name="run_PROBLEMASIR.sh" location="${PROJECT_ROOT}/PROBLEMASIR/distrib" optional="false">/home/santiago/git/ir-problemas/PROBLEMASIR/distrib/run_PROBLEMASIR.sh</file>
     </build-deliverables>
     <workflow />
     <matlab>
       <root>/usr/local/MATLAB/R2012a</root>
       <path>
-        <directory>/home/santiago/git/ir-problemas</directory>
+        <directory>/home/santiago/MATLAB_STARTUP</directory>
         <directory>${MATLAB_ROOT}/toolbox/matlab/demos</directory>
         <directory>${MATLAB_ROOT}/toolbox/local</directory>
         <directory>${MATLAB_ROOT}/toolbox/matlab/general</directory>
@@ -377,7 +361,7 @@
       <vista>false</vista>
       <linux>true</linux>
       <solaris>false</solaris>
-      <osver>3.8.0-19-generic</osver>
+      <osver>3.8.0-35-generic</osver>
       <os32>true</os32>
       <os64>false</os64>
       <arch>glnx86</arch>
