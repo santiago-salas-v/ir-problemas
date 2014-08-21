@@ -1,0 +1,41 @@
+sep=|
+OPERACIÓN||
+Tipo|SEMIBR|
+Isot|0|
+Incompresible|1|
+REACCIÓN||
+delta_Hf|[-480,-469.15,-711.01,-317.216,-285.8]|kJ/gmol
+Coefs_esteq|[-1,-1,+1,+1,0;+1,+1,-1,-1,0]|
+delta_Hr_0|[-79076 79076]|J/gmol
+E|[5472.7,5472.7+3885.44*log(10)]*8.314|J/gmol
+k0|[0.39175*60,0.39175*60/exp(3885.44*log(10)/273)]|(1/min)(gmol/L)^(1-Sum_j(alpha_ij))
+T0ref|         273|K
+Exponentes_r|[1,1,0,0,0;0,0,1,1,0]|
+Ref_Selectividad|           3|
+Ref_Rendimiento|           1|
+REACTOR||
+C0|[0,1,0,0,55]|gmol/L
+C_t0|[5,0,0,0,30.7]|gmol/L
+T0|         300|K
+T_t0|         300|K
+Q0|         240|L/min
+Longitud|     83.0566|cm
+Diam|     55.3711|cm
+Vr|200.0002756563881|L
+U|    365.6966|Btu/(h ft2 R)
+A|15.55168707490089|ft2
+Ta0|         285|K
+Diam_a|       59.37|cm
+Qa0|2000|L/min
+PROPIEDADES||
+Cp_Molares|[0.1707,0.07524,0.07524,0.07524,0.07524]|kJ/(gmol K)
+rhoCp_a|       0.018|kJ/(L K)
+INTEGRACIÓN||
+tiempo_tot|           6|min
+EJES||
+XMIN|           0|
+XMAX|           6|
+YMIN|          -1|
+YMAX|           5|
+ZMIN|          -1|
+ZMAX|           1|
