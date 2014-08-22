@@ -16,7 +16,7 @@ Exponentes_r|[+1,0,0,0;+2,0,0,0]|
 Ref_Selectividad|           2|
 Ref_Rendimiento|           1|
 REACTOR||
-C0|[0.1,0,0,.1]*15|gmol/L
+C0|[0.1,0,0,0.15]*15|gmol/L
 T0|         423|K
 Q0|       60000|L/min
 Longitud|  87.7122329|cm
@@ -37,6 +37,6 @@ EJES||
 XMIN|           0|
 XMAX|         100|
 YMIN|           0|
-YMAX|         1.5|
+YMAX|         2.5|
 ZMIN|          -1|
 ZMAX|           1|

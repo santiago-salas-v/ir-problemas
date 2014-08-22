@@ -1,0 +1,45 @@
+sep=|
+VARIABLE|VALOR|UNIDADES
+OPERACIÓN||
+Tipo|CSTR|
+Estacionario|1|
+Isot|0|
+Incompresible|1|
+REACCIÓN||
+delta_Hf|[63.5770000000000;8.57700000000000;-62.9230000000000]|kJ/gmol
+Coefs_esteq|[-1,+1,0;0,-1,+1]|
+delta_Hr_0|[-55000 -71500]|J/gmol
+E|[41423.6;112973]|J/gmol
+k0|[3.30000000000000;6.2004e-008]|(1/min)(gmol/L)^(1-Sum_j(alpha_ij))
+T0ref|         300|K
+Exponentes_r|[+1,0,0;0,+1,0]|
+Ref_Selectividad|           3|
+Ref_Rendimiento|           1|
+REACTOR||
+C0|[0.300000000000000;0;0]|gmol/L
+C_t0|[0.300000000000000;0;0]|gmol/L
+T0|         283|K
+T_t0|         283|K
+Q0|        1000|L/min
+Longitud|     30.5984|cm
+Diam|     20.3989|cm
+Vr|10.00003194349763|L
+U|123.28|Btu/(h ft2 F)
+A|2.110691223625668|ft2
+theta|0.01000004828430023|min
+Ta0|      330.15|K
+Diam_a|          22|cm
+Qa0|       10000|L/min
+PROPIEDADES||
+Cp_Molares|[0.2,0.2,0.2]|kJ/(gmol K)
+rhoCp_a|       4.182|kJ/(L K)
+INTEGRACIÓN||
+tiempo_tot|         0.5|min
+Tmax|         800|K
+EJES||
+XMIN|         200|
+XMAX|         800|
+YMIN|      -15000|
+YMAX|       70000|
+ZMIN|          -1|
+ZMAX|           1|

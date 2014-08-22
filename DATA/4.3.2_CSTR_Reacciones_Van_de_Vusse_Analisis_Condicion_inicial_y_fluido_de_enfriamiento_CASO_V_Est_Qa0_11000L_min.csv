@@ -1,7 +1,7 @@
 sep=|
 OPERACIÓN||
 Tipo|CSTR|
-Estacionario|0|
+Estacionario|1|
 Isot|0|
 Incompresible|1|
 REACCIÓN||
@@ -36,8 +36,8 @@ tiempo_tot|1000|min
 Tmax|800|K
 EJES||
 XMIN|           0|
-XMAX|        1000|
+XMAX|         800|
 YMIN|           0|
-YMAX|         0.8|
+YMAX|           6|
 ZMIN|          -1|
 ZMAX|           1|
