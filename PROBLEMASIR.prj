@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project>
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="1062024645" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="PROBLEMASIR" location="C:\Users\Santiago Salas\git\ir-problemas" file="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj" preferred-package-type="package.type.exe" build-checksum="1123254074" preferred-package-location="C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR\pckg">
     <param.project.name>C:\Users\Santiago Salas\git\ir-problemas\PROBLEMASIR.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR</param.appname>
