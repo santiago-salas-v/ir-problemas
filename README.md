@@ -27,7 +27,7 @@ DESCRIPTION     | VALUE
 RESPONSIBLE     | Salas Ventura, Santiago, sustentante
 TITLE           | Análisis del comportamiento de reacciones complejas en reactores ideales operando en diferentes condiciones
 YEAR            | 2014
-UNIVERSITY      | Universidad Nacional Autónoma de México
+UNIVERSITY      | Universidad Nacional Autónoma de México (UNAM)
 ADVISOR         | Dr. Herrera Nájera, Rafael, asesor
 LINK            | http://132.248.9.195/ptd2015/febrero/301626459/Index.html
 
