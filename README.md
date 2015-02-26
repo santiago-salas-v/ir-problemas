@@ -18,10 +18,18 @@ Pasos para correr la aplicación:
     en la carpeta "C:\Users\NombreDeUsuario\My Documents\IRPROBLEMAS"
 5.  Correr el ejecutable PROBLEMASIR que se ha generado en la carpeta
 
-Trabajo escrito: 
-Salas Ventura, Santiago, sustentante | Dr. Herrera Nájera, asesor | Análisis del comportamiento de reacciones complejas en reactores ideales operando en diferentes condiciones | UNAM | 2014
+============
 
-http://132.248.9.195/ptd2015/febrero/301626459/Index.html
+Tésis / Thesis
+
+DESCRIPTION     | VALUE
+-------------   | -------------
+RESPONSIBLE     | Salas Ventura, Santiago, sustentante
+TITLE           | Análisis del comportamiento de reacciones complejas en reactores ideales operando en diferentes condiciones
+YEAR            | 2014
+UNIVERSITY      | Universidad Nacional Autónoma de México
+ADVISOR         | Dr. Herrera Nájera, Rafael, asesor
+LINK            | http://132.248.9.195/ptd2015/febrero/301626459/Index.html
 
 ============
 
