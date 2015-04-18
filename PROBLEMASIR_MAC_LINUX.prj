@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="3969593289" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
+  <configuration target="target.standalone" target-name="Standalone Application" name="PROBLEMASIR_MAC_LINUX" location="/home/santiago/git/ir-problemas" file="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj" preferred-package-type="package.type.zip" build-checksum="1725639151" preferred-package-location="/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX/distrib">
     <param.project.name>/home/santiago/git/ir-problemas/PROBLEMASIR_MAC_LINUX.prj</param.project.name>
     <param.target.type>Standalone Application</param.target.type>
     <param.appname>PROBLEMASIR</param.appname>
@@ -356,6 +356,13 @@
         <directory>${MATLAB_ROOT}/toolbox/shared/etargets/etargets</directory>
         <directory>${MATLAB_ROOT}/toolbox/shared/etargets/etargets/demoutils</directory>
         <directory>${MATLAB_ROOT}/toolbox/fixedpoint/fixedpointtool</directory>
+        <directory>${PROJECT_ROOT}/matlab_exts</directory>
+        <directory>${PROJECT_ROOT}/matlab_exts/basicFunctions</directory>
+        <directory>${PROJECT_ROOT}/matlab_exts/crossing</directory>
+        <directory>${PROJECT_ROOT}/matlab_exts/hpde</directory>
+        <directory>${PROJECT_ROOT}/matlab_exts/hpde/examples</directory>
+        <directory>${PROJECT_ROOT}/matlab_exts/hpde/solver</directory>
+        <directory>${PROJECT_ROOT}/matlab_exts/odeabort</directory>
       </path>
     </matlab>
     <platform>
@@ -367,7 +374,7 @@
       <vista>false</vista>
       <linux>true</linux>
       <solaris>false</solaris>
-      <osver>3.8.0-35-generic</osver>
+      <osver>3.13.0-44-generic</osver>
       <os32>true</os32>
       <os64>false</os64>
       <arch>glnx86</arch>
