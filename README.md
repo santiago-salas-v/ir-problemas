@@ -20,7 +20,7 @@ Pasos para correr la aplicación:
 
 ============
 
-Tésis / Thesis
+Tesis / Thesis
 
 DESCRIPTION     | VALUE
 -------------   | -------------
